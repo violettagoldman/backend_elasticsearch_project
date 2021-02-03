@@ -1,4 +1,4 @@
-package jar;
+package main.java.jar;
 
 /**
  * Hello world!

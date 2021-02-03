@@ -1,13 +1,23 @@
-package jar;
+package main.java.jar;
 
-public class Table 
+import java.util.HashMap;
+import java.util.Map;
+
+public class Table
 {
-    void    createTable()
-    {
+    private String name;
+    private HashMap<Integer, Column> columns;
+    private int cptColumn;
 
+    public Table(String name, Map<String, String> columnsMap) {
+        this.name = name;
+        this.columns = new HashMap<>();
+//        for (Map.Entry:columnsMap){
+//            columns.put(cptColumn, new Column(map.K, ));
+//        }
     }
 
-    void    deleteTable()
+    public void deleteTable()
     {
         
     }
