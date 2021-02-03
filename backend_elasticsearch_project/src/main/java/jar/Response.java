@@ -1,4 +1,4 @@
-package main.java.jar;
+package jar;
 
 public class Response {
 }
