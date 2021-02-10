@@ -11,6 +11,10 @@ public class Column
     public Column(String nom, String type) {
         this.nom = nom;
         this.type = type;
-        this.data = new HashMap<>();;
+        this.data = new HashMap<Integer, String>();
+    }
+
+    public void addDataValue(int ids, String value) {
+        data.put(ids, value);
     }
 }
