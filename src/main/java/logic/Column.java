@@ -1,5 +1,6 @@
  package logic;
 
+ import java.util.ArrayList;
  import java.util.Map;
  import java.util.TreeMap;
 
@@ -17,16 +18,24 @@
          this.index = new Index();
      }
 
-     public void addDataValue(int ids, String value) {
-         data.put(ids, index.addDataValue(value));
+     public void addDataValue(int id, String value) {
+         data.put(id, index.addDataValue(value, id));
      }
 
      public String toString(){
          String str = " Type : "+type+"\n";
          for (Map.Entry entry :
                  data.entrySet()) {
-             str = str + "id : "+entry.getKey()+" index : "+entry.getValue()+" value : "+index.getDataOccurrence((String)entry.getValue())+"\n";
+             str = str + "id : "+entry.getKey()+" value : "+entry.getValue()+" occurrences : "+index.getDataOccurrence((String)entry.getValue())+"\n";
          }
          return str;
+     }
+
+     public ArrayList where(String value) {
+        return index.getLines(value);
+     }
+
+     public String getById(Object i) {
+         return data.get((int)i);
      }
  }

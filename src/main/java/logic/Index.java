@@ -1,27 +1,27 @@
  package logic;
 
+ import java.util.ArrayList;
  import java.util.HashMap;
  import java.util.Map;
- import java.util.TreeMap;
 
  public class Index
  {
-     private Map<String, Integer> dataMap;
+     private Map<String, ArrayList> dataMap;
 
      public Index() {
          this.dataMap = new HashMap<>();
      }
 
      //sauvegarder aussi le nombre d'occurence
-     public String addDataValue(String value){
-         int i = dataMap.getOrDefault(value,0);
-         i++;
-         dataMap.put(value, i);
+     public String addDataValue(String value, int id){
+         ArrayList list = dataMap.getOrDefault(value, new ArrayList());
+         list.add(id);
+         dataMap.put(value, list);
          return value;
      }
 
      public int getDataOccurrence(String value) {
-         return dataMap.get(value);
+         return (dataMap.get(value)).size();
      }
 
      public String toString() {
@@ -31,6 +31,10 @@
              str = entry.getKey().toString()+" : "+entry.getValue()+"\n";
          }
          return str;
+     }
+
+     public ArrayList getLines(String value) {
+         return dataMap.get(value);
      }
  }
 
