@@ -22,7 +22,7 @@
     <vertx.version>4.0.2</vertx.version>
     <junit-jupiter.version>5.7.0</junit-jupiter.version>
 
-    <main.verticle>main.java.server.Server</main.verticle>
+    <main.verticle>server.Server</main.verticle>
     <launcher.class>io.vertx.core.Launcher</launcher.class>
   </properties>
 
