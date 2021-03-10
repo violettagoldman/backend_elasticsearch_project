@@ -9,6 +9,7 @@ import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.ext.web.FileUpload;
 
 public class Server extends AbstractVerticle {
 
@@ -65,13 +66,17 @@ public class Server extends AbstractVerticle {
   */
   void uploadCSV(RoutingContext ctx) {
     String table_name = ctx.request().getFormAttribute("table_name");
-    String csv = ctx.request().getFormAttribute("csv");
-    if (table_name == null || csv == null) {
+    String file = "";
+    if (table_name == null || ctx.fileUploads().size() == 0) {
       JsonObject response = new JsonObject();
-      response.put("error", "Needed params in body: table_name, csv.");
+      response.put("error", "Needed params in body: table_name and a file.");
       sendReponse(ctx, 422, response);
     }
     // Actual handling
+    for (FileUpload f : ctx.fileUploads()) {
+      file = f.uploadedFileName();
+    }
+    System.out.println(file);
     JsonObject response = new JsonObject();
     response.put("message", "Successfully uploaded data.");
     sendReponse(ctx, 200, response);
@@ -105,7 +110,7 @@ public class Server extends AbstractVerticle {
     Router router = Router.router(vertx);
 
     // We add a body handler to get the data sent to the server
-    router.route().handler(BodyHandler.create());
+    router.route().handler(BodyHandler.create().setUploadsDirectory("./upload"));
 
     // Route createtable to create a new table
     router.route("/createtable").handler(ctx -> {
