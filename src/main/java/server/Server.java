@@ -1,4 +1,4 @@
-package main.java.server;
+package server;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
