@@ -10,14 +10,22 @@
      private String name;
      private Map<String, Column> columns;
      private int rowsId;
+     private Map<String[], Index> index;
 
      public Table(String name, Map<String, String> columnsMap){
          this.name = name;
          columns = new TreeMap<String, Column>();
          rowsId = 0;
+         index = new HashMap<>();
          //columns.put("id", new Column("id", "int"));
          for (Map.Entry entry: columnsMap.entrySet()){
              columns.put((String) entry.getKey(), new Column((String) entry.getKey(), (String) entry.getValue()));
+         }
+     }
+
+     public void createIndexTable(String [] columns){
+         for (int i = 0 ; i <rowsId-1 ; i++ ){
+
          }
      }
 
