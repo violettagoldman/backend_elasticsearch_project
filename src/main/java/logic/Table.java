@@ -55,10 +55,6 @@
          return str;
      }
 
-     public void deleteTable()
-     {
-        
-     }
 
      public void createIndex(String[] columns) {
         // if(columns.length==1)
