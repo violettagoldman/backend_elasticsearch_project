@@ -14,19 +14,21 @@ import static org.junit.Assert.assertEquals;
 
 public class CSVParserTest {
 
+	private static CSVParser csvp = new CSVParser();
+
 	private static File file;
 	private static URL url_CSV;
 
 	@BeforeClass
 	public static void beforeClass() throws MalformedURLException {
-		file = CSVParser.getResource("src/test/java/parser/dogs.csv");
+		file = csvp.getResource("src/dogs.csv");
 		url_CSV = new URL("https://data.cityofnewyork.us/api/views/7yq2-hq9c/rows.csv");
 		//http://winterolympicsmedals.com/medals.csv
 	}
 
 	@Test
 	public void get_content_for_local_CSV() throws IOException {
-		List<String> contentGet = CSVParser.readFileLocal(file);
+		List<String> contentGet = csvp.readFileLocal(file);
 
 		List<String> content = new ArrayList<>();
 		content.add("Id,Prénom,Couleur,Age");
@@ -49,7 +51,7 @@ public class CSVParserTest {
 
 	@Test
 	public void get_content_for_online_CSV() throws IOException {
-		List contentGet = CSVParser.readFileURL(url_CSV);
+		List contentGet = csvp.readFileURL(url_CSV);
 
 		List<String> content = new ArrayList<>();
 		content.add("ProviderType,DFTA ID,ProgramName,SponsorName,ProgramAddress,ProgramCity,ProgramState,Postcode,Borough,ProgramPhone,DFTA Funded,MonHourOpen,MonHourClose,TueHourOpen,TueHourClose,WedHourOpen,WedHourClose,ThuHourOpen,ThuHourClose,FriHourOpen,FriHourClose,SatHourOpen,SatHourClose,SunHourOpen,SunHourClose,Latitude,Longitude,Community Board,Council District,Census Tract,BIN,BBL,NTA,Location1");

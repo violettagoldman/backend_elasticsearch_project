@@ -11,14 +11,13 @@ public class DataBase {
     public DataBase(String name){
         this.name = name;
         tables = new HashMap<>();
-
     }
 
-    public void newTable(String name, Map<String, String> columnsMap){
+    public void newTable(String name, Map<String, String> columnsMap){ // Nom et type // Nom de la table
         tables.put(name, new Table(name, columnsMap));
     }
 
-    public void newLine(String name, Map<String, String> columnsMap){
+    public void newLine(String name, Map<String, String> columnsMap){ // Colonne et data // Nom de la table
         tables.get(name).addLine(columnsMap);
     }
 
@@ -68,8 +67,8 @@ public class DataBase {
         parisStDenis.put("Prix", "3000");
         table.addLine(parisStDenis);
 
-       DataBase db = new DataBase("Voyage");
-       db.tables.put("voyage", table);
+        DataBase db = new DataBase("Voyage");
+        db.tables.put("voyage", table);
 
 
 

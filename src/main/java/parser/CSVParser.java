@@ -1,6 +1,7 @@
 package parser;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class CSVParser {
 
-	public static File getResource(String fileName) {
+	public File getResource(String fileName) {
 		final File initFile = new File("");
 		final String pathFileName = initFile.getAbsolutePath() + File.separator + fileName; // File.separator = '\'
 
@@ -16,7 +17,7 @@ public class CSVParser {
 		return file;
 	}
 
-	public static List<String> readFileLocal(File file) throws IOException {
+	public List<String> readFileLocal(File file) throws IOException {
 
 		List<String> result = new ArrayList<>();
 
@@ -33,7 +34,7 @@ public class CSVParser {
 		return result;
 	}
 
-	public static List<String> readFileURL(URL url) throws IOException {
+	public List<String> readFileURL(URL url) throws IOException {
 
 		List<String> result = new ArrayList<>();
 
@@ -48,6 +49,20 @@ public class CSVParser {
 		bufferedReader.close();
 
 		return result;
+	}
+
+	public static void main(String[] argv) throws IOException {
+
+		CSVParser csvp = new CSVParser();
+
+		URL url = new URL("https://data.cityofnewyork.us/api/views/7yq2-hq9c/rows.csv");
+		List<String> list = csvp.readFileURL(url);
+
+		for (String value :
+			 list) {
+			System.out.println(value);
+		}
+
 	}
 
 }
