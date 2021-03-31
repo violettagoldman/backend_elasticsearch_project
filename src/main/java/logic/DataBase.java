@@ -1,5 +1,6 @@
 package logic;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,10 @@ public class DataBase {
         return str;
     }
 
+    public void createIndex(String table, String [] columns){
+        tables.get(table).createIndex(columns);
+    }
+
     //Retourne l'ensemble de la table
     public String selectFrom(String table){
         return tables.get(table).toString();
@@ -37,8 +42,9 @@ public class DataBase {
         return tables.get(table).FromWhere(column,value);
     }
 
-    public static void main(String[] argv)
-    {
+
+    //main
+    public static void main(String[] argv) {
         Map<String, String> columnsMap = new HashMap<>();
         columnsMap.put("Ville Départ", "String");
         columnsMap.put("Ville arrivée", "String");
@@ -60,7 +66,7 @@ public class DataBase {
         DataBase db = new DataBase();
         db.tables.put("voyage", table);
 
-        System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux" ));
+      //  System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux" ));
 
         System.out.println(table.toString());
 

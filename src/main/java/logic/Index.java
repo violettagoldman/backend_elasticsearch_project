@@ -2,6 +2,7 @@
 
  import java.util.ArrayList;
  import java.util.HashMap;
+ import java.util.List;
  import java.util.Map;
 
  public class Index
@@ -33,7 +34,7 @@
          return str;
      }
 
-     public ArrayList getLines(String value) {
+     public List<Integer> getLines(String value) {
          return dataMap.get(value);
      }
  }
