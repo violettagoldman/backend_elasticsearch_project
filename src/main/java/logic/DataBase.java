@@ -42,6 +42,9 @@ public class DataBase {
         return tables.get(table).FromWhere(column,value);
     }
 
+    public Map<String, Table> getTables() {
+        return tables;
+    }
 
     //main
     public static void main(String[] argv) {
@@ -65,6 +68,8 @@ public class DataBase {
 
         DataBase db = new DataBase();
         db.tables.put("voyage", table);
+
+
 
       //  System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux" ));
 
