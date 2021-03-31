@@ -8,7 +8,8 @@ public class DataBase {
     private String name;
     private Map<String, Table> tables;
 
-    public DataBase(){
+    public DataBase(String name){
+        this.name = name;
         tables = new HashMap<>();
     }
 
@@ -66,17 +67,14 @@ public class DataBase {
         parisStDenis.put("Prix", "3000");
         table.addLine(parisStDenis);
 
-        DataBase db = new DataBase();
-        db.tables.put("voyage", table);
+        //DataBase db = new DataBase();
+       // db.tables.put("voyage", table);
 
 
 
       //  System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux" ));
 
         System.out.println(table.toString());
-
     }
-
-
 
 }

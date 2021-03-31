@@ -37,7 +37,12 @@
      }
 
      public List<Integer> where(String value) {
-        return index.getLines(value);
+         List <Integer> list = new ArrayList<>();
+         for (Map.Entry entry : data.entrySet()){
+             if(entry.getValue() == value)list.add((Integer) entry.getKey());
+         }
+         return list;
+        // return index.getLines(value);
      }
 
      public String getById(Object i) {
