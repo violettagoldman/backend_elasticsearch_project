@@ -11,13 +11,14 @@ public class DataBase {
     public DataBase(String name){
         this.name = name;
         tables = new HashMap<>();
+
     }
 
     public void newTable(String name, Map<String, String> columnsMap){
         tables.put(name, new Table(name, columnsMap));
     }
 
-    public void newLine(Map<String, String> columnsMap){
+    public void newLine(String name, Map<String, String> columnsMap){
         tables.get(name).addLine(columnsMap);
     }
 
@@ -31,7 +32,7 @@ public class DataBase {
     }
 
     public void createIndex(String table, String [] columns){
-        tables.get(table).createIndex(columns);
+        tables.get(table).createIndexTable(columns);
     }
 
     //Retourne l'ensemble de la table
@@ -67,8 +68,8 @@ public class DataBase {
         parisStDenis.put("Prix", "3000");
         table.addLine(parisStDenis);
 
-        //DataBase db = new DataBase();
-       // db.tables.put("voyage", table);
+       DataBase db = new DataBase("Voyage");
+       db.tables.put("voyage", table);
 
 
 
