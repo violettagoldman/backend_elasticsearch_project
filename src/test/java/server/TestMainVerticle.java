@@ -1,4 +1,4 @@
-package main.java.server;
+package server;
 
 import io.vertx.core.Vertx;
 import io.vertx.junit5.VertxExtension;

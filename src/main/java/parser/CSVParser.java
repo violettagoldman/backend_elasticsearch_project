@@ -51,18 +51,4 @@ public class CSVParser {
 		return result;
 	}
 
-	public static void main(String[] argv) throws IOException {
-
-		CSVParser csvp = new CSVParser();
-
-		URL url = new URL("https://data.cityofnewyork.us/api/views/7yq2-hq9c/rows.csv");
-		List<String> list = csvp.readFileURL(url);
-
-		for (String value :
-			 list) {
-			System.out.println(value);
-		}
-
-	}
-
 }
