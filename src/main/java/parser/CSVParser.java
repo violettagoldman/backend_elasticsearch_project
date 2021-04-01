@@ -1,7 +1,6 @@
 package parser;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -9,6 +8,11 @@ import java.util.List;
 
 public class CSVParser {
 
+	/**
+	 * Get the absolute path of the file (used for readFileLocal)
+	 * @param fileName
+	 * @return the file we need
+	 */
 	public File getResource(String fileName) {
 		final File initFile = new File("");
 		final String pathFileName = initFile.getAbsolutePath() + File.separator + fileName; // File.separator = '\'
@@ -17,7 +21,15 @@ public class CSVParser {
 		return file;
 	}
 
-	public List<String> readFileLocal(File file) throws IOException {
+	/**
+	 * Get the content of the file when it is in local
+	 * @param fileName
+	 * @return the list (String) of each line
+	 * @throws IOException
+	 */
+	public List<String> readFileLocal(String fileName) throws IOException {
+
+		File file = getResource(fileName);
 
 		List<String> result = new ArrayList<>();
 
@@ -34,6 +46,12 @@ public class CSVParser {
 		return result;
 	}
 
+	/**
+	 * Get the content of the file when it is online
+	 * @param url
+	 * @return the list (String) of each line
+	 * @throws IOException
+	 */
 	public List<String> readFileURL(URL url) throws IOException {
 
 		List<String> result = new ArrayList<>();

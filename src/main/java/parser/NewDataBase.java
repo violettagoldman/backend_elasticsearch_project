@@ -2,7 +2,6 @@ package parser;
 
 import logic.DataBase;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -10,17 +9,25 @@ public class NewDataBase {
 
     CSVParser csvp = new CSVParser();
 
+    /**
+     * Put the content of a csv in a database (table and lines)
+     * @param fileName
+     * @return the created database
+     * @throws IOException
+     */
     public DataBase inIndex(String fileName) throws IOException {
-        File file = csvp.getResource(fileName);
-        List<String> ressources = csvp.readFileLocal(file);
+        // Ressources
+        List<String> ressources = csvp.readFileLocal(fileName);
 
+        // Columns Names
         List<String> columnsNames = Arrays.asList(ressources.get(0).split(","));
 
+        // Creation DataBase
         DataBase db = new DataBase("DB_Name");
 
         String tableName = trimName(fileName);
 
-        // Table
+        // Creation Table
         Map<String, String> columnsNamesMap = new HashMap<>();
         for (String columnName :
              columnsNames) {
@@ -29,7 +36,7 @@ public class NewDataBase {
 
         db.newTable(tableName, columnsNamesMap);
 
-        // Lines
+        // Creation Lines
         for (int i = 1; i < ressources.size(); i++) {
             Map<String, String> datasInLineMaps = new HashMap<>();
 
@@ -44,6 +51,11 @@ public class NewDataBase {
         return db;
     }
 
+    /**
+     * Get the name of the table with the name of the file
+     * @param name
+     * @return the trimed name
+     */
     public String trimName(String name) {
         name = name.substring(0, name.length()-4);
 

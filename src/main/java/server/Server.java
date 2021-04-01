@@ -8,7 +8,6 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.handler.BodyHandler;
-import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.FileUpload;
 
 public class Server extends AbstractVerticle {

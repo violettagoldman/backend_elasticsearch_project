@@ -16,19 +16,19 @@ public class CSVParserTest {
 
 	private static CSVParser csvp = new CSVParser();
 
-	private static File file;
+	private static String fileName;
 	private static URL url_CSV;
 
 	@BeforeClass
 	public static void beforeClass() throws MalformedURLException {
-		file = csvp.getResource("src/dogs.csv");
+		fileName = "src/dogs.csv";
 		url_CSV = new URL("https://data.cityofnewyork.us/api/views/7yq2-hq9c/rows.csv");
 		//http://winterolympicsmedals.com/medals.csv
 	}
 
 	@Test
 	public void get_content_for_local_CSV() throws IOException {
-		List<String> contentGet = csvp.readFileLocal(file);
+		List<String> contentGet = csvp.readFileLocal(fileName);
 
 		List<String> content = new ArrayList<>();
 		content.add("Id,Prénom,Couleur,Age");
