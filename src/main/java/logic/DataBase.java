@@ -10,13 +10,14 @@ public class DataBase {
     public DataBase(String name){
         this.name = name;
         tables = new HashMap<>();
+
     }
 
-    public void newTable(String name, Map<String, String> columnsMap){ // Nom et type // Nom de la table
+    public void newTable(String name, Map<String, String> columnsMap){
         tables.put(name, new Table(name, columnsMap));
     }
 
-    public void newLine(String name, Map<String, String> columnsMap){ // Colonne et data // Nom de la table
+    public void newLine(String name, Map<String, String> columnsMap){
         tables.get(name).addLine(columnsMap);
     }
 
@@ -30,7 +31,7 @@ public class DataBase {
     }
 
     public void createIndex(String table, String [] columns){
-        tables.get(table).createIndexTable(columns);
+        tables.get(table).createIndex(columns);
     }
 
     //Retourne l'ensemble de la table
@@ -60,20 +61,28 @@ public class DataBase {
         bordeauxParis.put("Prix", "75");
         table.addLine(bordeauxParis);
 
+        Map<String, String> bordeauxParis2 = new HashMap<>();
+        bordeauxParis2.put("Ville Départ", "Paris");
+        bordeauxParis2.put("Ville arrivée", "Bordeaux");
+        bordeauxParis2.put("Prix", "75");
+        table.addLine(bordeauxParis2);
+
         Map<String, String> parisStDenis = new HashMap<>();
         parisStDenis.put("Ville Départ", "Paris");
         parisStDenis.put("Ville arrivée", "StDenis");
         parisStDenis.put("Prix", "3000");
         table.addLine(parisStDenis);
 
-        DataBase db = new DataBase("Voyage");
-        db.tables.put("voyage", table);
+        table.createIndex(new String [] {"Ville Départ", "Ville arrivée"});
+
+       DataBase db = new DataBase("Voyage");
+       db.tables.put("voyage", table);
 
 
 
       //  System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux" ));
 
-        System.out.println(table.toString());
+    //    System.out.println(table.toString());
     }
 
 }

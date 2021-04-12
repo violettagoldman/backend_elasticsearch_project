@@ -1,8 +1,6 @@
  package logic;
 
- import java.util.HashMap;
- import java.util.Map;
- import java.util.TreeMap;
+ import java.util.*;
 
  public class Table
  {
@@ -17,17 +15,11 @@
          columns = new TreeMap<String, Column>();
          rowsId = 0;
          index = new HashMap<>();
-         //columns.put("id", new Column("id", "int"));
          for (Map.Entry entry: columnsMap.entrySet()){
              columns.put((String) entry.getKey(), new Column((String) entry.getKey(), (String) entry.getValue()));
          }
      }
 
-     public void createIndexTable(String [] columns){
-         for (int i = 0 ; i <rowsId-1 ; i++ ){
-
-         }
-     }
 
      public void addLine(Map<String, String> columnsMap){
          for (Map.Entry entry: columnsMap.entrySet()){
@@ -64,8 +56,16 @@
      }
 
 
-     public void createIndex(String[] columns) {
-        // if(columns.length==1)
+     public void createIndex(String[] columnsName) {
+        Index index = new Index();
+        for (int i = 0 ; i<rowsId ; i++){
+            List<String> entry = new ArrayList<>();
+            for (int j = 0 ; j< columnsName.length ; j++){
+                entry.add(columns.get(columnsName[j]).getById(i));
+            }
+            index.addDataValue(entry, i);
+        }
+         System.out.println(index.toString());
      }
 
  }
