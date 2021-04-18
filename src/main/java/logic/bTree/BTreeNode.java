@@ -296,7 +296,7 @@ class BTreeNode{
     }
 
 
-    public BTreeNode searchNode(String data) throws NoSuchAlgorithmException {
+    public BTreeNode searchNode(String[] data) throws NoSuchAlgorithmException {
         int key =  new Entry(data).getKey();
         int i = 0;
         while (i < num && key > keys[i].getKey())
@@ -308,7 +308,7 @@ class BTreeNode{
         return children[i].searchNode(data);
     }
 
-    public Entry search(String data) throws NoSuchAlgorithmException {
+    public Entry search(String []data) throws NoSuchAlgorithmException {
         int key =  new Entry(data).getKey();
         int i = 0;
         while (i < num && key > keys[i].getKey())

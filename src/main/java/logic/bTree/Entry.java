@@ -4,15 +4,16 @@ import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Entry {
     private int key;
-    private String data;
+    private String [] data;
     private ArrayList occurrences;
 
-    public Entry(String data) throws NoSuchAlgorithmException {
+    public Entry(String [] data) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(data.getBytes());
+        md.update(data[0].getBytes());
         byte byteData[] = md.digest();
         key = ByteBuffer.wrap(byteData).getInt();
         this.data = data;
@@ -21,7 +22,7 @@ public class Entry {
 
     public int getKey() { return key; }
 
-    public String getData() {
+    public String[] getData() {
         return data;
     }
 
@@ -32,6 +33,6 @@ public class Entry {
     }
 
     public String toString(){
-        return "key : "+key+" | data : "+data+" | Occurrence "+occurrences;
+        return "key : "+key+" | data : "+ Arrays.toString(data)+" | Occurrence "+occurrences;
     }
 }

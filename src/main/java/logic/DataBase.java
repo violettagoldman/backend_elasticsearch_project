@@ -80,7 +80,7 @@ public class DataBase {
 
 
 
-      //  System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux" ));
+        System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux" ));
 
     //    System.out.println(table.toString());
     }

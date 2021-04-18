@@ -8,13 +8,13 @@ public class Main {
 
 
 
-        BTree t = new BTree(2); // A B-Tree with minium degree 2
-        t.insert("jeanne", 1);
-        t.insert("jeanne", 3);
-        t.insert("jeanne", 2);
-        t.insert("cecile", 3);
-        t.insert("olivier", 4);
-        t.insert("nancy", 7);
+        BTree t = new BTree(2, new String[]{"name"}); // A B-Tree with minium degree 2
+        t.insert(new String[]{"jeanne"}, 1);
+        t.insert(new String[]{"jeanne"}, 3);
+        t.insert(new String[]{"jeanne"}, 2);
+        t.insert(new String[]{"cecile"}, 3);
+        t.insert(new String[]{"olivier"}, 4);
+        t.insert(new String[]{"nancy"}, 7);
 //        t.insert("camille");
 //        t.insert("thomas");
 //        t.insert("charlie");
@@ -37,7 +37,7 @@ public class Main {
         t.traverse();
         System.out.println("\n test\n");
 
-        System.out.println(t.search("jeanne"));
+        System.out.println(t.search(new String[]{"jeanne"}));
 
 //        t.remove(6);
 //        System.out.println("Traversal of tree after removing 6");

@@ -5,9 +5,11 @@ import java.security.NoSuchAlgorithmException;
 class BTree{
     BTreeNode root;
     int MinDeg;
+    private String [] columns;
 
     // Constructor
-    public BTree(int deg){
+    public BTree(int deg, String [] columns){
+        this.columns = columns;
         this.root = null;
         this.MinDeg = deg;
     }
@@ -19,16 +21,16 @@ class BTree{
     }
 
     // Function to find key
-    public BTreeNode searchNode(String data) throws NoSuchAlgorithmException{
+    public BTreeNode searchNode(String[] data) throws NoSuchAlgorithmException{
         return root == null ? null : root.searchNode(data);
     }
 
     //fonction to find a entry
-    public Entry search(String data) throws NoSuchAlgorithmException{
+    public Entry search(String[] data) throws NoSuchAlgorithmException{
         return root == null ? null : root.search(data);
     }
 
-    public void insert(String data, int id) throws NoSuchAlgorithmException {
+    public void insert(String[] data, int id) throws NoSuchAlgorithmException {
         Entry entry = new Entry(data);
         entry.getOccurrences().add(id);
         int key = entry.getKey();
