@@ -30,4 +30,8 @@ public class Entry {
     public void setKey(int newKey) {
         key = newKey;
     }
+
+    public String toString(){
+        return "key : "+key+" | data : "+data+" | Occurrence "+occurrences;
+    }
 }

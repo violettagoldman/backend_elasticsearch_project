@@ -28,16 +28,18 @@ class BTree{
         return root == null ? null : root.search(data);
     }
 
-    public void insert(String data) throws NoSuchAlgorithmException {
+    public void insert(String data, int id) throws NoSuchAlgorithmException {
         Entry entry = new Entry(data);
+        entry.getOccurrences().add(id);
         int key = entry.getKey();
         if (root == null){
 
             root = new BTreeNode(MinDeg,true);
             root.keys[0] = entry;
             root.num = 1;
-        }
-        else {
+        } else if(this.search(data)!=null){
+            this.search(data).getOccurrences().add(id);
+        } else {
             // When the root node is full, the tree will grow high
             if (root.num == 2*MinDeg-1){
                 BTreeNode s = new BTreeNode(MinDeg,false);
@@ -52,8 +54,7 @@ class BTree{
                 s.children[i].insertNotFull(entry);
 
                 root = s;
-            }
-            else
+            } else
                 root.insertNotFull(entry);
         }
     }
