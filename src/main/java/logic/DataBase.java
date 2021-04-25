@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class DataBase {
     private String name;
-    private Map<String, Table> tables;
+    public Map<String, Table> tables;
 
     public DataBase(String name){
         this.name = name;
@@ -80,7 +80,7 @@ public class DataBase {
 
 
 
-      //  System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux" ));
+      //  System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux"));
 
     //    System.out.println(table.toString());
     }

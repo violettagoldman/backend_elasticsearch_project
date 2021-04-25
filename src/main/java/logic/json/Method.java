@@ -2,15 +2,15 @@ package logic.json;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Request__1 {
+public class Method {
 
     @SerializedName("method")
     private String method;
 
-    public Request__1() {
+    public Method() {
     }
 
-    public Request__1(String method) {
+    public Method(String method) {
         super();
         this.method = method;
     }
@@ -24,3 +24,5 @@ public class Request__1 {
     }
 
 }
+
+

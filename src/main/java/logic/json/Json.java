@@ -1,39 +1,46 @@
-package logic;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.json.JSONArray;
-import org.json.JSONObject;
+package logic.json;
+
 import com.google.gson.Gson;
-import org.json.*;
+import logic.DataBase;
 
 public class Json {
-    //Classe Java à laquelle va correspondre le JSON
-    private class Tasse {
-        public String couleur;
 
-        public Tasse(String couleur) {
-            this.couleur = couleur;
+    private static String table_name;
+    private static String column;
+    private static String value;
+
+    private static DataBase db;
+
+    public static void json(String request) {
+
+        Gson gson = new Gson();
+        Request result = gson.fromJson(request, Request.class);
+
+        Method j = result.getRequest();
+        String method = j.getMethod();
+
+        for (Arg t : result.getArgs()) {
+            table_name = t.getTableName();
+            column = t.getColumn();
+            value = t.getValue();
+        }
+
+        switch (method) {
+            case "select":
+                System.out.println("Method : " + method);
+                System.out.println("table_name : " + table_name
+                        + " / column : " + column
+                        + " / value : " + value);
+
+                //Appel de fonction
+                //System.out.println(db.selectFromWhere(table_name, column, value));
+                break;
+
+            default:
+                System.out.println("No method find");
+                break;
         }
     }
-    public static void main(String args[]) {
-
-        JsonObject objet = new JsonParser().parse(maTasse).getAsJsonObject();
-        System.out.println(objet.get(couleur).getAsString()); //Rouge
-        //JSON de test
-        String maTasse = "{\"couleur\": \"Rouge\"}";
-        JSONObject tasse = new JSONObject(maTasse);
-        System.out.println(tasse.getString(couleur)); //Rouge
-
-        /*
-        final Gson gson = new GsonBuilder().create();
-
-        final String json = "{\"request\":{\"method\":\"select\"},\"args\":[{\"table_name\":\"test_table_name\", \"column\":\"test_column\", \"value\":\"test_value\",}]}";
-        */
-
-
-    }
-
 }
 
 
