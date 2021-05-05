@@ -33,13 +33,18 @@ public class Json {
                         + " / value : " + value);
 
                 //Appel de fonction
-                //System.out.println(db.selectFromWhere(table_name, column, value));
+                System.out.println(db.selectFromWhere(table_name, column, value));
+                System.out.println(db.getTables().get(table_name).toString());
                 break;
 
             default:
                 System.out.println("No method find");
                 break;
         }
+    }
+
+    public static void setDb(DataBase db) {
+        Json.db = db;
     }
 }
 

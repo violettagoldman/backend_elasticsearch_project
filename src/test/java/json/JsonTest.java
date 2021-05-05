@@ -2,8 +2,10 @@ package json;
 
 import logic.DataBase;
 import logic.Table;
+import logic.json.Json;
 import org.junit.Test;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +56,7 @@ public class JsonTest {
     }
 
     @Test
-    public void select_with_function() throws IOException {
+    public void select_with_function() throws IOException, NoSuchAlgorithmException {
 
         Map<String, String> columnsMap = new HashMap<>();
         columnsMap.put("Ville Départ", "String");
@@ -85,6 +87,8 @@ public class JsonTest {
         DataBase db = new DataBase("Voyage");
         db.tables.put("voyage", table);
 
+
+        Json.setDb(db);
         final String data = "{\n" +
                 "  \"request\":\n" +
                 "  {\n" +
@@ -94,12 +98,11 @@ public class JsonTest {
                 "  [\n" +
                 "    {\n" +
                 "      \"table_name\": \"voyage\",\n" +
-                "      \"column\": \"Ville arrivée\",\n" +
-                "      \"value\": \"Bordeaux\"\n" +
+                "      \"column\": \"Ville Départ\",\n" +
+                "      \"value\": \"Paris\"\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";
-
         json(data);
     }
 }

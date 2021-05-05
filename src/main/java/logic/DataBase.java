@@ -1,5 +1,6 @@
 package logic;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class DataBase {
         return str;
     }
 
-    public void createIndex(String table, String [] columns){
+    public void createIndex(String table, String [] columns) throws NoSuchAlgorithmException {
         tables.get(table).createIndex(columns);
     }
 
@@ -48,7 +49,7 @@ public class DataBase {
     }
 
     //main
-    public static void main(String[] argv) {
+    public static void main(String[] argv) throws NoSuchAlgorithmException {
         Map<String, String> columnsMap = new HashMap<>();
         columnsMap.put("Ville Départ", "String");
         columnsMap.put("Ville arrivée", "String");
@@ -80,7 +81,7 @@ public class DataBase {
 
 
 
-      //  System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux"));
+       System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux"));
 
     //    System.out.println(table.toString());
     }

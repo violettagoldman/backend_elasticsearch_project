@@ -1,5 +1,8 @@
  package logic;
 
+ import logic.bTree.BTree;
+
+ import java.security.NoSuchAlgorithmException;
  import java.util.*;
 
  public class Table
@@ -8,13 +11,13 @@
      private String name;
      private Map<String, Column> columns;
      private int rowsId;
-     private Map<String[], Index> index;
+     private Map<String, BTree> index;
 
      public Table(String name, Map<String, String> columnsMap){
          this.name = name;
          columns = new TreeMap<String, Column>();
          rowsId = 0;
-         index = new HashMap<>();
+         index = new HashMap<String, BTree>();
          for (Map.Entry entry: columnsMap.entrySet()){
              columns.put((String) entry.getKey(), new Column((String) entry.getKey(), (String) entry.getValue()));
          }
@@ -56,16 +59,22 @@
      }
 
 
-     public void createIndex(String[] columnsName) {
-        Index index = new Index();
-        for (int i = 0 ; i<rowsId ; i++){
-            List<String> entry = new ArrayList<>();
-            for (int j = 0 ; j< columnsName.length ; j++){
-                entry.add(columns.get(columnsName[j]).getById(i));
+     public void createIndex(String[] columnsName) throws NoSuchAlgorithmException {
+        //Index index = new Index();
+//         for (int i = 0 ; i<rowsId ; i++){
+//            List<String> entry = new ArrayList<>();
+//            for (int j = 0 ; j< columnsName.length ; j++){
+//                entry.add(columns.get(columnsName[j]).getById(i));
+//            }
+         for (int j = 0 ; j< columnsName.length ; j++){
+             BTree btree = new BTree(2);
+             for (int i = 0 ; i<rowsId ; i++){
+                btree.insert(columns.get(columnsName[j]).getById(i),i);
             }
-            index.addDataValue(entry, i);
+             btree.traverse();
+             index.put(columnsName[j], btree);
         }
-         System.out.println(index.toString());
+
      }
 
  }

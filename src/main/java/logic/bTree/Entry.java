@@ -17,6 +17,7 @@ public class Entry {
         key = ByteBuffer.wrap(byteData).getInt();
         this.data = data;
         occurrences = new ArrayList();
+
     }
 
     public int getKey() { return key; }
@@ -32,6 +33,12 @@ public class Entry {
     }
 
     public String toString(){
-        return "key : "+key+" | data : "+data+" | Occurrence "+occurrences;
+        String str = "key : "+key+" | data : "+data+" | Occurrence [";
+        for (Object occurence:
+             occurrences) {
+            str = str + ((Occurence)occurence).id + " ; ";
+        }
+        str = str + "]";
+        return str;
     }
 }
