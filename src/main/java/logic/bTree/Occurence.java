@@ -9,4 +9,19 @@ public class Occurence {
         this.id = id;
     }
 
+    public Entry getBefore() {
+        return before;
+    }
+
+    public void setBefore(Entry before) {
+        this.before = before;
+    }
+
+    public Entry getAfter() {
+        return after;
+    }
+
+    public void setAfter(Entry after) {
+        this.after = after;
+    }
 }

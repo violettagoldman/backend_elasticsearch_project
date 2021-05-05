@@ -313,7 +313,7 @@ class BTreeNode{
         int i = 0;
         while (i < num && key > keys[i].getKey())
             i++;
-        if (isLeaf && keys[i].getKey() == key) {
+        if (isLeaf && keys[i]!=null && keys[i].getKey() == key) {
             return keys[i];
         }
         if (isLeaf)

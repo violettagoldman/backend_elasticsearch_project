@@ -6,12 +6,25 @@ import java.util.Map;
 
 public class DataBase {
     private String name;
-    public Map<String, Table> tables;
+    private Map<String, Table> tables;
+    private static final DataBase instance = new DataBase();
 
-    public DataBase(String name){
-        this.name = name;
+    public void setTables(Map<String, Table> tables) {
+        this.tables = tables;
+    }
+
+    private DataBase(){
+        this.name = null;
         tables = new HashMap<>();
+    }
 
+    public static DataBase createInstance(String name){
+        instance.name = name;
+        return instance;
+    }
+
+    public static DataBase getInstance(){
+        return instance;
     }
 
     public void newTable(String name, Map<String, String> columnsMap){
@@ -76,7 +89,7 @@ public class DataBase {
 
         table.createIndex(new String [] {"Ville Départ", "Ville arrivée"});
 
-       DataBase db = new DataBase("Voyage");
+       DataBase db = createInstance("Voyage");
        db.tables.put("voyage", table);
 
 

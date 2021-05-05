@@ -30,7 +30,7 @@ public class BTree{
 
     public void insert(String data, int id) throws NoSuchAlgorithmException {
         Entry entry = new Entry(data);
-        entry.getOccurrences().add(new Occurence(id));
+        entry.getOccurrences().put(id, new Occurence(id));
         int key = entry.getKey();
         if (root == null){
 
@@ -38,7 +38,7 @@ public class BTree{
             root.keys[0] = entry;
             root.num = 1;
         } else if(this.search(data)!=null){
-            this.search(data).getOccurrences().add(new Occurence(id));
+            this.search(data).getOccurrences().put(id, new Occurence(id));
         } else {
             // When the root node is full, the tree will grow high
             if (root.num == 2*MinDeg-1){

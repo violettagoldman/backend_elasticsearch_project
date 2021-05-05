@@ -1,13 +1,14 @@
  package logic;
 
  import logic.bTree.BTree;
+ import logic.bTree.Entry;
+ import logic.bTree.Occurence;
 
  import java.security.NoSuchAlgorithmException;
  import java.util.*;
 
  public class Table
  {
-
      private String name;
      private Map<String, Column> columns;
      private int rowsId;
@@ -21,6 +22,31 @@
          for (Map.Entry entry: columnsMap.entrySet()){
              columns.put((String) entry.getKey(), new Column((String) entry.getKey(), (String) entry.getValue()));
          }
+     }
+
+     public Map<String, Column> getColumns() {
+         return columns;
+     }
+
+     public void setColumns(Map<String, Column> columns) {
+         this.columns = columns;
+     }
+
+     public Table(String name){
+         this.name = name;
+         columns = null;
+         rowsId = 0;
+         index = null;
+     }
+
+     public Table clone(String [] columnsNames){
+         Table result = new Table("result");
+         result.columns = new TreeMap<String, Column>(); ;
+         rowsId = this.rowsId;
+         for (String names : columnsNames ){
+             result.columns.put(names, this.columns.get(names));
+         }
+         return result;
      }
 
 
@@ -60,21 +86,31 @@
 
 
      public void createIndex(String[] columnsName) throws NoSuchAlgorithmException {
-        //Index index = new Index();
-//         for (int i = 0 ; i<rowsId ; i++){
-//            List<String> entry = new ArrayList<>();
-//            for (int j = 0 ; j< columnsName.length ; j++){
-//                entry.add(columns.get(columnsName[j]).getById(i));
-//            }
          for (int j = 0 ; j< columnsName.length ; j++){
              BTree btree = new BTree(2);
              for (int i = 0 ; i<rowsId ; i++){
                 btree.insert(columns.get(columnsName[j]).getById(i),i);
             }
+             System.out.println(columnsName[j]);
              btree.traverse();
              index.put(columnsName[j], btree);
         }
+         for (int i = 0 ; i < rowsId ; i++){
+             for(int j = 0; j < columnsName.length-1 ; j++){
+                 String firstData = columns.get(columnsName[j]).getById(i);
+                 BTree firstIndex = index.get(columnsName[j]);
+                 Entry firstEntry = firstIndex.search(firstData);
+                 Occurence firstOccurence = (Occurence) firstEntry.getOccurrences().get(i);
 
+                 String secondData = columns.get(columnsName[j+1]).getById(i);
+                 BTree secondIndex = index.get(columnsName[j+1]);
+                 Entry secondEntry = secondIndex.search(secondData);
+                 Occurence secondOccurence = (Occurence) secondEntry.getOccurrences().get(i);
+
+                 firstOccurence.setAfter(secondEntry);
+                 secondOccurence.setBefore(firstEntry);
+             }
+         }
      }
 
  }

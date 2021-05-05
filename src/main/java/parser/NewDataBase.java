@@ -23,7 +23,7 @@ public class NewDataBase {
         List<String> columnsNames = Arrays.asList(ressources.get(0).split(","));
 
         // Creation DataBase
-        DataBase db = new DataBase("DB_Name");
+        DataBase db = DataBase.createInstance("DB_Name");
 
         String tableName = trimName(fileName);
 
