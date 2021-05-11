@@ -10,7 +10,19 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.FileUpload;
 
+import java.util.Map;
+
+import distribution.Routing;
+
 public class Server extends AbstractVerticle {
+
+  final const int NUMBER_OF_NODES = 3;
+  final const int NUMBER_OF_SHARDS = 5;
+  String nodes[NUMBER_OF_NODES] = {
+    "localhost:8889",
+    "localhost:8890",
+    "localhost:8891"
+  };
 
   // Sends the HTTP response object with the given status code and JSON object
   void sendReponse(RoutingContext ctx, int statusCode, JsonObject json) {
@@ -34,6 +46,12 @@ public class Server extends AbstractVerticle {
       sendReponse(ctx, 422, response);
     }
     // Actual handling
+    for (int i = 0; i < NUMBER_OF_NODES; i++) {
+      // Send a "createTable" request to nodes[i]
+      // You need to perform a HTTP request to the URL nodes[i]
+      // The Node class should be able to receive this request and call its internal createTable nethod
+    }
+
     JsonObject response = new JsonObject();
     response.put("message", "Successfully created a new table.");
     sendReponse(ctx, 200, response);
@@ -75,6 +93,9 @@ public class Server extends AbstractVerticle {
     for (FileUpload f : ctx.fileUploads()) {
       file = f.uploadedFileName();
     }
+    // Here for evey lines of the CSV you should:
+    // Calculate the shard in which the line should be stored with Routing.getShard()
+    // Send a HTTP request to all nodes to insert the line in the calculated shard
     System.out.println(file);
     JsonObject response = new JsonObject();
     response.put("message", "Successfully uploaded data.");
@@ -95,6 +116,16 @@ public class Server extends AbstractVerticle {
       sendReponse(ctx, 422, response);
     }
     // Actual handling
+    System.out.println(Routing.getShard(query, 5));
+
+    List<String> results = new List<String>();
+    Map<int, int> routes = Routing.getRoutes(NUMBER_OF_NODES, NUMBER_OF_SHARDS);
+    for (int i = 0; i < NUMBER_OF_SHARDS; i++) {
+      String node = nodes[routes[i]];
+      // Serch for query on node with shard i
+      // results.add(result of the query)
+    }
+
     JsonObject response = new JsonObject();
     response.put("message", "Successfully uploaded data.");
     response.put("data", "[]");
