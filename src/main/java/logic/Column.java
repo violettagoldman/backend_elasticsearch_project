@@ -36,7 +36,7 @@
          return str;
      }
 
-     public List<Integer> where(String value) {
+     public List<Integer> getOccurences(String value) {
          List <Integer> list = new ArrayList<>();
          for (Map.Entry entry : data.entrySet()){
              if(entry.getValue() == value)list.add((Integer) entry.getKey());

@@ -1,6 +1,7 @@
 package logic.bTree;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public class BTree{
     BTreeNode root;
@@ -26,6 +27,11 @@ public class BTree{
     //fonction to find a entry
     public Entry search(String data) throws NoSuchAlgorithmException{
         return root == null ? null : root.search(data);
+    }
+
+    //fonction qui renvoie la liste des occurences
+    public List<Integer> occurences(String data) throws NoSuchAlgorithmException {
+        return search(data).getOccurrencesList();
     }
 
     public void insert(String data, int id) throws NoSuchAlgorithmException {

@@ -57,6 +57,10 @@
          rowsId++;
      }
 
+     public Object getIndexOrColumn(String columnName){
+         return index.get(columnName) == null ? columns.get(columnName) : index.get(columnName);
+     }
+
      public String toString(){
          String str = "Nom de la table : "+name+"\n";
          for (Map.Entry entry :
@@ -66,23 +70,23 @@
          return  str;
      }
 
-     public String FromWhere(String column, String value){
-         String str = "id \t";
-         for (Map.Entry entry:
-              columns.entrySet()) {
-             str = str+entry.getKey()+"\t";
-         }
-         str = str+"\n";
-         for (Object i: columns.get(column).where(value)) {
-             str = str +i+"\t";
-             for (Map.Entry entry:
-                     columns.entrySet()) {
-                str =  str + ((Column)entry.getValue()).getById(i)+"\t\t";
-             }
-             str = str + "\n";
-         }
-         return str;
-     }
+//     public String FromWhere(String column, String value){
+//         String str = "id \t";
+//         for (Map.Entry entry:
+//              columns.entrySet()) {
+//             str = str+entry.getKey()+"\t";
+//         }
+//         str = str+"\n";
+//         for (Object i: columns.get(column).where(value)) {
+//             str = str +i+"\t";
+//             for (Map.Entry entry:
+//                     columns.entrySet()) {
+//                str =  str + ((Column)entry.getValue()).getById(i)+"\t\t";
+//             }
+//             str = str + "\n";
+//         }
+//         return str;
+//     }
 
 
      public void createIndex(String[] columnsName) throws NoSuchAlgorithmException {
