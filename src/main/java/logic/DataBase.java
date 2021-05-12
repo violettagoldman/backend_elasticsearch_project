@@ -102,7 +102,7 @@ public class DataBase {
 
         CSVParser csvp = new CSVParser();
         NewDataBase ndb = new NewDataBase();
-        ndb.inIndex("dogs.csv");
+        //ndb.inIndex("dogs.csv");
         System.out.println(DataBase.getInstance().toString());
 
         Request r = new Request("dogs", new String[]{"Id","Prénom"},null );

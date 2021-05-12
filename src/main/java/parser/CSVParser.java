@@ -23,13 +23,11 @@ public class CSVParser {
 
 	/**
 	 * Get the content of the file when it is in local
-	 * @param fileName
+	 * @param file
 	 * @return the list (String) of each line
 	 * @throws IOException
 	 */
-	public List<String> readFileLocal(String fileName) throws IOException {
-
-		File file = getResource(fileName);
+	public List<String> readFileLocal(File file) throws IOException {
 
 		List<String> result = new ArrayList<>();
 

@@ -11,7 +11,9 @@ import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.FileUpload;
 import logic.DataBase;
 import parser.CSVParser;
+import parser.NewDataBase;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -88,8 +90,8 @@ public class Server extends AbstractVerticle {
     JsonObject response = new JsonObject();
     response.put("message", "Successfully uploaded data.");
     sendReponse(ctx, 200, response);
-    List<String> contentGet = csvp.readFileLocal(file);
-    db.newTable("test", (Map<String, String>) contentGet);
+    NewDataBase ndb = new NewDataBase();
+    ndb.inIndex(new File(file));
   }
 
   /* Get data from the given table
@@ -108,7 +110,7 @@ public class Server extends AbstractVerticle {
     // Actual handling
     JsonObject response = new JsonObject();
     response.put("message", "Successfully uploaded data.");
-    response.put("data", db.getTables().get(table_name).toString());
+    response.put("data", DataBase.getInstance().toString());
     sendReponse(ctx, 200, response);
   }
 
