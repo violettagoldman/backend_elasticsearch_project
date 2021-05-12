@@ -1,5 +1,6 @@
 package logic;
 
+import logic.request.Request;
 import parser.CSVParser;
 import parser.NewDataBase;
 
@@ -103,6 +104,10 @@ public class DataBase {
         NewDataBase ndb = new NewDataBase();
         ndb.inIndex("dogs.csv");
         System.out.println(DataBase.getInstance().toString());
+
+        Request r = new Request("dogs", new String[]{"Id","Prénom"},null );
+        System.out.println("test ____ request");
+        System.out.println(r.getResult().toString());
 
 
       // System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux"));

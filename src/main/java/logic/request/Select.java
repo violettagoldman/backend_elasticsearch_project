@@ -12,15 +12,21 @@ public class Select {
     private String [] columnsNames;
     private Table result;
 
+    public Table getResult() {
+        return result;
+    }
+
     public Select(int [] rows, String [] columnsName, From from){
         this.rows = rows;
         Table table = from.table;
         this.columnsNames = columnsName;
-        Table result = table.clone(columnsNames);
+        result = table.clone(columnsNames);
         Map<String, Column> columns = new TreeMap<String, Column>();
         for (Map.Entry column: result.getColumns().entrySet()) {
-            if(Arrays.binarySearch(columnsNames,column.getKey())>=0)
-            columns.put((String)column.getKey(), ((Column)column).filterByRows(rows));
+            if(Arrays.binarySearch(columnsNames,column.getKey())>=0) {
+                System.out.println(column.getValue());
+                columns.put((String)column.getKey(), ((Column)column.getValue()).filterByRows(rows));
+            }
         };
         result.setColumns(columns);
     }
