@@ -13,7 +13,7 @@ public class DataBase {
         this.tables = tables;
     }
 
-    private DataBase(){
+    public DataBase(){
         this.name = null;
         tables = new HashMap<>();
     }
@@ -53,9 +53,11 @@ public class DataBase {
         return tables.get(table).toString();
     }
 
+    /*
     public String selectFromWhere(String table, String column, String value){
         return tables.get(table).FromWhere(column,value);
     }
+    */
 
     public Map<String, Table> getTables() {
         return tables;
@@ -94,7 +96,7 @@ public class DataBase {
 
 
 
-       System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux"));
+    //   System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux"));
 
     //    System.out.println(table.toString());
     }

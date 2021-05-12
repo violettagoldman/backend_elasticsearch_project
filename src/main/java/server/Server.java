@@ -9,8 +9,17 @@ import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.FileUpload;
+import logic.DataBase;
+import parser.CSVParser;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class Server extends AbstractVerticle {
+
+  private DataBase db = new DataBase();
+  private static CSVParser csvp = new CSVParser();
 
   // Sends the HTTP response object with the given status code and JSON object
   void sendReponse(RoutingContext ctx, int statusCode, JsonObject json) {
@@ -63,7 +72,7 @@ public class Server extends AbstractVerticle {
   - table_name: string, name of the table to update
   - csv: string, CSV content to add in the table
   */
-  void uploadCSV(RoutingContext ctx) {
+  void uploadCSV(RoutingContext ctx) throws IOException {
     String table_name = ctx.request().getFormAttribute("table_name");
     String file = "";
     if (table_name == null || ctx.fileUploads().size() == 0) {
@@ -79,6 +88,8 @@ public class Server extends AbstractVerticle {
     JsonObject response = new JsonObject();
     response.put("message", "Successfully uploaded data.");
     sendReponse(ctx, 200, response);
+    List<String> contentGet = csvp.readFileLocal(file);
+    db.newTable("test", (Map<String, String>) contentGet);
   }
 
   /* Get data from the given table
@@ -97,7 +108,7 @@ public class Server extends AbstractVerticle {
     // Actual handling
     JsonObject response = new JsonObject();
     response.put("message", "Successfully uploaded data.");
-    response.put("data", "[]");
+    response.put("data", db.getTables().get(table_name).toString());
     sendReponse(ctx, 200, response);
   }
 
@@ -123,7 +134,11 @@ public class Server extends AbstractVerticle {
   
     // Route uploadcsv that uploads the given CSV content into the given table
     router.route("/uploadcsv").handler(ctx -> {
-      uploadCSV(ctx);
+      try {
+        uploadCSV(ctx);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     });
   
     // Route get that returns lines matching the given query
