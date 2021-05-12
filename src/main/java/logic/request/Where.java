@@ -9,7 +9,6 @@ public class Where {
     private List<ArgWhere> args;
 
     public Where(List<ArgWhere> args){
-
         this.args = args;
         if(args.size() == 0)
         result = new int[0];
