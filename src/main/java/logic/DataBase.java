@@ -55,7 +55,8 @@ public class DataBase {
 
     /*
     public String selectFromWhere(String table, String column, String value){
-        return tables.get(table).FromWhere(column,value);
+        return null;
+     //   return tables.get(table).FromWhere(column,value);
     }
     */
 
