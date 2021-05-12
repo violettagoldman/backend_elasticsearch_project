@@ -2,6 +2,7 @@ package parser;
 
 import logic.DataBase;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -11,13 +12,13 @@ public class NewDataBase {
 
     /**
      * Put the content of a csv in a database (table and lines)
-     * @param fileName
+     * @param file
      * @return the created database
      * @throws IOException
      */
-    public DataBase inIndex(String fileName) throws IOException {
+    public DataBase inIndex(File file) throws IOException {
         // Ressources
-        List<String> ressources = csvp.readFileLocal(fileName);
+        List<String> ressources = csvp.readFileLocal(file);
 
         // Columns Names
         List<String> columnsNames = Arrays.asList(ressources.get(0).split(","));
@@ -25,7 +26,7 @@ public class NewDataBase {
         // Creation DataBase
         DataBase db = new DataBase("DB_Name");
 
-        String tableName = trimName(fileName);
+        String tableName = "Table_Name";
 
         // Creation Table
         Map<String, String> columnsNamesMap = new HashMap<>();
