@@ -4,11 +4,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class BTree{
+    public final String name;
     BTreeNode root;
     int MinDeg;
 
     // Constructor
-    public BTree(int deg){
+    public BTree(int deg, String name){
+        this.name = name;
         this.root = null;
         this.MinDeg = deg;
     }
@@ -35,8 +37,8 @@ public class BTree{
     }
 
     public void insert(String data, int id) throws NoSuchAlgorithmException {
-        Entry entry = new Entry(data);
-        entry.getOccurrences().put(id, new Occurence(id));
+        Entry entry = new Entry(data,id);
+        entry.getOccurrences().put(id, new Occurence());
         int key = entry.getKey();
         if (root == null){
 
@@ -44,7 +46,7 @@ public class BTree{
             root.keys[0] = entry;
             root.num = 1;
         } else if(this.search(data)!=null){
-            this.search(data).getOccurrences().put(id, new Occurence(id));
+            this.search(data).getOccurrences().put(id, new Occurence());
         } else {
             // When the root node is full, the tree will grow high
             if (root.num == 2*MinDeg-1){

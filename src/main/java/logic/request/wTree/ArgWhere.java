@@ -1,4 +1,4 @@
-package logic.request;
+package logic.request.wTree;
 
 import com.google.gson.annotations.SerializedName;
 import logic.request.wTree.Operator;
@@ -17,7 +17,6 @@ public class ArgWhere {
 
 
     public ArgWhere(Operator.Type operator, String column, String value) {
-        super();
         this.column = column;
         this.value = value;
         this.operator = operator;

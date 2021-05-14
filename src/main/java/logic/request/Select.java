@@ -3,12 +3,10 @@ package logic.request;
 import logic.Column;
 import logic.Table;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Select {
-    private int[] rows;
+    private List rows;
     private String [] columnsNames;
     private Table result;
 
@@ -16,7 +14,7 @@ public class Select {
         return result;
     }
 
-    public Select(int [] rows, String [] columnsName, From from){
+    public Select(ArrayList rows, String [] columnsName, From from){
         this.rows = rows;
         Table table = from.table;
         this.columnsNames = columnsName;

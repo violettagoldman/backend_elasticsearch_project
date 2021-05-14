@@ -287,7 +287,7 @@ class BTreeNode{
         for (i = 0; i< num; i++){
             if (!isLeaf)
                 children[i].traverse();
-            System.out.printf("Key "+keys[i].getKey()+", data "+ keys[i].getData()+", ");
+            System.out.printf(keys[i].toString());
         }
 
         if (!isLeaf){
@@ -297,7 +297,7 @@ class BTreeNode{
 
 
     public BTreeNode searchNode(String data) throws NoSuchAlgorithmException {
-        int key =  new Entry(data).getKey();
+        int key =  new Entry(data, 0).getKey();
         int i = 0;
         while (i < num && key > keys[i].getKey())
             i++;
@@ -309,7 +309,7 @@ class BTreeNode{
     }
 
     public Entry search(String data) throws NoSuchAlgorithmException {
-        int key =  new Entry(data).getKey();
+        int key =  new Entry(data, 0).getKey();
         int i = 0;
         while (i < num && key > keys[i].getKey())
             i++;

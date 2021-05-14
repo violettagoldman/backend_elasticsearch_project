@@ -1,8 +1,9 @@
 package logic.request;
 
 import logic.Table;
-import logic.json.Json;
+import logic.request.wTree.ArgWhere;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class Request {
@@ -11,9 +12,9 @@ public class Request {
     private Where where;
     private Table result;
 
-    public Request(String tableName, String [] columnsNames, List<ArgWhere> args){
+    public Request(String tableName, String [] columnsNames, List<ArgWhere> args) throws NoSuchAlgorithmException {
         from = new From(tableName);
-        where = new Where(null);
+        where = new Where(args, tableName);
         select = new Select(where.getResult(), columnsNames, from);
         result = select.getResult();
     }

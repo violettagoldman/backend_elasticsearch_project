@@ -70,32 +70,13 @@
          return  str;
      }
 
-//     public String FromWhere(String column, String value){
-//         String str = "id \t";
-//         for (Map.Entry entry:
-//              columns.entrySet()) {
-//             str = str+entry.getKey()+"\t";
-//         }
-//         str = str+"\n";
-//         for (Object i: columns.get(column).where(value)) {
-//             str = str +i+"\t";
-//             for (Map.Entry entry:
-//                     columns.entrySet()) {
-//                str =  str + ((Column)entry.getValue()).getById(i)+"\t\t";
-//             }
-//             str = str + "\n";
-//         }
-//         return str;
-//     }
-
 
      public void createIndex(String[] columnsName) throws NoSuchAlgorithmException {
          for (int j = 0 ; j< columnsName.length ; j++){
-             BTree btree = new BTree(2);
+             BTree btree = new BTree(2, columnsName[j]);
              for (int i = 0 ; i<rowsId ; i++){
                 btree.insert(columns.get(columnsName[j]).getById(i),i);
             }
-             System.out.println(columnsName[j]);
              btree.traverse();
              index.put(columnsName[j], btree);
         }

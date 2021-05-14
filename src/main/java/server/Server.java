@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class Server extends AbstractVerticle {
 
-  private DataBase db = new DataBase();
+  private DataBase db = DataBase.createInstance("DB_Name");
   private static CSVParser csvp = new CSVParser();
 
   // Sends the HTTP response object with the given status code and JSON object
@@ -45,6 +45,7 @@ public class Server extends AbstractVerticle {
       sendReponse(ctx, 422, response);
     }
     // Actual handling
+    //DataBase.getInstance().newTable(table_name, table_headers);
     JsonObject response = new JsonObject();
     response.put("message", "Successfully created a new table.");
     sendReponse(ctx, 200, response);

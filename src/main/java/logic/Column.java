@@ -10,13 +10,12 @@
      private String name;
      private String type;
      private Map<Integer, String> data;
-     private Index index;
+
 
      public Column(String name, String type) {
          this.name = name;
          this.type = type;
          this.data = new TreeMap<>();
-         this.index = null;
      }
 
      public void addDataValue(int id, String value) {
@@ -28,10 +27,7 @@
          String str = " Type : "+type+"\n";
          for (Map.Entry entry :
                  data.entrySet()) {
-             if(index == null)
              str = str + "id : "+entry.getKey()+" value : "+entry.getValue()+"\n";
-             else  str = str + "id : "+entry.getKey()+" value : "+entry.getValue()+" occurrences : "+index.getDataOccurrence((String)entry.getValue())+"\n";
-
          }
          return str;
      }
@@ -45,15 +41,15 @@
         // return index.getLines(value);
      }
 
-     public Column filterByRows(int [] rows){
+     public Column filterByRows(ArrayList rows){
          Column column = new Column(this.name, this.type);
-         if(rows.length==0){
+         if(rows.size()==0){
              for (Map.Entry entry: data.entrySet()) {
                  column.addDataValue((int)entry.getKey(), (String)entry.getValue());
              }
          }else{
-             for (int i : rows) {
-                 column.addDataValue(i, this.getById(i));
+             for (Object i : rows) {
+                 column.addDataValue((int)i, this.getById(i));
              }
 
          }
