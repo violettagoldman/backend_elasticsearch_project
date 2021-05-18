@@ -1,43 +1,61 @@
 package server;
 
-import logic.*;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.Router;
+import io.vertx.ext.web.RoutingContext;
 
-class Node {
-	/*This class is the implementation of a node.
-	A node stores all index. These index are splitted in shards.
-	The master node will tell the node in which shard to store new documents,
-	and in which shard to search for documents.
-	This node is a HTTP server, it reveives requests only from the master node.
-	It is really like a simple database, except there is NUMBER_OF_SHARDS smaller
-	databases.
-	*/
+public class Node extends AbstractVerticle {
+    
+    Vertx vertx;
 
-	final const int NUMBER_OF_SHARDS = 5;
-	DataBase shards[NUMBER_OF_SHARDS];
+    Node(Vertx vertx) {
+        this.vertx = vertx;
+    }
 
-	public Node() {
-		for (int shard = 0; shard < NUMBER_OF_SHARDS; shard++) {
-			shards[shard] = new DataBase("shard" + shard);
-		}
-	}
+    // Sends the HTTP response object with the given status code and JSON object
+    void sendReponse(RoutingContext ctx, int statusCode, JsonObject json) {
+        HttpServerResponse response = ctx.response();
+        response.putHeader("content-type", "text/json");
+        response.setStatusCode(statusCode);
+        response.end(json.encodePrettily());
+    }
 
-	/*Insert a document in the given shard and given table.*/
-	public void insertDocument(int shard, String table, String document) {
-		// shards[shard].getTables()[table].addLine(...);
-	}
+    void ping(RoutingContext ctx, JsonObject request) {
+        JsonObject response = new JsonObject();
+        response.put("message", "This node is up.");
+        sendReponse(ctx, 200, response);
+    }
 
-	/*Create a new table. We need to create this table in all shards.*/
-	public void createTable(String table, String columns) {
-		/*for (int shard = 0; shard < NUMBER_OF_SHARDS; shard++) {
-			Table table = new Table(table, ...);
-			shards[shard].putTable(table);
-		}*/
-	}
+    // Get the JSON body from a request
+    private JsonObject parseBody(RoutingContext ctx) {
+        try {
+            return ctx.getBodyAsJson();
+        } catch (Exception e) {
+            JsonObject response = new JsonObject();
+            response.put("error", "Bad JSON.");
+            sendReponse(ctx, 422, response);
+            return null;
+        }
+    }
 
-	/*Search in the given shard the rows where column matches value.*/
-	public Document search(int shard, String table, String column, String value) {
-		return shards[shard].selectFromWhere(table, column, value);
-	}
+    public void setupRoutes(Router router) {
 
-	// Implement the HTTP servers function to call methods when the master node asks it...
+        // Test route to see if the node is connected
+        router.route("/ping").handler(ctx -> {
+            JsonObject body = parseBody(ctx);
+            if (body != null)
+                ping(ctx, body);
+        });
+
+        // Default route
+        router.route().handler(ctx -> {
+            JsonObject response = new JsonObject();
+            response.put("error", "Unknown endpoint. Available endpoints: /createtable, /createindex, /uploadcsv, /get.");
+            sendReponse(ctx, 404, response);
+        });
+    }
+
 }

@@ -1,8 +1,9 @@
 package logic.bTree;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
-class BTree{
+public class BTree{
     BTreeNode root;
     int MinDeg;
 
@@ -28,9 +29,14 @@ class BTree{
         return root == null ? null : root.search(data);
     }
 
+    //fonction qui renvoie la liste des occurences
+    public List<Integer> occurences(String data) throws NoSuchAlgorithmException {
+        return search(data).getOccurrencesList();
+    }
+
     public void insert(String data, int id) throws NoSuchAlgorithmException {
         Entry entry = new Entry(data);
-        entry.getOccurrences().add(id);
+        entry.getOccurrences().put(id, new Occurence(id));
         int key = entry.getKey();
         if (root == null){
 
@@ -38,7 +44,7 @@ class BTree{
             root.keys[0] = entry;
             root.num = 1;
         } else if(this.search(data)!=null){
-            this.search(data).getOccurrences().add(id);
+            this.search(data).getOccurrences().put(id, new Occurence(id));
         } else {
             // When the root node is full, the tree will grow high
             if (root.num == 2*MinDeg-1){
