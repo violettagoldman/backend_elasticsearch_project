@@ -8,14 +8,19 @@ import java.security.NoSuchAlgorithmException;
 public class Symbol {
     public final int type;
     Condition condition;
-    Operator operator;
+    public final Operator operator;
     final static int CONDITION = 1 ;  // nature d'un nombre
     final static int OPERATOR = 2;
+    final static int PARENTHESIS = parenthesis
 
     private Symbol (int type, Condition condition, Operator operator) {
         this.type = type ;
         this.condition = condition ;
         this.operator = operator ;
+    }
+
+    public Condition getCondition() {
+        return condition;
     }
 
     static Symbol newCondition (String data, BTree column) throws NoSuchAlgorithmException {
@@ -29,7 +34,7 @@ public class Symbol {
     public String toString ()
     {
         if (type == Symbol.CONDITION) return condition.getColumn() +" = "+condition.value ;
-        else return "" + operator.getType() ;
+        else return " " + operator.getType() + " ";
     }
 
 }

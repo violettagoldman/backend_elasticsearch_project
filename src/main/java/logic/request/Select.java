@@ -18,14 +18,16 @@ public class Select {
         this.rows = rows;
         Table table = from.table;
         this.columnsNames = columnsName;
+        ArrayList al = new ArrayList(Arrays.asList(columnsName));
         result = table.clone(columnsNames);
         Map<String, Column> columns = new TreeMap<String, Column>();
         for (Map.Entry column: result.getColumns().entrySet()) {
-            if(Arrays.binarySearch(columnsNames,column.getKey())>=0) {
+            if(al.contains(column.getKey())) {
                 System.out.println(column.getValue());
                 columns.put((String)column.getKey(), ((Column)column.getValue()).filterByRows(rows));
             }
-        };
+        }
+        result.setRowsId(rows.size());
         result.setColumns(columns);
     }
 }

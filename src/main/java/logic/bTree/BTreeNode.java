@@ -301,7 +301,7 @@ class BTreeNode{
         int i = 0;
         while (i < num && key > keys[i].getKey())
             i++;
-        if (isLeaf && keys[i].getKey() == key)
+        if (i<2*MinDeg-1 && keys[i]!=null && keys[i].getKey() == key)
             return this;
         if (isLeaf)
             return null;
@@ -311,9 +311,9 @@ class BTreeNode{
     public Entry search(String data) throws NoSuchAlgorithmException {
         int key =  new Entry(data, 0).getKey();
         int i = 0;
-        while (i < num && key > keys[i].getKey())
+        while (i < num &&  key > keys[i].getKey() )
             i++;
-        if (isLeaf && keys[i]!=null && keys[i].getKey() == key) {
+        if (i<2*MinDeg-1 && keys[i]!=null && keys[i].getKey() == key) {
             return keys[i];
         }
         if (isLeaf)

@@ -4,6 +4,7 @@ import logic.DataBase;
 import logic.Table;
 import logic.request.Request;
 import logic.request.wTree.ArgWhere;
+import logic.request.wTree.Operator;
 import org.junit.Test;
 
 import java.security.NoSuchAlgorithmException;
@@ -32,7 +33,7 @@ public class WhereTest {
 
         Map<String, String> bordeauxParis2 = new HashMap<>();
         bordeauxParis2.put("Ville Départ", "Paris");
-        bordeauxParis2.put("Ville arrivée", "Bordeaux");
+        bordeauxParis2.put("Ville arrivée", "Lavandia");
         bordeauxParis2.put("Prix", "75");
         table.addLine(bordeauxParis2);
 
@@ -42,14 +43,29 @@ public class WhereTest {
         parisStDenis.put("Prix", "3000");
         table.addLine(parisStDenis);
 
+        Map<String, String> a = new HashMap<>();
+        a.put("Ville Départ", "Paris");
+        a.put("Ville arrivée", "Test");
+        a.put("Prix", "45");
+        table.addLine(a);
+
         table.createIndex(new String [] {"Ville Départ"});
+        table.createIndex(new String [] {"Ville arrivée"});
+        table.createIndex(new String [] {"Prix"});
 
         DataBase db = createInstance("Voyage");
         db.getTables().put("voyage", table);
 
         List args = new ArrayList<>();
         args.add(new ArgWhere(null, "Ville Départ", "Paris"));
-        Request r = new Request("voyage", new String[]{"Ville Départ","Ville arrivée"},args );
+        args.add(new ArgWhere(Operator.Type.AND, null, null));
+        args.add(new ArgWhere(null, "Ville arrivée", "Test"));
+        args.add(new ArgWhere(Operator.Type.AND, null, null));
+        args.add(new ArgWhere(null, "Ville Départ", "Paris"));
+        args.add(new ArgWhere(Operator.Type.AND, null, null));
+        args.add(new ArgWhere(null, "Ville arrivée", "Test"));
+
+        Request r = new Request("voyage", new String[]{"Ville Départ","Ville arrivée", "Prix"},args );
         System.out.println("test ____ request");
         System.out.println(r.getResult().toString());
 

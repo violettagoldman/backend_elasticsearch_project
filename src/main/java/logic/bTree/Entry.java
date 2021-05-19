@@ -15,6 +15,7 @@ public class Entry {
         md.update(data.getBytes());
         byte byteData[] = md.digest();
         key = ByteBuffer.wrap(byteData).getInt();
+        key = key < 0 ? key*-1 : key;
         this.data = data;
         occurrences = new HashMap<Integer, Occurence>();
         occurrences.put(id, new Occurence());
@@ -32,8 +33,8 @@ public class Entry {
         key = newKey;
     }
 
-    public List<Integer> getOccurrencesList(){
-        List<Integer> result = new ArrayList<>();
+    public ArrayList getOccurrencesList(){
+        ArrayList result = new ArrayList<>();
         for (Map.Entry entry: occurrences.entrySet()) {
             result.add((int)entry.getKey());
         }

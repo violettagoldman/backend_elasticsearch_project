@@ -16,7 +16,11 @@ public class BtreeTest {
         t.insert("jeanne", 2);
         t.insert("cecile", 3);
         t.insert("olivier", 4);
-        t.insert("nancy", 7);
+        t.insert("test", 7);
+        t.insert("te", 7);
+        t.insert("frznfez", 7);
+        t.insert("nfezi", 7);
+        t.insert("nfeiz", 7);
 
         System.out.println("Traversal of tree constructed is");
         t.traverse();
@@ -32,7 +36,20 @@ public class BtreeTest {
         t.insert("jeanne", 2);
         t.insert("cecile", 3);
         t.insert("olivier", 4);
-        t.insert("nancy", 7);
+        t.insert("test", 7);
+        t.insert("te", 7);
+        t.insert("frznfez", 7);
+        t.insert("nfezi", 7);
+        t.insert("nfeiz", 7);
+
+        System.out.println(t.search("jeanne"));
+        System.out.println(t.search("cecile"));
+        System.out.println(t.search("olivier"));
+        System.out.println(t.search("test"));
+        System.out.println(t.search("te"));
+        System.out.println(t.search("frznfez"));
+        System.out.println(t.search("nfezi"));
+        System.out.println(t.search("nfeiz"));
 
         System.out.println(t.search("jeanne"));
     }

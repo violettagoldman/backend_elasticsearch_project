@@ -41,6 +41,10 @@
         // return index.getLines(value);
      }
 
+     public String dataByID(int i){
+         return data.get(i);
+     }
+
      public Column filterByRows(ArrayList rows){
          Column column = new Column(this.name, this.type);
          if(rows.size()==0){
@@ -54,6 +58,16 @@
 
          }
          return column;
+     }
+
+     public int [] listId(){
+         int [] id = new int[data.size()];
+         int i = 0;
+         for (Map.Entry entry: data.entrySet()) {
+             id[i]= (int) entry.getKey();
+             i++;
+         }
+         return id;
      }
 
      public String getById(Object i) {

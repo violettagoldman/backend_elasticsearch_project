@@ -1,6 +1,7 @@
 package logic.bTree;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BTree{
@@ -32,8 +33,8 @@ public class BTree{
     }
 
     //fonction qui renvoie la liste des occurences
-    public List<Integer> occurences(String data) throws NoSuchAlgorithmException {
-        return search(data).getOccurrencesList();
+    public ArrayList occurences(String data) throws NoSuchAlgorithmException {
+        return search(data) != null ? search(data).getOccurrencesList() : new ArrayList<>();
     }
 
     public void insert(String data, int id) throws NoSuchAlgorithmException {
