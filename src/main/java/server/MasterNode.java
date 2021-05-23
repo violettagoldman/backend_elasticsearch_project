@@ -2,9 +2,14 @@ package server;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import java.util.Base64;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
+import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
@@ -14,8 +19,6 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
-import logic.DataBase;
-import parser.NewDataBase;
 
 public class MasterNode extends AbstractVerticle {
     
@@ -53,7 +56,11 @@ public class MasterNode extends AbstractVerticle {
             response.put("error", "Needed params in body: table_name, table_headers.");
             sendReponse(ctx, 422, response);
         }
-        // Actual handling
+
+        for (int server = 1; server < 4; ++server) {
+            nodeRequest("/createtable", String.valueOf(server), request);
+        }
+
         JsonObject response = new JsonObject();
         response.put("message", "Successfully created a new table.");
         sendReponse(ctx, 200, response);
@@ -72,7 +79,11 @@ public class MasterNode extends AbstractVerticle {
             response.put("error", "Needed params in body: table_name, columns.");
             sendReponse(ctx, 422, response);
         }
-        // Actual handling
+
+        for (int server = 1; server < 4; ++server) {
+            nodeRequest("/createindex", String.valueOf(server), request);
+        }
+
         JsonObject response = new JsonObject();
         response.put("message", "Successfully updated indices.");
         sendReponse(ctx, 200, response);
@@ -85,22 +96,30 @@ public class MasterNode extends AbstractVerticle {
     */
     void uploadCSV(RoutingContext ctx) throws IOException {
         String table_name = ctx.request().getFormAttribute("table_name");
-        String file = "";
+        // String file = "";
         if (table_name == null || ctx.fileUploads().size() == 0) {
             JsonObject response = new JsonObject();
             response.put("error", "Needed params in body: table_name and a file.");
             sendReponse(ctx, 422, response);
         }
-        // Actual handling
+
+        String path = "";
         for (FileUpload f : ctx.fileUploads()) {
-            file = f.uploadedFileName();
+            path = f.uploadedFileName();
         }
-        System.out.println(file);
+        // String base64 = new String(Base64.getEncoder().encode(Files.readString(Path.of(path)).getBytes()));
+        // System.out.println(base64);
+
+        JsonObject params = new JsonObject();
+        params.put("table_name", table_name);
+        params.put("file_name", path);
+        for (int server = 1; server < 4; ++server) {
+            nodeRequest("/uploadcsv", String.valueOf(server), params);
+        }
+
         JsonObject response = new JsonObject();
         response.put("message", "Successfully uploaded data.");
         sendReponse(ctx, 200, response);
-        NewDataBase ndb = new NewDataBase();
-        ndb.inIndex(new File(file));
     }
 
     /* Get data from the given table
@@ -116,11 +135,19 @@ public class MasterNode extends AbstractVerticle {
             response.put("error", "Needed params in body: table_name, query.");
             sendReponse(ctx, 422, response);
         }
-        // Actual handling
-        JsonObject response = new JsonObject();
-        response.put("message", "Successfully uploaded data.");
-        response.put("data", DataBase.getInstance().toString());
-        sendReponse(ctx, 200, response);
+
+        // We choose a random server to get the data
+        int server = 1 + (int)(Math.random() * 3);
+        System.out.println("Forwarding get request to server " + server + ".");
+        nodeRequest("/get", String.valueOf(server), request).onComplete(resp -> {
+            if (resp.succeeded()) {
+                sendReponse(ctx, 200, resp.result().bodyAsJsonObject());
+            } else {
+                JsonObject response = new JsonObject();
+                response.put("error", "Cannot get a response from server " + server + ".");
+                sendReponse(ctx, 500, response);
+            }
+        });
     }
 
     /* Check if thg given node is running.

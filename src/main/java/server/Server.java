@@ -2,34 +2,27 @@ package server;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
-import io.vertx.ext.web.RoutingContext;
-import io.vertx.core.Promise;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.handler.BodyHandler;
-import io.vertx.ext.web.FileUpload;
-import logic.DataBase;
-import parser.CSVParser;
-import parser.NewDataBase;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Server extends AbstractVerticle {
 
-  static public Map<String, Integer> ports = Map.of(
-    "master", 8888,
-    "1", 8889,
-    "2", 8890,
-    "3", 8891
-  );
+  static public Map<String, Integer> ports = new HashMap<String, Integer>();
+
+  // "master", 8888,
+  //   "1", 8889,
+  //   "2", 8890,
+  //   "3", 8891
 
   @Override
   public void start() throws Exception {
-
+    ports.put("master", 8888);
+    ports.put("1", 8889);
+    ports.put("2", 8890);
+    ports.put("3", 8891);
     String node_name = System.getenv("node");
     if (node_name == null) {
       System.out.println("No \"node\" env variable. Should be:");
