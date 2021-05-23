@@ -20,17 +20,36 @@ public class WTree {
         this.table = table;
     }
 
-    public void insert(ArgWhere arg) throws NoSuchAlgorithmException {
+    public void insert(List<ArgWhere> args) throws NoSuchAlgorithmException {
+        ArgWhere arg = args.remove(0);
         WNode node;
-        if(arg.getType() == "OPERATOR"){
-            node = new WNode(Symbol.newOperator(arg.getOperator()), false);
-        } else {
-            Object column = table.getIndexOrColumn(arg.getColumn());
-            node = new WNode(Symbol.newCondition(arg.getValue(), (BTree) column), true);
+        int start = 0;
+        switch (arg.getType()) {
+            case OPERATOR:
+                node = new WNode(Symbol.newOperator(arg.getOperator()), false);
+                root = root == null ? node : root.insert(node);
+                break;
+            case CONDITION:
+                Object column = table.getIndexOrColumn(arg.getColumn());
+                node = new WNode(Symbol.newCondition(arg.getValue(), (BTree) column), true);
+                root = root == null ? node : root.insert(node);
+                break;
+            case START: start++;
+                        List<ArgWhere> args2 = new ArrayList<>();
+                        while(start>0){
+                            ArgWhere arg2 = args.remove(0);
+                            if(arg2.getType()== ArgWhere.Type.START)start++;
+                            else if(arg2.getType()== ArgWhere.Type.END)start--;
+                            if(start > 0) args2.add(arg2);
+                        }
+                        WTree tree = new WTree(table);
+                        tree.insert(args2);
+                        root = root == null ? tree.root : root.insert(tree.root);;
+                break;
+            default:
         }
-        if(root == null)root = node;
-        else root = root.insert(node);
-
+        if(args.size()<1)return;
+        this.insert(args);
     }
 
     public WNode getRoot(){
@@ -61,7 +80,7 @@ public class WTree {
     }
 
     public ArrayList calculator() {
-        while(root.getSymbol().type != Symbol.CONDITION){
+        while(root.getSymbol().type != Symbol.Type.CONDITION){
             root.calculatorCondition();
         }
         return root.getSymbol().getCondition().getResult();

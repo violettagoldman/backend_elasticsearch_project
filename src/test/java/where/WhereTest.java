@@ -2,6 +2,7 @@ package where;
 
 import logic.DataBase;
 import logic.Table;
+import logic.json.Arg;
 import logic.request.Request;
 import logic.request.wTree.ArgWhere;
 import logic.request.wTree.Operator;
@@ -49,26 +50,30 @@ public class WhereTest {
         a.put("Prix", "45");
         table.addLine(a);
 
-        table.createIndex(new String [] {"Ville Départ"});
-        table.createIndex(new String [] {"Ville arrivée"});
-        table.createIndex(new String [] {"Prix"});
+        table.createIndex(new String [] {"Ville Départ", "Ville arrivée", "Prix"});
 
         DataBase db = createInstance("Voyage");
         db.getTables().put("voyage", table);
 
         List args = new ArrayList<>();
-        args.add(new ArgWhere(null, "Ville Départ", "Paris"));
-        args.add(new ArgWhere(Operator.Type.AND, null, null));
-        args.add(new ArgWhere(null, "Ville arrivée", "Test"));
-        args.add(new ArgWhere(Operator.Type.AND, null, null));
-        args.add(new ArgWhere(null, "Ville Départ", "Paris"));
-        args.add(new ArgWhere(Operator.Type.AND, null, null));
-        args.add(new ArgWhere(null, "Ville arrivée", "Test"));
-
+        args.add(ArgWhere.newStart());
+        args.add(ArgWhere.newStart());
+        args.add(ArgWhere.newCondition("Ville Départ", "Paris"));
+        args.add(ArgWhere.newOperator(Operator.Type.OR));
+        args.add(ArgWhere.newCondition("Ville arrivée", "Test"));
+        args.add(ArgWhere.newEnd());
+        args.add(ArgWhere.newOperator(Operator.Type.OR));
+        args.add(ArgWhere.newCondition("Ville Départ", "AZURIA"));
+        args.add(ArgWhere.newEnd());
+        args.add(ArgWhere.newOperator(Operator.Type.OR));
+        args.add(ArgWhere.newStart());
+        args.add(ArgWhere.newCondition("Ville Départ", "Azuria"));
+        args.add(ArgWhere.newOperator(Operator.Type.AND));
+        args.add(ArgWhere.newCondition("Ville arrivée", "Bordeaux"));
+        args.add(ArgWhere.newEnd());
         Request r = new Request("voyage", new String[]{"Ville Départ","Ville arrivée", "Prix"},args );
         System.out.println("test ____ request");
         System.out.println(r.getResult().toString());
-
 
     }
 }

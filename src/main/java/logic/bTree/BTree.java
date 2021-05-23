@@ -2,7 +2,6 @@ package logic.bTree;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class BTree{
     public final String name;
@@ -39,7 +38,7 @@ public class BTree{
 
     public void insert(String data, int id) throws NoSuchAlgorithmException {
         Entry entry = new Entry(data,id);
-        entry.getOccurrences().put(id, new Occurence());
+        entry.getAfters().put(id, null);
         int key = entry.getKey();
         if (root == null){
 
@@ -47,7 +46,7 @@ public class BTree{
             root.keys[0] = entry;
             root.num = 1;
         } else if(this.search(data)!=null){
-            this.search(data).getOccurrences().put(id, new Occurence());
+            this.search(data).getAfters().put(id, null);
         } else {
             // When the root node is full, the tree will grow high
             if (root.num == 2*MinDeg-1){
@@ -73,9 +72,7 @@ public class BTree{
             System.out.println("The tree is empty");
             return;
         }
-
         root.remove(key);
-
         if (root.num == 0){ // If the root node has 0 keys
             // If it has a child, its first child is taken as the new root,
             // Otherwise, set the root node to null

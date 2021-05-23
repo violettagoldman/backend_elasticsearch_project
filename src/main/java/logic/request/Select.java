@@ -23,7 +23,6 @@ public class Select {
         Map<String, Column> columns = new TreeMap<String, Column>();
         for (Map.Entry column: result.getColumns().entrySet()) {
             if(al.contains(column.getKey())) {
-                System.out.println(column.getValue());
                 columns.put((String)column.getKey(), ((Column)column.getValue()).filterByRows(rows));
             }
         }

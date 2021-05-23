@@ -21,9 +21,8 @@ public class Where {
         this.args = args;
         result = new ArrayList();
         tree = new WTree(DataBase.getInstance().getTables().get(tableName));
-        for (ArgWhere arg: args) {
-            tree.insert(arg);
-        }
+        tree.insert(args);
+
 //        System.out.println("parcours infixe");
 //        tree.getRoot().infix();
 //        System.out.println("");
@@ -34,7 +33,7 @@ public class Where {
 //        tree.getRoot().prefix();
 //        System.out.println("");
 
-        tree.draw();
+        tree.drawConsole();
 
         result = tree.calculator();
     }

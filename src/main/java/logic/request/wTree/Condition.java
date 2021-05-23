@@ -4,9 +4,7 @@ import logic.Column;
 import logic.bTree.BTree;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Condition {
     public final String value;
@@ -20,8 +18,10 @@ public class Condition {
     }
 
     public void or(Condition c){
-        result.remove(c.result);
+        if(c == null)return;
         result.addAll(c.result);
+        Set set = new HashSet(result);
+        result = new ArrayList(set);
         Collections.sort(result);
     }
 

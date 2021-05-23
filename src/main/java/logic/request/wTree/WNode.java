@@ -1,5 +1,10 @@
 package logic.request.wTree;
 
+import logic.Table;
+import logic.bTree.BTree;
+
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Stack;
 
 public class WNode {
@@ -8,6 +13,10 @@ public class WNode {
     private Symbol  symbol;
     private Boolean isLeaf;
     int x, y;
+
+    public void setRight(WNode right) {
+        this.right = right;
+    }
 
     public WNode(Symbol symbol, Boolean isLeaf){
         left = null;
@@ -32,8 +41,16 @@ public class WNode {
 
     public WNode insert(WNode node) {
         WNode current = this;
-        if(symbol.type == Symbol.OPERATOR){
-            if(node.symbol.type == Symbol.CONDITION){
+        if(symbol.type == Symbol.Type.OPERATOR){
+            if(node.symbol.type == Symbol.Type.OPERATOR){
+                if(node.left == null){
+                    node.left = current;
+                    return node;
+                }
+                else this.right = node;
+                return this;
+            }
+            else if(node.symbol.type == Symbol.Type.CONDITION){
                 if(this.left == null)this.left = node;
                 else this.right = node;
                 return this;
@@ -64,13 +81,13 @@ public class WNode {
     }
 
     public void calculatorCondition() {
-        if(this.left.getSymbol().type == Symbol.CONDITION && this.right.getSymbol().type == Symbol.CONDITION) {
+        if(this.left.getSymbol().type == Symbol.Type.CONDITION && this.right.getSymbol().type == Symbol.Type.CONDITION) {
             if(this.symbol.operator.getType() == Operator.Type.OR) left.symbol.getCondition().or(right.symbol.getCondition());
             else left.symbol.getCondition().and(right.symbol.getCondition());
             this.symbol = left.symbol;
         }
-        if (this.left.getSymbol().type != Symbol.CONDITION ) this.left.calculatorCondition();
-        if (this.right.getSymbol().type != Symbol.CONDITION ) this.right.calculatorCondition();
+        if (this.left.getSymbol().type != Symbol.Type.CONDITION ) this.left.calculatorCondition();
+        if (this.right.getSymbol().type != Symbol.Type.CONDITION ) this.right.calculatorCondition();
     }
 
 

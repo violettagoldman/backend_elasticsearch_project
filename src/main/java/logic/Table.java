@@ -2,7 +2,6 @@
 
  import logic.bTree.BTree;
  import logic.bTree.Entry;
- import logic.bTree.Occurence;
 
  import java.security.NoSuchAlgorithmException;
  import java.util.*;
@@ -73,6 +72,13 @@
          return index.get(columnName) == null ? columns.get(columnName) : index.get(columnName);
      }
 
+     /**
+      * return index
+      * @return
+      */
+     public Map<String, BTree> getIndex() {
+         return index;
+     }
 
      /**
       * clone la table, la nouvelle table ne contient que les colonnes données en paramètre
@@ -140,22 +146,22 @@
             // btree.traverse();
              index.put(columnsName[j], btree);
         }
-         for (int i = 0 ; i < rowsId ; i++){
-             for(int j = 0; j < columnsName.length-1 ; j++){
-                 String firstData = columns.get(columnsName[j]).getById(i);
-                 BTree firstIndex = index.get(columnsName[j]);
-                 Entry firstEntry = firstIndex.search(firstData);
-                 Occurence firstOccurence = (Occurence) firstEntry.getOccurrences().get(i);
+         if(columnsName.length>1){
+             for (int i = 0 ; i < rowsId ; i++){
+                 for(int j = 0; j < columnsName.length-1 ; j++){
+                     String firstData = columns.get(columnsName[j]).getById(i);
+                     BTree firstIndex = index.get(columnsName[j]);
+                     Entry firstEntry = firstIndex.search(firstData);
 
-                 String secondData = columns.get(columnsName[j+1]).getById(i);
-                 BTree secondIndex = index.get(columnsName[j+1]);
-                 Entry secondEntry = secondIndex.search(secondData);
-                 Occurence secondOccurence = (Occurence) secondEntry.getOccurrences().get(i);
-
-                 firstOccurence.setAfter(secondEntry);
-                 secondOccurence.setBefore(firstEntry);
+                     String secondData = columns.get(columnsName[j+1]).getById(i);
+                     BTree secondIndex = index.get(columnsName[j+1]);
+                     Entry secondEntry = secondIndex.search(secondData);
+                   //  System.out.println("first :"+firstEntry.getData()+" second : "+secondEntry.getData() +" i : "+i);
+                     firstEntry.getAfters().put(i,secondEntry);
+                 }
              }
          }
+         index.get(columnsName[0]).traverse();
      }
 
  }
