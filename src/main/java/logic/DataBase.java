@@ -99,11 +99,10 @@ public class DataBase {
 //       DataBase db = createInstance("Voyage");
 //       db.tables.put("voyage", table);
 
-        CSVParser csvp = new CSVParser();
+        /*CSVParser csvp = new CSVParser();
         NewDataBase ndb = new NewDataBase();
         ndb.inIndex("dogs.csv");
-        System.out.println(DataBase.getInstance().toString());
-
+        System.out.println(DataBase.getInstance().toString());*/
 
       // System.out.println(db.selectFromWhere("voyage","Ville arrivée", "Bordeaux"));
 

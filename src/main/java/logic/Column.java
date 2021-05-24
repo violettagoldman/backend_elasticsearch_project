@@ -1,5 +1,7 @@
  package logic;
 
+ import java.io.IOException;
+ import java.io.RandomAccessFile;
  import java.util.ArrayList;
  import java.util.List;
  import java.util.Map;
@@ -58,6 +60,16 @@
 
          }
          return column;
+     }
+
+     public int writeToFile(RandomAccessFile file, Object o) throws IOException {
+         long lengthBefore = file.length();
+         file.writeUTF((String) o);
+         return (int) (file.length() - lengthBefore);
+     }
+
+     public Object readFromFile(RandomAccessFile file) throws IOException {
+         return file.readUTF();
      }
 
      public String getById(Object i) {
