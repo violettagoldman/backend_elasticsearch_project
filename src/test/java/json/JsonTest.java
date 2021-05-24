@@ -17,18 +17,21 @@ public class JsonTest {
     public void select() throws IOException {
 
         final String data = "{\n" +
-                "  \"request\":\n" +
+                "\t\"method\":\n" +
                 "  {\n" +
-                "    \"method\" :\"select\"\n" +
+                "    \"method_name\" :\"select\" \n" +
                 "  },\n" +
-                "  \"args\":\n" +
-                "  [\n" +
-                "    {\n" +
-                "      \"table_name\": \"test_table_name\",\n" +
-                "      \"column\": \"test_column\",\n" +
-                "      \"value\": \"test_value\"\n" +
-                "    }\n" +
-                "  ]\n" +
+                "\t\"table\":\n" +
+                "  {\n" +
+                "    \"table_name\" :\"test_table_name\" \n" +
+                "  },\n" +
+                "  \t\"args\":\n" +
+                "    [\n" +
+                "      {\n" +
+                "        \"column\": \"test_column\",\n" +
+                "        \"value\": \"test_value\"\n" +
+                "      }\n" +
+                "    ]\n" +
                 "}";
 
         json(data);
@@ -38,18 +41,21 @@ public class JsonTest {
     public void no_method() throws IOException {
 
         final String data = "{\n" +
-                "  \"request\":\n" +
+                "\t\"method\":\n" +
                 "  {\n" +
-                "    \"method\" :\"test\"\n" +
+                "    \"method_name\" :\"test\" \n" +
                 "  },\n" +
-                "  \"args\":\n" +
-                "  [\n" +
-                "    {\n" +
-                "      \"table_name\": \"test_table_name\",\n" +
-                "      \"column\": \"test_column\",\n" +
-                "      \"value\": \"test_value\"\n" +
-                "    }\n" +
-                "  ]\n" +
+                "\t\"table\":\n" +
+                "  {\n" +
+                "    \"table_name\" :\"test_table_name\" \n" +
+                "  },\n" +
+                "  \t\"args\":\n" +
+                "    [\n" +
+                "      {\n" +
+                "        \"column\": \"test_column\",\n" +
+                "        \"value\": \"test_value\"\n" +
+                "      }\n" +
+                "    ]\n" +
                 "}";
 
         json(data);
@@ -90,19 +96,23 @@ public class JsonTest {
 
         Json.setDb(db);
         final String data = "{\n" +
-                "  \"request\":\n" +
+                "\t\"method\":\n" +
                 "  {\n" +
-                "    \"method\" :\"select\"\n" +
+                "    \"method_name\" :\"select\" \n" +
                 "  },\n" +
-                "  \"args\":\n" +
-                "  [\n" +
-                "    {\n" +
-                "      \"table_name\": \"voyage\",\n" +
-                "      \"column\": \"Ville Départ\",\n" +
-                "      \"value\": \"Paris\"\n" +
-                "    }\n" +
-                "  ]\n" +
+                "\t\"table\":\n" +
+                "  {\n" +
+                "    \"table_name\" :\"Voyage\" \n" +
+                "  },\n" +
+                "  \t\"args\":\n" +
+                "    [\n" +
+                "      {\n" +
+                "        \"column\": \"Ville Départ\",\n" +
+                "        \"value\": \"Paris\"\n" +
+                "      }\n" +
+                "    ]\n" +
                 "}";
+
         json(data);
     }
 }
