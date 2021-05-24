@@ -15,6 +15,11 @@ public class Request {
         from = new From(tableName);
         where = new Where(null);
         select = new Select(where.getResult(), columnsNames, from);
+        result = select.getResult();
+    }
+
+    public Table getResult() {
+        return result;
     }
 
     public void Select(){

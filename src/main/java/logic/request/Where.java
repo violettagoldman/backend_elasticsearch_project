@@ -9,14 +9,14 @@ public class Where {
     private List<ArgWhere> args;
 
     public Where(List<ArgWhere> args){
-        this.args = args;
-        if(args.size() == 0)
+//        this.args = args;
+//        if(args.size() == 0)
         result = new int[0];
-        else{
-            for (ArgWhere arg: args) {
-
-            }
-        }
+//        else{
+//            for (ArgWhere arg: args) {
+//
+//            }
+//        }
     }
 
     public int[] getResult() {

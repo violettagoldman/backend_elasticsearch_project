@@ -42,9 +42,9 @@
      public Table clone(String [] columnsNames){
          Table result = new Table("result");
          result.columns = new TreeMap<String, Column>(); ;
-         rowsId = this.rowsId;
-         for (String names : columnsNames ){
-             result.columns.put(names, this.columns.get(names));
+         result.rowsId = this.rowsId;
+         for (String name : columnsNames ){
+             result.columns.put(name, columns.get(name));
          }
          return result;
      }
