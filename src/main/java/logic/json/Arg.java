@@ -4,27 +4,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class Arg {
 
-    @SerializedName("table_name")
-    private String tableName;
     @SerializedName("column")
     private String column;
     @SerializedName("value")
     private String value;
 
+    public Arg() {
+    }
 
-    public Arg(String tableName, String column, String value) {
+    public Arg(String column, String value) {
         super();
-        this.tableName = tableName;
         this.column = column;
         this.value = value;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
     }
 
     public String getColumn() {
@@ -44,4 +35,3 @@ public class Arg {
     }
 
 }
-

@@ -5,7 +5,8 @@ import logic.DataBase;
 
 public class Json {
 
-    private static String table_name;
+    private static String method;
+    private static String table;
     private static String column;
     private static String value;
 
@@ -16,25 +17,24 @@ public class Json {
         Gson gson = new Gson();
         Request result = gson.fromJson(request, Request.class);
 
-        Method j = result.getRequest();
-        String method = j.getMethod();
+        method = result.getMethod();
+        table = result.getTable();
 
-        for (Arg t : result.getArgs()) {
-            table_name = t.getTableName();
-            column = t.getColumn();
-            value = t.getValue();
+        for (Arg a : result.getArgs()) {
+            column = a.getColumn();
+            value = a.getValue();
         }
 
         switch (method) {
             case "select":
                 System.out.println("Method : " + method);
-                System.out.println("table_name : " + table_name
+                System.out.println("table_name : " + table
                         + " / column : " + column
                         + " / value : " + value);
 
                 //Appel de fonction
                 //System.out.println(db.selectFromWhere(table_name, column, value));
-                System.out.println(db.getTables().get(table_name).toString());
+                //System.out.println(db.getTables().get(table_name).toString());
                 break;
 
             default:
