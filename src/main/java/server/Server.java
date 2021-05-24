@@ -15,12 +15,10 @@ import parser.NewDataBase;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 public class Server extends AbstractVerticle {
 
-  private DataBase db = DataBase.createInstance("DB_Name");
+  private DataBase db = DataBase.setName("DB_Name");
   private static CSVParser csvp = new CSVParser();
 
   // Sends the HTTP response object with the given status code and JSON object

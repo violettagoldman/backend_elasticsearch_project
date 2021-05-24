@@ -1,19 +1,18 @@
 package logic.request.wTree;
 
-import java.io.Serializable;
-
+/**
+ * class that implements and and or
+ */
 public class Operator {
     public enum Type {
         AND,
         OR
     }
-    private Type type;
+    public final Type type;
 
-    public Operator(Type type){
-        this.type = type;
-    }
-
-    public Type getType() {
-        return type;
-    }
+    /**
+     * constructor
+     * @param type
+     */
+    public Operator(Type type){ this.type = type; }
 }

@@ -1,20 +1,18 @@
  package logic;
 
- import logic.bTree.BTree;
- import logic.bTree.Entry;
-
+ import logic.IndexBTree.BTree;
+ import logic.IndexBTree.Entry;
  import java.security.NoSuchAlgorithmException;
  import java.util.*;
 
- public class Table
- {
+ public class Table {
      private String name;
      private Map<String, Column> columns;
      private int rowsId;
      private Map<String, BTree> index;
 
      /**
-      * Initialise une nouvelle table à partir d'un nom et d'une map <nom colonne , type colonne>
+      * Initialise a new table from a name and a map <column name , column type>.
       * @param name
       * @param columnsMap
       */
@@ -29,7 +27,7 @@
      }
 
      /**
-      * créer une nouvelle table vide
+      * create a new empty table
       * @param name
       */
      public Table(String name){
@@ -40,7 +38,7 @@
      }
 
      /**
-      * change le nombre de lignes contenues dans la table
+      * changes the number of rows contained in the table
       * @param rowsId
       */
      public void setRowsId(int rowsId) {
@@ -48,7 +46,7 @@
      }
 
      /**
-      * retourne les colonne de la table
+      * returns the columns of the table
       * @return
       */
      public Map<String, Column> getColumns() {
@@ -56,7 +54,7 @@
      }
 
      /**
-      * change les colonnes de la table
+      * changes the columns of the table
       * @param columns
       */
      public void setColumns(Map<String, Column> columns) {
@@ -64,7 +62,7 @@
      }
 
      /**
-      * retoune l'index donné en parmètre ou la colonne si l'index n'existe pas
+      * returns the given index in perimeter or the column if the index does not exist
       * @param columnName
       * @return
       */
@@ -81,7 +79,7 @@
      }
 
      /**
-      * clone la table, la nouvelle table ne contient que les colonnes données en paramètre
+      * clones the table, the new table contains only the columns given in parameter
       * @param columnsNames
       * @return
       */
@@ -96,7 +94,7 @@
      }
 
      /**
-      * ajoute une nouvelle ligne à la table, map : <nom colonne, data>
+      * adds a new row to the table, map: <column name, data>
       * @param columnsMap
       */
      public void addLine(Map<String, String> columnsMap){
@@ -107,7 +105,36 @@
      }
 
      /**
-      * retoune une string contenant le nom de la table, les colonnes et l'ensemble des lignes
+      * create index for the columns given as parameters
+      * @param columnsName
+      * @throws NoSuchAlgorithmException
+      */
+     public void createIndex(String[] columnsName) throws NoSuchAlgorithmException {
+         for (int j = 0 ; j< columnsName.length ; j++){
+             BTree btree = new BTree(2, columnsName[j]);
+             for (int i = 0 ; i<rowsId ; i++){
+                btree.insert(columns.get(columnsName[j]).getById(i),i);
+            }
+             index.put(columnsName[j], btree);
+        }
+         if(columnsName.length>1){
+             for (int i = 0 ; i < rowsId ; i++){
+                 for(int j = 0; j < columnsName.length-1 ; j++){
+                     String firstData = columns.get(columnsName[j]).getById(i);
+                     BTree firstIndex = index.get(columnsName[j]);
+                     Entry firstEntry = firstIndex.search(firstData);
+
+                     String secondData = columns.get(columnsName[j+1]).getById(i);
+                     BTree secondIndex = index.get(columnsName[j+1]);
+                     Entry secondEntry = secondIndex.search(secondData);
+                     firstEntry.getAfters().put(i,secondEntry);
+                 }
+             }
+         }
+     }
+
+     /**
+      * returns a string containing the table name, columns and all rows
       * @return
       */
      public String toString(){
@@ -130,38 +157,6 @@
              str = str + "\n";
          }
          return  str;
-     }
-
-     /**
-      * créer des index pour les colonnes données en paramètre
-      * @param columnsName
-      * @throws NoSuchAlgorithmException
-      */
-     public void createIndex(String[] columnsName) throws NoSuchAlgorithmException {
-         for (int j = 0 ; j< columnsName.length ; j++){
-             BTree btree = new BTree(2, columnsName[j]);
-             for (int i = 0 ; i<rowsId ; i++){
-                btree.insert(columns.get(columnsName[j]).getById(i),i);
-            }
-            // btree.traverse();
-             index.put(columnsName[j], btree);
-        }
-         if(columnsName.length>1){
-             for (int i = 0 ; i < rowsId ; i++){
-                 for(int j = 0; j < columnsName.length-1 ; j++){
-                     String firstData = columns.get(columnsName[j]).getById(i);
-                     BTree firstIndex = index.get(columnsName[j]);
-                     Entry firstEntry = firstIndex.search(firstData);
-
-                     String secondData = columns.get(columnsName[j+1]).getById(i);
-                     BTree secondIndex = index.get(columnsName[j+1]);
-                     Entry secondEntry = secondIndex.search(secondData);
-                   //  System.out.println("first :"+firstEntry.getData()+" second : "+secondEntry.getData() +" i : "+i);
-                     firstEntry.getAfters().put(i,secondEntry);
-                 }
-             }
-         }
-         index.get(columnsName[0]).traverse();
      }
 
  }

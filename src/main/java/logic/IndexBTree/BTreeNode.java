@@ -1,18 +1,23 @@
-package logic.bTree;
+package logic.IndexBTree;
 
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * class that implements the btree nodes
+ */
 class BTreeNode{
-
-    Entry[] keys; // keys of nodes
+    Entry[] keys; // entry contained in the node
     int MinDeg; // Minimum degree of B-tree node
     BTreeNode[] children; // Child node
     int num; // Number of keys of node
     boolean isLeaf; // True when leaf node
 
-    // Constructor
+    /**
+     * constructor
+     * @param deg
+     * @param isLeaf
+     */
     public BTreeNode(int deg,boolean isLeaf){
-
         this.MinDeg = deg;
         this.isLeaf = isLeaf;
         this.keys = new Entry[2*this.MinDeg-1]; // Node has 2*MinDeg-1 keys at most
@@ -20,9 +25,129 @@ class BTreeNode{
         this.num = 0;
     }
 
-    // Find the first location index equal to or greater than key
-    public int findKey(int key){
+    /**
+     * insert the new Entry
+     * @param entry
+     */
+    public void insertNotFull(Entry entry){
+        int key = entry.getKey();
+        int i = num -1; // Initialize i as the rightmost index
 
+        if (isLeaf){ // When it is a leaf node
+            // Find the location where the new key should be inserted
+            while (i >= 0 && keys[i].getKey() > key){
+                keys[i+1] = keys[i]; // keys backward shift
+                i--;
+            }
+            keys[i+1]=entry;
+            num = num +1;
+        }
+        else{
+            // Find the child node location that should be inserted
+            while (i >= 0 && keys[i].getKey() > key)
+                i--;
+            if (children[i+1].num == 2*MinDeg - 1){ // When the child node is full
+                splitChild(i+1,children[i+1]);
+                // After splitting, the key in the middle of the child node moves up, and the child node splits into two
+                if (keys[i+1].getKey() < key)
+                    i++;
+            }
+            children[i+1].insertNotFull(entry);
+        }
+    }
+
+    /**
+     *  When the child node is full, split the child
+     * @param i
+     * @param y
+     */
+    public void splitChild(int i ,BTreeNode y){
+
+        // First, create a node to hold the keys of MinDeg-1 of y
+        BTreeNode z = new BTreeNode(y.MinDeg,y.isLeaf);
+        z.num = MinDeg - 1;
+
+        // Pass the properties of y to z
+        for (int j = 0; j < MinDeg-1; j++)
+            z.keys[j] = y.keys[j+MinDeg];
+        if (!y.isLeaf){
+            for (int j = 0; j < MinDeg; j++)
+                z.children[j] = y.children[j+MinDeg];
+        }
+        y.num = MinDeg-1;
+
+        // Insert a new child into the child
+        for (int j = num; j >= i+1; j--)
+            children[j+1] = children[j];
+        children[i+1] = z;
+
+        // Move a key in y to this node
+        for (int j = num-1;j >= i;j--)
+            keys[j+1] = keys[j];
+        keys[i] = y.keys[MinDeg-1];
+
+        num = num + 1;
+    }
+
+    /**
+     * used by the btree to display the index
+     */
+    public void traverse(){
+        int i;
+        for (i = 0; i< num; i++){
+            if (!isLeaf)
+                children[i].traverse();
+            System.out.printf(keys[i].toString());
+        }
+
+        if (!isLeaf){
+            children[i].traverse();
+        }
+    }
+
+    /**
+     * returns the node containing the data
+     * @param data
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public BTreeNode searchNode(String data) throws NoSuchAlgorithmException {
+        int key =  new Entry(data, 0).getKey();
+        int i = 0;
+        while (i < num && key > keys[i].getKey())
+            i++;
+        if (i<2*MinDeg-1 && keys[i]!=null && keys[i].getKey() == key)
+            return this;
+        if (isLeaf)
+            return null;
+        return children[i].searchNode(data);
+    }
+
+    /**
+     * returns the entry containing the data
+     * @param data
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public Entry search(String data) throws NoSuchAlgorithmException {
+        int key =  new Entry(data, 0).getKey();
+        int i = 0;
+        while (i < num &&  key > keys[i].getKey() )
+            i++;
+        if (i<2*MinDeg-1 && keys[i]!=null && keys[i].getKey() == key) {
+            return keys[i];
+        }
+        if (isLeaf)
+            return null;
+        return children[i].search(data);
+    }
+
+    /**
+     * Find the first location index equal to or greater than key
+     * @param key
+     * @return
+     */
+    public int findKey(int key){
         int idx = 0;
         // The conditions for exiting the loop are: 1.idx == num, i.e. scan all of them once
         // 2. IDX < num, i.e. key found or greater than key
@@ -31,9 +156,11 @@ class BTreeNode{
         return idx;
     }
 
-
+    /**
+     * remove the corresponding entry
+     * @param key
+     */
     public void remove(int key){
-
         int idx = findKey(key);
         if (idx < num && keys[idx].getKey() == key){ // Find key
             if (isLeaf) // key in leaf node
@@ -55,29 +182,30 @@ class BTreeNode{
 
             if (children[idx].num < MinDeg) // When the child node of the node is not full, fill it first
                 fill(idx);
-
-
             //If the last child node has been merged, it must have been merged with the previous child node, so we recurse on the (idx-1) child node.
             // Otherwise, we recurse to the (idx) child node, which now has at least the keys of the minimum degree
-            if (flag && idx > num)
-                children[idx-1].remove(key);
-            else
-                children[idx].remove(key);
+            if (flag && idx > num) children[idx-1].remove(key);
+            else children[idx].remove(key);
         }
     }
 
+    /**
+     * remove if the key in leaf node
+     * @param idx
+     */
     public void removeFromLeaf(int idx){
-
         // Shift from idx
         for (int i = idx +1;i < num;++i)
             keys[i-1] = keys[i];
         num --;
     }
 
+    /**
+     * remove if the key is not in the leaf node
+     * @param idx
+     */
     public void removeFromNonLeaf(int idx){
-
         int key = keys[idx].getKey();
-
         // If the subtree before key (children[idx]) has at least t keys
         // Then find the precursor 'pred' of key in the subtree with children[idx] as the root
         // Replace key with 'pred', recursively delete pred in children[idx]
@@ -105,7 +233,6 @@ class BTreeNode{
     }
 
     public int getPred(int idx){ // The predecessor node is the node that always finds the rightmost node from the left subtree
-
         // Move to the rightmost node until you reach the leaf node
         BTreeNode cur = children[idx];
         while (!cur.isLeaf)
@@ -222,102 +349,5 @@ class BTreeNode{
 
         child.num += sibling.num + 1;
         num--;
-    }
-
-
-    public void insertNotFull(Entry entry){
-        int key = entry.getKey();
-        int i = num -1; // Initialize i as the rightmost index
-
-        if (isLeaf){ // When it is a leaf node
-            // Find the location where the new key should be inserted
-            while (i >= 0 && keys[i].getKey() > key){
-                keys[i+1] = keys[i]; // keys backward shift
-                i--;
-            }
-            keys[i+1]=entry;
-            num = num +1;
-        }
-        else{
-            // Find the child node location that should be inserted
-            while (i >= 0 && keys[i].getKey() > key)
-                i--;
-            if (children[i+1].num == 2*MinDeg - 1){ // When the child node is full
-                splitChild(i+1,children[i+1]);
-                // After splitting, the key in the middle of the child node moves up, and the child node splits into two
-                if (keys[i+1].getKey() < key)
-                    i++;
-            }
-            children[i+1].insertNotFull(entry);
-        }
-    }
-
-
-    public void splitChild(int i ,BTreeNode y){
-
-        // First, create a node to hold the keys of MinDeg-1 of y
-        BTreeNode z = new BTreeNode(y.MinDeg,y.isLeaf);
-        z.num = MinDeg - 1;
-
-        // Pass the properties of y to z
-        for (int j = 0; j < MinDeg-1; j++)
-            z.keys[j] = y.keys[j+MinDeg];
-        if (!y.isLeaf){
-            for (int j = 0; j < MinDeg; j++)
-                z.children[j] = y.children[j+MinDeg];
-        }
-        y.num = MinDeg-1;
-
-        // Insert a new child into the child
-        for (int j = num; j >= i+1; j--)
-            children[j+1] = children[j];
-        children[i+1] = z;
-
-        // Move a key in y to this node
-        for (int j = num-1;j >= i;j--)
-            keys[j+1] = keys[j];
-        keys[i] = y.keys[MinDeg-1];
-
-        num = num + 1;
-    }
-
-
-    public void traverse(){
-        int i;
-        for (i = 0; i< num; i++){
-            if (!isLeaf)
-                children[i].traverse();
-            System.out.printf(keys[i].toString());
-        }
-
-        if (!isLeaf){
-            children[i].traverse();
-        }
-    }
-
-
-    public BTreeNode searchNode(String data) throws NoSuchAlgorithmException {
-        int key =  new Entry(data, 0).getKey();
-        int i = 0;
-        while (i < num && key > keys[i].getKey())
-            i++;
-        if (i<2*MinDeg-1 && keys[i]!=null && keys[i].getKey() == key)
-            return this;
-        if (isLeaf)
-            return null;
-        return children[i].searchNode(data);
-    }
-
-    public Entry search(String data) throws NoSuchAlgorithmException {
-        int key =  new Entry(data, 0).getKey();
-        int i = 0;
-        while (i < num &&  key > keys[i].getKey() )
-            i++;
-        if (i<2*MinDeg-1 && keys[i]!=null && keys[i].getKey() == key) {
-            return keys[i];
-        }
-        if (isLeaf)
-            return null;
-        return children[i].search(data);
     }
 }

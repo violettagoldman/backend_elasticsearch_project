@@ -84,7 +84,7 @@ public class JsonTest {
 
         table.createIndex(new String [] {"Ville Départ", "Ville arrivée"});
 
-        DataBase db = DataBase.createInstance("Voyage");
+        DataBase db = DataBase.setName("Voyage");
         db.getTables().put("voyage", table);
 
 
