@@ -2,8 +2,10 @@ package json;
 
 import logic.DataBase;
 import logic.Table;
+import logic.json.Json;
 import org.junit.Test;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,18 +17,21 @@ public class JsonTest {
     public void select() throws IOException {
 
         final String data = "{\n" +
-                "  \"request\":\n" +
+                "\t\"method\":\n" +
                 "  {\n" +
-                "    \"method\" :\"select\"\n" +
+                "    \"method_name\" :\"select\" \n" +
                 "  },\n" +
-                "  \"args\":\n" +
-                "  [\n" +
-                "    {\n" +
-                "      \"table_name\": \"test_table_name\",\n" +
-                "      \"column\": \"test_column\",\n" +
-                "      \"value\": \"test_value\"\n" +
-                "    }\n" +
-                "  ]\n" +
+                "\t\"table\":\n" +
+                "  {\n" +
+                "    \"table_name\" :\"test_table_name\" \n" +
+                "  },\n" +
+                "  \t\"args\":\n" +
+                "    [\n" +
+                "      {\n" +
+                "        \"column\": \"test_column\",\n" +
+                "        \"value\": \"test_value\"\n" +
+                "      }\n" +
+                "    ]\n" +
                 "}";
 
         json(data);
@@ -36,25 +41,28 @@ public class JsonTest {
     public void no_method() throws IOException {
 
         final String data = "{\n" +
-                "  \"request\":\n" +
+                "\t\"method\":\n" +
                 "  {\n" +
-                "    \"method\" :\"test\"\n" +
+                "    \"method_name\" :\"test\" \n" +
                 "  },\n" +
-                "  \"args\":\n" +
-                "  [\n" +
-                "    {\n" +
-                "      \"table_name\": \"test_table_name\",\n" +
-                "      \"column\": \"test_column\",\n" +
-                "      \"value\": \"test_value\"\n" +
-                "    }\n" +
-                "  ]\n" +
+                "\t\"table\":\n" +
+                "  {\n" +
+                "    \"table_name\" :\"test_table_name\" \n" +
+                "  },\n" +
+                "  \t\"args\":\n" +
+                "    [\n" +
+                "      {\n" +
+                "        \"column\": \"test_column\",\n" +
+                "        \"value\": \"test_value\"\n" +
+                "      }\n" +
+                "    ]\n" +
                 "}";
 
         json(data);
     }
 
     @Test
-    public void select_with_function() throws IOException {
+    public void select_with_function() throws IOException, NoSuchAlgorithmException {
 
         Map<String, String> columnsMap = new HashMap<>();
         columnsMap.put("Ville Départ", "String");
@@ -82,22 +90,27 @@ public class JsonTest {
 
         table.createIndex(new String [] {"Ville Départ", "Ville arrivée"});
 
-        DataBase db = new DataBase("Voyage");
-        db.tables.put("voyage", table);
+        DataBase db = DataBase.createInstance("Voyage");
+        db.getTables().put("voyage", table);
 
+
+        Json.setDb(db);
         final String data = "{\n" +
-                "  \"request\":\n" +
+                "\t\"method\":\n" +
                 "  {\n" +
-                "    \"method\" :\"select\"\n" +
+                "    \"method_name\" :\"select\" \n" +
                 "  },\n" +
-                "  \"args\":\n" +
-                "  [\n" +
-                "    {\n" +
-                "      \"table_name\": \"voyage\",\n" +
-                "      \"column\": \"Ville arrivée\",\n" +
-                "      \"value\": \"Bordeaux\"\n" +
-                "    }\n" +
-                "  ]\n" +
+                "\t\"table\":\n" +
+                "  {\n" +
+                "    \"table_name\" :\"Voyage\" \n" +
+                "  },\n" +
+                "  \t\"args\":\n" +
+                "    [\n" +
+                "      {\n" +
+                "        \"column\": \"Ville Départ\",\n" +
+                "        \"value\": \"Paris\"\n" +
+                "      }\n" +
+                "    ]\n" +
                 "}";
 
         json(data);

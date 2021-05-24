@@ -4,25 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class Method {
 
-    @SerializedName("method")
-    private String method;
+    @SerializedName("method_name")
+    private String methodName;
 
     public Method() {
     }
 
-    public Method(String method) {
+    public Method(String methodName) {
         super();
-        this.method = method;
+        this.methodName = methodName;
     }
 
-    public String getMethod() {
-        return method;
+    public String getMethodName() {
+        return methodName;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
     }
 
 }
-
-
