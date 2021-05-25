@@ -16,8 +16,8 @@ public class DatasOnDisk {
     private long countLines;
 
     public DatasOnDisk() throws FileNotFoundException {
-        datas = new RandomAccessFile(Paths.get("src", "main", "resources", "datas").toString(), "rw");
-        positions = new RandomAccessFile(Paths.get("src", "main", "resources", "positions").toString(), "rw");
+        datas = new RandomAccessFile(Paths.get("src", "resources", "datas").toString(), "rw");
+        positions = new RandomAccessFile(Paths.get("src", "resources", "positions").toString(), "rw");
     }
 
     public void writeLine(String[] line, ArrayList<Column> columns) throws IOException {
@@ -75,54 +75,6 @@ public class DatasOnDisk {
         positions.read(positionArrayBytes, 0, sizeByte);
 
         return SerializationUtils.deserialize(positionArrayBytes);
-    }
-
-    // PENSEZ A SUPPRIMER LES FICHIERS APRES CHAQUE ESSAI
-    public static void main (String[] args) throws IOException {
-
-        Column id = new Column("Id", "int");
-        Column prenom = new Column("Prenom", "String");
-        Column couleur = new Column("couleur", "String");
-        Column age = new Column("age", "int");
-
-        ArrayList<Column> columns = new ArrayList<>();
-        columns.add(id);
-        columns.add(prenom);
-        columns.add(couleur);
-        columns.add(age);
-
-        String[] line1 = {"1", "Titi", "Jaune", "5"};
-        String[] line2 = {"2", "Medor", "Noir", "10"};
-        String[] line3 = {"3", "Pitie", "Noir", "5"};
-        String[] line4 = {"4", "Juju", "Gris", "5"};
-        String[] line5 = {"5", "Vanille", "Blanc", "7"};
-        String[] line6 = {"6", "Chocolat", "Marron", "12"};
-        String[] line7 = {"7", "Milou", "Blanc", "3"};
-        String[] line8 = {"8", "Idefix", "Blanc", "14"};
-        String[] line9 = {"9", "Pluto", "Jaune", "17"};
-        String[] line10 = {"10", "Dingo", "Roux", "1"};
-
-        DatasOnDisk fm = new DatasOnDisk();
-        fm.writeLine(line1, columns);
-        fm.writeLine(line2, columns);
-        fm.writeLine(line3, columns);
-        fm.writeLine(line4, columns);
-        fm.writeLine(line5, columns);
-        fm.writeLine(line6, columns);
-        fm.writeLine(line7, columns);
-        fm.writeLine(line8, columns);
-        fm.writeLine(line9, columns);
-        fm.writeLine(line10, columns);
-
-        Object[] data;
-        for (int i = 0; i < 10; i++) {
-            data = fm.readLine(i, columns);
-            for (Object datum : data) {
-                System.out.print(datum + ", ");
-            }
-            System.out.print("\n");
-        }
-
     }
 
 }
