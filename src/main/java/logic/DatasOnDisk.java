@@ -20,6 +20,12 @@ public class DatasOnDisk {
         positions = new RandomAccessFile(Paths.get("src", "resources", "positions").toString(), "rw");
     }
 
+    /**
+     * Write the line in the file 'datas'
+     * @param line
+     * @param columns
+     * @throws IOException
+     */
     public void writeLine(String[] line, ArrayList<Column> columns) throws IOException {
         long startPos = datas.length();
         if (startPos > 0) {
@@ -39,6 +45,11 @@ public class DatasOnDisk {
         countLines++;
     }
 
+    /**
+     * Write the position of a line in the file 'positions'
+     * @param positions
+     * @throws IOException
+     */
     private void writePositions(long[] positions) throws IOException {
         long startPosition = sizeByte * countLines;
         if (countLines > 1) {
@@ -52,6 +63,13 @@ public class DatasOnDisk {
         this.positions.write(positionArrayBytes);
     }
 
+    /**
+     * Read a line from its number and columns
+     * @param noLine
+     * @param cols
+     * @return a line split by its components
+     * @throws IOException
+     */
     public Object[] readLine(int noLine, ArrayList<Column> cols) throws IOException {
         long[] linePos = readPositions(noLine);
         datas.seek(linePos[0]);
@@ -64,6 +82,12 @@ public class DatasOnDisk {
         return line;
     }
 
+    /**
+     * Read the position of a line based on its number
+     * @param noLine
+     * @return the position of the line and its size
+     * @throws IOException
+     */
     private long[] readPositions(int noLine) throws IOException {
         long startPosition = (long) sizeByte * noLine;
         if (noLine > 1) {
