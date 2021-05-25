@@ -1,3 +1,4 @@
+/*
 package parser;
 
 import org.junit.BeforeClass;
@@ -13,7 +14,7 @@ import java.net.URL;
 import static org.junit.Assert.assertEquals;
 
 public class CSVParserTest {
-/*
+
 	private static CSVParser csvp = new CSVParser();
 
 	private static String fileName;
@@ -28,7 +29,7 @@ public class CSVParserTest {
 
 	@Test
 	public void get_content_for_local_CSV() throws IOException {
-		/*List<String> contentGet = csvp.readFileLocal(fileName);
+		List<String> contentGet = csvp.readFileLocal(fileName);
 
 		List<String> content = new ArrayList<>();
 		content.add("Id,Prénom,Couleur,Age");
@@ -46,7 +47,7 @@ public class CSVParserTest {
 		int numberLines = 11;
 
 		assertEquals(contentGet.size(), numberLines);
-		assertEquals(contentGet, content);*/
+		assertEquals(contentGet, content);
 	}
 
 	@Test
@@ -65,5 +66,6 @@ public class CSVParserTest {
 		assertEquals(contentGet.size(), numberLines);
 		assertEquals(contentGet, content);
 	}
-*/
+
 }
+*/

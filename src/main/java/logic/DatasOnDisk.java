@@ -8,14 +8,14 @@ import java.io.RandomAccessFile;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class FileManager {
+public class DatasOnDisk {
 
     private final int sizeByte = 43;
     private final RandomAccessFile datas;
     private final RandomAccessFile positions;
     private long countLines;
 
-    public FileManager() throws FileNotFoundException {
+    public DatasOnDisk() throws FileNotFoundException {
         datas = new RandomAccessFile(Paths.get("src", "main", "resources", "datas").toString(), "rw");
         positions = new RandomAccessFile(Paths.get("src", "main", "resources", "positions").toString(), "rw");
     }
@@ -33,13 +33,13 @@ public class FileManager {
             lineSize += columns.get(i).writeToFile(datas, line[i]);
         }
 
-        savePositionsToFile(new long[]{startPos, lineSize});
+        writePositions(new long[]{startPos, lineSize});
         datas.seek(startPos);
 
         countLines++;
     }
 
-    private void savePositionsToFile(long[] positions) throws IOException {
+    private void writePositions(long[] positions) throws IOException {
         long startPosition = sizeByte * countLines;
         if (countLines > 1) {
             startPosition++;
@@ -53,7 +53,7 @@ public class FileManager {
     }
 
     public Object[] readLine(int noLine, ArrayList<Column> cols) throws IOException {
-        long[] linePos = readPositionOfLine(noLine);
+        long[] linePos = readPositions(noLine);
         datas.seek(linePos[0]);
 
         Object[] line = new Object[cols.size()];
@@ -64,7 +64,7 @@ public class FileManager {
         return line;
     }
 
-    private long[] readPositionOfLine(int noLine) throws IOException {
+    private long[] readPositions(int noLine) throws IOException {
         long startPosition = (long) sizeByte * noLine;
         if (noLine > 1) {
             startPosition++;
@@ -102,7 +102,7 @@ public class FileManager {
         String[] line9 = {"9", "Pluto", "Jaune", "17"};
         String[] line10 = {"10", "Dingo", "Roux", "1"};
 
-        FileManager fm = new FileManager();
+        DatasOnDisk fm = new DatasOnDisk();
         fm.writeLine(line1, columns);
         fm.writeLine(line2, columns);
         fm.writeLine(line3, columns);
