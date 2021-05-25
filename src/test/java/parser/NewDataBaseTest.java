@@ -3,6 +3,7 @@ package parser;
 import logic.DataBase;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -14,9 +15,9 @@ public class NewDataBaseTest {
 
     @Test
     public void indexation_csv() throws IOException {
-        /*DataBase db = ndb.inIndex("src/dogs.csv");
+        DataBase db = ndb.inIndex(new File("src/resources/dogs.csv"));
 
-        String result = "dogs=Nom de la table : dogs\n" +
+        String result = "Table_Name=Nom de la table : Table_Name\n" +
                 "Nom de la colonne : Age Type : String\n" +
                 "id : 0 value : 5\n" +
                 "id : 1 value : 10\n" +
@@ -66,12 +67,11 @@ public class NewDataBaseTest {
                 "id : 9 value : Dingo\n\n";
 
         assertEquals(db.toString(), result);
-*/
     }
 
     @Test
     public void trimed_a_file_name() {
-        String nameTrimed_1 = ndb.trimName("/src/dogs.csv");
+        String nameTrimed_1 = ndb.trimName("src/dogs.csv");
         String nameWeWant_1 = "dogs";
 
         String nameTrimed_2 = ndb.trimName("/src/main/java/quelque_chose.csv");
