@@ -2,6 +2,7 @@ package server;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
@@ -12,6 +13,8 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import logic.DataBase;
 import parser.NewDataBase;
+
+import static logic.json.Json.json;
 
 public class Node extends AbstractVerticle {
     
@@ -75,7 +78,8 @@ public class Node extends AbstractVerticle {
         sendReponse(ctx, 200, response);
     }
 
-    void get(RoutingContext ctx, JsonObject request) {
+    void get(RoutingContext ctx, JsonObject request) throws NoSuchAlgorithmException{
+        String result = "";
         String table = request.getString("table");
         String method = request.getString("method");
         String args = request.getString("args");
@@ -87,9 +91,23 @@ public class Node extends AbstractVerticle {
         }
         // Actual handling
         JsonObject response = new JsonObject();
-        response.put("message", "test");
-        response.put("data", DataBase.getInstance().toString());
-        response.put("test", request);
+        //String test = request.toString();
+
+        final String data = "{\n" +
+                "    \"method\": \"select\",\n" +
+                "    \"table\": \"voyage\",\n" +
+                "  \t\"args\":\n" +
+                "    [\n" +
+                "      {\n" +
+                "        \"column\": \"Ville Départ\",\n" +
+                "        \"value\": \"Paris\"\n" +
+                "      }\n" +
+                "    ]\n" +
+                "}";
+
+        result = json(data);
+
+        response.put("data", result);
         sendReponse(ctx, 200, response);
     }
 
@@ -134,8 +152,13 @@ public class Node extends AbstractVerticle {
 
         router.route("/get").handler(ctx -> {
             JsonObject body = parseBody(ctx);
-            if (body != null)
-                get(ctx, body);
+            if (body != null) {
+                try {
+                    get(ctx, body);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
         // Default route

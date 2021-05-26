@@ -1,42 +1,76 @@
-package logic.bTree;
+package logic.IndexBTree;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
+import java.util.ArrayList;
 
+/**
+ * class that implements a btree to serve as an index
+ */
 public class BTree{
+    public final String name;
     BTreeNode root;
     int MinDeg;
 
-    // Constructor
-    public BTree(int deg){
+    /**
+     * Constructor
+     * @param deg
+     * @param name
+     */
+    public BTree(int deg, String name){
+        this.name = name;
         this.root = null;
         this.MinDeg = deg;
     }
 
+    /**
+     * displays the index
+     */
     public void traverse(){
+        System.out.println("____Index "+name+"____\n");
         if (root != null){
             root.traverse();
         }
     }
 
-    // Function to find key
+    /**
+     * returns the node containing the data
+     * @param data
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     public BTreeNode searchNode(String data) throws NoSuchAlgorithmException{
         return root == null ? null : root.searchNode(data);
     }
 
-    //fonction to find a entry
+    /**
+     * returns the entry containing the data
+     * @param data
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     public Entry search(String data) throws NoSuchAlgorithmException{
         return root == null ? null : root.search(data);
     }
 
-    //fonction qui renvoie la liste des occurences
-    public List<Integer> occurences(String data) throws NoSuchAlgorithmException {
-        return search(data).getOccurrencesList();
+    /**
+     * returns the list of occurrences
+     * @param data
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public ArrayList occurrences(String data) throws NoSuchAlgorithmException {
+        return search(data) != null ? search(data).getOccurrencesList() : new ArrayList<>();
     }
 
+    /**
+     * inserts a new data or adds the new occurrence to the existing entry
+     * @param data
+     * @param id
+     * @throws NoSuchAlgorithmException
+     */
     public void insert(String data, int id) throws NoSuchAlgorithmException {
-        Entry entry = new Entry(data);
-        entry.getOccurrences().put(id, new Occurence(id));
+        Entry entry = new Entry(data,id);
+        entry.getAfters().put(id, null);
         int key = entry.getKey();
         if (root == null){
 
@@ -44,7 +78,7 @@ public class BTree{
             root.keys[0] = entry;
             root.num = 1;
         } else if(this.search(data)!=null){
-            this.search(data).getOccurrences().put(id, new Occurence(id));
+            this.search(data).getAfters().put(id, null);
         } else {
             // When the root node is full, the tree will grow high
             if (root.num == 2*MinDeg-1){
@@ -58,21 +92,21 @@ public class BTree{
                 if (s.keys[0].getKey()< key)
                     i++;
                 s.children[i].insertNotFull(entry);
-
                 root = s;
-            } else
-                root.insertNotFull(entry);
+            } else root.insertNotFull(entry);
         }
     }
 
+    /**
+     * removes an occurrence from a data
+     * @param key
+     */
     public void remove(int key){
         if (root == null){
             System.out.println("The tree is empty");
             return;
         }
-
         root.remove(key);
-
         if (root.num == 0){ // If the root node has 0 keys
             // If it has a child, its first child is taken as the new root,
             // Otherwise, set the root node to null

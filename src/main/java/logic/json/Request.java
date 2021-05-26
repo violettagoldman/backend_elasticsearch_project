@@ -12,7 +12,7 @@ public class Request {
     @SerializedName("args")
     private List<Arg> args = null;
 
-    public Request() {
+    public Request(String voyage, String[] strings, List args) {
     }
 
     public Request(String method, String table, List<Arg> args) {

@@ -14,17 +14,11 @@ import static logic.json.Json.json;
 public class JsonTest {
 
     @Test
-    public void select() throws IOException {
+    public void no_method() throws IOException, NoSuchAlgorithmException {
 
         final String data = "{\n" +
-                "\t\"method\":\n" +
-                "  {\n" +
-                "    \"method_name\" :\"select\" \n" +
-                "  },\n" +
-                "\t\"table\":\n" +
-                "  {\n" +
-                "    \"table_name\" :\"test_table_name\" \n" +
-                "  },\n" +
+                "    \"method\": \"no_method\",\n" +
+                "    \"table\": \"table_name\",\n" +
                 "  \t\"args\":\n" +
                 "    [\n" +
                 "      {\n" +
@@ -34,35 +28,12 @@ public class JsonTest {
                 "    ]\n" +
                 "}";
 
-        json(data);
+        String test = json(data);
+        System.out.println(test);
     }
 
     @Test
-    public void no_method() throws IOException {
-
-        final String data = "{\n" +
-                "\t\"method\":\n" +
-                "  {\n" +
-                "    \"method_name\" :\"test\" \n" +
-                "  },\n" +
-                "\t\"table\":\n" +
-                "  {\n" +
-                "    \"table_name\" :\"test_table_name\" \n" +
-                "  },\n" +
-                "  \t\"args\":\n" +
-                "    [\n" +
-                "      {\n" +
-                "        \"column\": \"test_column\",\n" +
-                "        \"value\": \"test_value\"\n" +
-                "      }\n" +
-                "    ]\n" +
-                "}";
-
-        json(data);
-    }
-
-    @Test
-    public void select_with_function() throws IOException, NoSuchAlgorithmException {
+    public void select() throws IOException, NoSuchAlgorithmException {
 
         Map<String, String> columnsMap = new HashMap<>();
         columnsMap.put("Ville Départ", "String");
@@ -90,20 +61,14 @@ public class JsonTest {
 
         table.createIndex(new String [] {"Ville Départ", "Ville arrivée"});
 
-        DataBase db = DataBase.createInstance("Voyage");
+        DataBase db = DataBase.setName("Voyage");
         db.getTables().put("voyage", table);
 
 
         Json.setDb(db);
         final String data = "{\n" +
-                "\t\"method\":\n" +
-                "  {\n" +
-                "    \"method_name\" :\"select\" \n" +
-                "  },\n" +
-                "\t\"table\":\n" +
-                "  {\n" +
-                "    \"table_name\" :\"Voyage\" \n" +
-                "  },\n" +
+                "    \"method\": \"select\",\n" +
+                "    \"table\": \"voyage\",\n" +
                 "  \t\"args\":\n" +
                 "    [\n" +
                 "      {\n" +
@@ -113,6 +78,7 @@ public class JsonTest {
                 "    ]\n" +
                 "}";
 
-        json(data);
+        String test = json(data);
+        System.out.println(test);
     }
 }
