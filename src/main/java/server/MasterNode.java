@@ -119,6 +119,8 @@ public class MasterNode extends AbstractVerticle {
 
         JsonObject response = new JsonObject();
         response.put("message", "Successfully uploaded data.");
+        response.put("testNODEMASTER", "testNODEMASTER");
+
         sendReponse(ctx, 200, response);
     }
 
@@ -137,9 +139,9 @@ public class MasterNode extends AbstractVerticle {
             response.put("error", "Needed params in body: table_name, method, args.");
             sendReponse(ctx, 422, response);
         }
-
         // We choose a random server to get the data
         int server = 1 + (int)(Math.random() * 3);
+
         System.out.println("Forwarding get request to server " + server + ".");
         nodeRequest("/get", String.valueOf(server), request).onComplete(resp -> {
             if (resp.succeeded()) {

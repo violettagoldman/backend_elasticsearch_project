@@ -48,6 +48,8 @@ public class DataBaseTest {
 
         DataBase db = setName("Voyage");
         db.getTables().put("voyage", table);
+
+
     }
 
     @Test

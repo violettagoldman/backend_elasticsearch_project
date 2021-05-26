@@ -45,7 +45,8 @@ public class Node extends AbstractVerticle {
         // Actual behaviour
         JsonObject response = new JsonObject();
         response.put("message", "Successfully created a new table.");
-        sendReponse(ctx, 200, response);
+        //DataBase.getInstance().newTable(table_name, );
+        // NEW JSON CREATE TABLE MAP STRING STRING NOM DE COLONNE / TYPE
     }
 
     void createIndex(RoutingContext ctx, JsonObject request) {
@@ -53,9 +54,19 @@ public class Node extends AbstractVerticle {
         String columns = request.getString("columns");
         System.out.println("/createindex with table_name=" + table_name + " and columns=" + columns);
         // Actual behaviour
+        try {
+            DataBase.getInstance().getTables().get(table_name).createIndex(new String[]{columns});
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         JsonObject response = new JsonObject();
         response.put("message", "Successfully updated indices.");
-        sendReponse(ctx, 200, response);
+
+        //JSON POUR CREATE INDEX AVEC TABLEAU DES NOMS DES COLONNES
+
+        DataBase.getInstance().getTables().get("Table_Name").getIndex().get(columns).traverse();
+
+
     }
 
     void uploadCSV(RoutingContext ctx, JsonObject request) {
@@ -73,9 +84,9 @@ public class Node extends AbstractVerticle {
             e.printStackTrace();
             return;
         }
-        JsonObject response = new JsonObject();
-        response.put("message", "Successfully uploaded data.");
-        sendReponse(ctx, 200, response);
+
+        System.out.println(DataBase.getInstance().getTables().get("Table_Name").toString());
+
     }
 
     void get(RoutingContext ctx, JsonObject request) throws NoSuchAlgorithmException{
@@ -91,20 +102,8 @@ public class Node extends AbstractVerticle {
         }
         // Actual handling
         JsonObject response = new JsonObject();
-        //String test = request.toString();
 
-        final String data = "{\n" +
-                "    \"method\": \"select\",\n" +
-                "    \"table\": \"voyage\",\n" +
-                "  \t\"args\":\n" +
-                "    [\n" +
-                "      {\n" +
-                "        \"column\": \"Ville Départ\",\n" +
-                "        \"value\": \"Paris\"\n" +
-                "      }\n" +
-                "    ]\n" +
-                "}";
-
+        String data = request.toString();
         result = json(data);
 
         response.put("data", result);

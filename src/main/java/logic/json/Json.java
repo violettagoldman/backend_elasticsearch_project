@@ -18,8 +18,6 @@ public class Json {
     private static String value;
     public static String str;
 
-    private static DataBase db;
-
     public static String json(String request) throws NoSuchAlgorithmException {
 
         Gson gson = new Gson();
@@ -52,24 +50,18 @@ public class Json {
                 args.add(ArgWhere.newEnd());
 
                 //Appel de fonction
-                logic.request.Request r = new logic.request.Request(table, columnsNames.toArray(new String[0]) ,args );
-
+                logic.request.Request r = new logic.request.Request(table, new String[]{} ,args );
 
                 str = r.getResult().toString();
-                System.out.println(str);
                 break;
 
             default:
-                System.out.println("No method find");
                 str = "No method find";
                 break;
         }
         return str;
     }
 
-    public static void setDb(DataBase db) {
-        Json.db = db;
-    }
 }
 
 

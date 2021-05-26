@@ -1,5 +1,6 @@
 package json;
 
+import dataBase.DataBaseTest;
 import logic.DataBase;
 import logic.Table;
 import logic.json.Json;
@@ -35,45 +36,19 @@ public class JsonTest {
     @Test
     public void select() throws IOException, NoSuchAlgorithmException {
 
-        Map<String, String> columnsMap = new HashMap<>();
-        columnsMap.put("Ville Départ", "String");
-        columnsMap.put("Ville arrivée", "String");
-        columnsMap.put("Prix", "Int");
-        Table table = new Table("Voyages", columnsMap);
+        DataBaseTest db = new DataBaseTest();
+        db.initDataBase();
+        DataBase.getInstance().getTables().get("voyage").createIndex(
+                new String [] {"Ville Départ", "Ville arrivée", "Prix"});
 
-        Map<String, String> bordeauxParis = new HashMap<>();
-        bordeauxParis.put("Ville Départ", "Paris");
-        bordeauxParis.put("Ville arrivée", "Bordeaux");
-        bordeauxParis.put("Prix", "75");
-        table.addLine(bordeauxParis);
-
-        Map<String, String> bordeauxParis2 = new HashMap<>();
-        bordeauxParis2.put("Ville Départ", "Paris");
-        bordeauxParis2.put("Ville arrivée", "Bordeaux");
-        bordeauxParis2.put("Prix", "75");
-        table.addLine(bordeauxParis2);
-
-        Map<String, String> parisStDenis = new HashMap<>();
-        parisStDenis.put("Ville Départ", "Paris");
-        parisStDenis.put("Ville arrivée", "StDenis");
-        parisStDenis.put("Prix", "3000");
-        table.addLine(parisStDenis);
-
-        table.createIndex(new String [] {"Ville Départ", "Ville arrivée"});
-
-        DataBase db = DataBase.setName("Voyage");
-        db.getTables().put("voyage", table);
-
-
-        Json.setDb(db);
         final String data = "{\n" +
                 "    \"method\": \"select\",\n" +
                 "    \"table\": \"voyage\",\n" +
                 "  \t\"args\":\n" +
                 "    [\n" +
                 "      {\n" +
-                "        \"column\": \"Ville Départ\",\n" +
-                "        \"value\": \"Paris\"\n" +
+                "        \"column\": \"Ville arrivée\",\n" +
+                "        \"value\": \"Bordeaux\"\n" +
                 "      }\n" +
                 "    ]\n" +
                 "}";
