@@ -3,18 +3,21 @@ package server;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import logic.DataBase;
 import parser.NewDataBase;
 
-import static logic.json.Json.json;
+import static logic.json.jsonGet.JsonGet.json;
+import static logic.json.jsonIndex.JsonIndex.jsonIndex;
+import static logic.json.jsonTable.JsonTable.jsonTable;
+
 
 public class Node extends AbstractVerticle {
     
@@ -39,34 +42,45 @@ public class Node extends AbstractVerticle {
     }
 
     void createTable(RoutingContext ctx, JsonObject request) {
+        Map<String, String> result = null;
         String table_name = request.getString("table_name");
         String table_headers = request.getString("table_headers");
         System.out.println("/createtable with table_name=" + table_name + " and table_headers=" + table_headers);
-        // Actual behaviour
-        JsonObject response = new JsonObject();
-        response.put("message", "Successfully created a new table.");
-        //DataBase.getInstance().newTable(table_name, );
-        // NEW JSON CREATE TABLE MAP STRING STRING NOM DE COLONNE / TYPE
-    }
 
-    void createIndex(RoutingContext ctx, JsonObject request) {
-        String table_name = request.getString("table_name");
-        String columns = request.getString("columns");
-        System.out.println("/createindex with table_name=" + table_name + " and columns=" + columns);
         // Actual behaviour
+        String data = request.toString();
+
         try {
-            DataBase.getInstance().getTables().get(table_name).createIndex(new String[]{columns});
+            result = jsonTable(data);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        JsonObject response = new JsonObject();
-        response.put("message", "Successfully updated indices.");
 
-        //JSON POUR CREATE INDEX AVEC TABLEAU DES NOMS DES COLONNES
+        DataBase.getInstance().newTable(table_name, result);
+
+    }
+
+    void createIndex(RoutingContext ctx, JsonObject request) {
+        String[] result = null;
+        String table_name = request.getString("table_name");
+        String columns = request.getString("columns");
+        System.out.println("/createindex with table_name=" + table_name + " and columns=" + columns);
+
+        // Actual behaviour
+        String data = request.toString();
+        try {
+            result = jsonIndex(data);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        try {
+            DataBase.getInstance().getTables().get(table_name).createIndex(result);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
 
         DataBase.getInstance().getTables().get("Table_Name").getIndex().get(columns).traverse();
-
-
+        System.out.println(DataBase.getInstance().getTables().get("Table_Name").toString());
     }
 
     void uploadCSV(RoutingContext ctx, JsonObject request) {

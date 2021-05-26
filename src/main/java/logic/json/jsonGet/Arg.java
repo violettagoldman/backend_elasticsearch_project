@@ -1,4 +1,4 @@
-package logic.json;
+package logic.json.jsonGet;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,14 +8,17 @@ public class Arg {
     private String column;
     @SerializedName("value")
     private String value;
+    @SerializedName("operator")
+    private String operator;
 
     public Arg() {
     }
 
-    public Arg(String column, String value) {
+    public Arg(String column, String value, String operator) {
         super();
         this.column = column;
         this.value = value;
+        this.operator = operator;
     }
 
     public String getColumn() {
@@ -34,4 +37,11 @@ public class Arg {
         this.value = value;
     }
 
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
 }

@@ -1,4 +1,4 @@
-package logic.json;
+package logic.json.jsonGet;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
