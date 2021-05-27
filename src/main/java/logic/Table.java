@@ -2,6 +2,11 @@
 
  import logic.IndexBTree.BTree;
  import logic.IndexBTree.Entry;
+ import parser.CSVParser;
+
+ import java.io.File;
+ import java.io.FileNotFoundException;
+ import java.io.IOException;
  import java.security.NoSuchAlgorithmException;
  import java.util.*;
 
@@ -10,7 +15,8 @@
      private Map<String, Column> columns;
      private int rowsId;
      private Map<String, BTree> index;
-
+     private ArrayList columnsList;
+    // ajouter liste columns
      /**
       * Initialise a new table from a name and a map <column name , column type>.
       * @param name
@@ -22,7 +28,9 @@
          rowsId = 0;
          index = new HashMap<String, BTree>();
          for (Map.Entry entry: columnsMap.entrySet()){
-             columns.put((String) entry.getKey(), new Column((String) entry.getKey(), (String) entry.getValue()));
+             Column column = new Column((String) entry.getKey(), (String) entry.getValue());
+             columns.put((String) entry.getKey(), column );
+             columnsList.add(column);
          }
      }
 
@@ -51,6 +59,14 @@
       */
      public Map<String, Column> getColumns() {
          return columns;
+     }
+
+     /**
+      * returns the list of columns of the table
+      * @return
+      */
+     public ArrayList getColumnsList() {
+         return columnsList;
      }
 
      /**
@@ -163,6 +179,17 @@
              str = str + "\n";
          }
          return  str;
+     }
+
+     public void uploadCSV(File file) throws IOException {
+         DatasOnDisk dod = new DatasOnDisk();
+         CSVParser csvp = new CSVParser();
+         List<String> csvContent = csvp.readFileLocal(file);
+
+         for (String line : csvContent) {
+             String[] lineSplited = line.split(",");
+
+         }
      }
 
  }
