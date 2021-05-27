@@ -42,7 +42,7 @@ public class WhereTest {
         args.add(ArgWhere.newOperator(Operator.Type.AND));
         args.add(ArgWhere.newCondition("Ville arrivée", "StDenis"));
         args.add(ArgWhere.newEnd());
-        Request r = new Request("voyage", new String[]{"Ville Départ","Ville arrivée", "Prix"},args );
+        Request r = new Request("voyage", new String[]{},args );
 
         String str = r.getResult().toString();
 

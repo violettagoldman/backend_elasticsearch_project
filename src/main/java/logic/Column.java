@@ -115,21 +115,6 @@
          return str;
      }
 
-     public Column filterByRows(int [] rows){
-         Column column = new Column(this.name, this.type);
-         if(rows.length==0){
-             for (Map.Entry entry: data.entrySet()) {
-                 column.addDataValue((int)entry.getKey(), (String)entry.getValue());
-             }
-         }else{
-             for (int i : rows) {
-                 column.addDataValue(i, this.getById(i));
-             }
-
-         }
-         return column;
-     }
-
      public int writeToFile(RandomAccessFile file, Object o) throws IOException {
          long lengthBefore = file.length();
          file.writeUTF((String) o);

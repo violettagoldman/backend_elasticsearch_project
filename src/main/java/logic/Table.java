@@ -85,10 +85,16 @@
       */
      public Table clone(String [] columnsNames){
          Table result = new Table("result");
-         result.columns = new TreeMap<String, Column>(); ;
+         result.columns = new TreeMap<String, Column>();
          result.rowsId = this.rowsId;
-         for (String name : columnsNames ){
-             result.columns.put(name, columns.get(name));
+         if(columnsNames.length>0){
+             for (String name : columnsNames ){
+                 result.columns.put(name, columns.get(name));
+             }
+         } else {
+             for (Map.Entry entry : columns.entrySet()) {
+                 result.columns.put((String)entry.getKey(), (Column) entry.getValue());
+             }
          }
          return result;
      }

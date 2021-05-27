@@ -26,7 +26,7 @@ public class Select {
         result = table.clone(columnsNames);
         Map<String, Column> columns = new TreeMap<String, Column>();
         for (Map.Entry column: result.getColumns().entrySet()) {
-            if(al.contains(column.getKey())) {
+            if( al.size()==0 || al.contains(column.getKey())) {
                 columns.put((String)column.getKey(), ((Column)column.getValue()).filterByRows(rows));
             }
         }
