@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DatasOnDisk {
 
@@ -23,10 +24,10 @@ public class DatasOnDisk {
     /**
      * Write the line in the file 'datas'
      * @param line
-     * @param columns
+     * @param table
      * @throws IOException
      */
-    public void writeLine(String[] line, ArrayList<Column> columns) throws IOException {
+    public void writeLine(String[] line, Table table) throws IOException {
         long startPos = datas.length();
         if (startPos > 0) {
             startPos++;
@@ -34,10 +35,13 @@ public class DatasOnDisk {
         long lineSize = 0;
 
         datas.seek(startPos);
-
+        ArrayList<Column> columns = table.getColumnsList();
+        HashMap<String, String > list = new HashMap<>();
         for (int i = 0; i < line.length; i++) {
             lineSize += columns.get(i).writeToFile(datas, line[i]);
+            list.put(columns.get(i).getName(), line[i]);
         }
+        table.addLine(list);
 
         writePositions(new long[]{startPos, lineSize});
         datas.seek(startPos);

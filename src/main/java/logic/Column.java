@@ -38,6 +38,15 @@
 
 
      /**
+      * return the name
+      * @return
+      */
+     public String getName() {
+         return name;
+     }
+
+
+     /**
       * gives a data corresponding to the id (int)
       * @param i
       * @return

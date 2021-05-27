@@ -24,7 +24,7 @@ public class CSVParser {
 
 		for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
 			String[] lineSplited = line.split(",");
-			dod.writeLine(lineSplited, table.getColumnsList());
+			dod.writeLine(lineSplited, table);
 		}
 
 		bufferedReader.close();
@@ -47,7 +47,7 @@ public class CSVParser {
 
 		for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
 			String[] lineSplited = line.split(",");
-			dod.writeLine(lineSplited, table.getColumnsList());
+			dod.writeLine(lineSplited, table);
 		}
 
 		bufferedReader.close();

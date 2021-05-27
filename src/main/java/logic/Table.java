@@ -54,6 +54,14 @@
      }
 
      /**
+      * returns the number of rows
+      * @return
+      */
+     public int getRowsId() {
+         return rowsId;
+     }
+
+     /**
       * returns the columns of the table
       * @return
       */
@@ -84,6 +92,13 @@
       */
      public Object getIndexOrColumn(String columnName){
          return index.get(columnName) == null ? columns.get(columnName) : index.get(columnName);
+     }
+
+     /**
+      * add a row
+      */
+     public void addRow(){
+         rowsId++;
      }
 
      /**
@@ -121,7 +136,13 @@
       */
      public void addLine(Map<String, String> columnsMap){
          for (Map.Entry entry: columnsMap.entrySet()){
-             columns.get(entry.getKey()).addDataValue(rowsId, (String)entry.getValue());
+             if(index.get(entry.getKey())!=null){
+                 try {
+                     index.get(entry.getKey()).insert((String)entry.getValue(), rowsId);
+                 } catch (NoSuchAlgorithmException e) {
+                     e.printStackTrace();
+                 }
+             }
          }
          rowsId++;
      }

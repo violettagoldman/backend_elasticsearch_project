@@ -2,14 +2,17 @@ package logic.IndexBTree;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * class that implements a btree to serve as an index
  */
 public class BTree{
     public final String name;
-    BTreeNode root;
-    int MinDeg;
+    private BTreeNode root;
+    private int MinDeg;
+    private Map<Integer, Entry> list;
+
 
     /**
      * Constructor
@@ -77,8 +80,10 @@ public class BTree{
             root = new BTreeNode(MinDeg,true);
             root.keys[0] = entry;
             root.num = 1;
+            list.put(id, entry);
         } else if(this.search(data)!=null){
             this.search(data).getAfters().put(id, null);
+            list.put(id, this.search(data));
         } else {
             // When the root node is full, the tree will grow high
             if (root.num == 2*MinDeg-1){
@@ -93,6 +98,7 @@ public class BTree{
                     i++;
                 s.children[i].insertNotFull(entry);
                 root = s;
+                list.put(id, entry);
             } else root.insertNotFull(entry);
         }
     }
