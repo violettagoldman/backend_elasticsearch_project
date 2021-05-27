@@ -2,10 +2,7 @@
 
  import java.io.IOException;
  import java.io.RandomAccessFile;
- import java.util.ArrayList;
- import java.util.List;
- import java.util.Map;
- import java.util.TreeMap;
+ import java.util.*;
 
  /**
   * Class that implements the columns.
@@ -122,6 +119,19 @@
              str = str + "id : "+entry.getKey()+" value : "+entry.getValue()+"\n";
          }
          return str;
+     }
+
+     @Override
+     public boolean equals(Object o) {
+         if (this == o) return true;
+         if (o == null || getClass() != o.getClass()) return false;
+         Column column = (Column) o;
+         return Objects.equals(name, column.name) && Objects.equals(type, column.type) && Objects.equals(data, column.data);
+     }
+
+     @Override
+     public int hashCode() {
+         return Objects.hash(name, type, data);
      }
 
      public int writeToFile(RandomAccessFile file, Object o) throws IOException {

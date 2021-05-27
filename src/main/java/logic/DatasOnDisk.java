@@ -74,16 +74,20 @@ public class DatasOnDisk {
      * @return a line split by its components
      * @throws IOException
      */
-    public Object[] readLine(int noLine, ArrayList<Column> cols) throws IOException {
+    public Object[] readLine(int noLine, ArrayList<Column> cols, ArrayList<Column> selectedCols) throws IOException {
         long[] linePos = readPositions(noLine);
         datas.seek(linePos[0]);
 
         Object[] line = new Object[cols.size()];
+        Object[] lineTrimed = new Object[selectedCols.size()];
         for (int i = 0; i < cols.size(); i++) {
             line[i] = cols.get(i).readFromFile(datas);
         }
+        for (int i = 0; i < selectedCols.size(); i++) {
+            lineTrimed[i] = line[cols.indexOf(selectedCols.get(i))];
+        }
 
-        return line;
+        return lineTrimed;
     }
 
     /**
