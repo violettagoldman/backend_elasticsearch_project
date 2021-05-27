@@ -26,25 +26,25 @@ public class DataBaseTest {
         bordeauxParis.put("Ville Départ", "Paris");
         bordeauxParis.put("Ville arrivée", "Bordeaux");
         bordeauxParis.put("Prix", "75");
-        table.addLine(bordeauxParis);
+        table.addLineColumn(bordeauxParis);
 
         Map<String, String> bordeauxParis2 = new HashMap<>();
         bordeauxParis2.put("Ville Départ", "Paris");
         bordeauxParis2.put("Ville arrivée", "Lavandia");
         bordeauxParis2.put("Prix", "75");
-        table.addLine(bordeauxParis2);
+        table.addLineColumn(bordeauxParis2);
 
         Map<String, String> parisStDenis = new HashMap<>();
         parisStDenis.put("Ville Départ", "Azuria");
         parisStDenis.put("Ville arrivée", "StDenis");
         parisStDenis.put("Prix", "3000");
-        table.addLine(parisStDenis);
+        table.addLineColumn(parisStDenis);
 
         Map<String, String> a = new HashMap<>();
         a.put("Ville Départ", "Paris");
         a.put("Ville arrivée", "Test");
         a.put("Prix", "45");
-        table.addLine(a);
+        table.addLineColumn(a);
 
         DataBase db = setName("Voyage");
         db.getTables().put("voyage", table);

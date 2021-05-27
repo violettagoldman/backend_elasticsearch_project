@@ -2,6 +2,7 @@ package logic.IndexBTree;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,6 +24,7 @@ public class BTree{
         this.name = name;
         this.root = null;
         this.MinDeg = deg;
+        list = new HashMap<>();
     }
 
     /**
@@ -43,6 +45,15 @@ public class BTree{
      */
     public BTreeNode searchNode(String data) throws NoSuchAlgorithmException{
         return root == null ? null : root.searchNode(data);
+    }
+
+    /**
+     * return the data by the id
+     * @param id
+     * @return
+     */
+    public String getData(int id){
+        return list.get(id).getData();
     }
 
     /**

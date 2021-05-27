@@ -41,7 +41,7 @@ public class DatasOnDisk {
             lineSize += columns.get(i).writeToFile(datas, line[i]);
             list.put(columns.get(i).getName(), line[i]);
         }
-        table.addLine(list);
+        table.addLineIndex(list);
 
         writePositions(new long[]{startPos, lineSize});
         datas.seek(startPos);

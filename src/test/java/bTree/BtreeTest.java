@@ -25,7 +25,7 @@ public class BtreeTest {
 
         System.out.println("Traversal of tree constructed is");
         t.traverse();
-
+        System.out.println(t.getData(1));
     }
 
     @Test

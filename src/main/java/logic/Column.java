@@ -33,6 +33,13 @@
          return data.get(i);
      }
 
+     /**
+      * return the type
+      * @return
+      */
+     public String getType() {
+         return type;
+     }
 
      /**
       * return the name

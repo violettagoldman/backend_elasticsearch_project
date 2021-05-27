@@ -3,6 +3,7 @@ package logic.request;
 import logic.Table;
 import logic.request.wTree.ArgWhere;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Request {
      * @param args
      * @throws NoSuchAlgorithmException
      */
-    public Request(String tableName, String [] columnsNames, List<ArgWhere> args) throws NoSuchAlgorithmException {
+    public Request(String tableName, String [] columnsNames, List<ArgWhere> args) throws NoSuchAlgorithmException, IOException {
         from = new From(tableName);
         where = new Where(args, tableName);
         select = new Select(where.getResult(), columnsNames, from);

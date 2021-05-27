@@ -116,15 +116,17 @@
       */
      public Table clone(String [] columnsNames){
          Table result = new Table("result");
-         result.columns = new TreeMap<String, Column>();
-         result.rowsId = this.rowsId;
+         result.index = index;
+         result.columns = new TreeMap<>();
+         result.rowsId = 0;
+         result.columnsList = columnsList;
          if(columnsNames.length>0){
              for (String name : columnsNames ){
-                 result.columns.put(name, columns.get(name));
+                 result.columns.put(name, new Column(name, columns.get(name).getType()));
              }
          } else {
              for (Map.Entry entry : columns.entrySet()) {
-                 result.columns.put((String)entry.getKey(), (Column) entry.getValue());
+                 result.columns.put(name, new Column(name, columns.get(name).getType()));
              }
          }
          return result;
@@ -134,7 +136,18 @@
       * adds a new row to the table, map: <column name, data>
       * @param columnsMap
       */
-     public void addLine(Map<String, String> columnsMap){
+     public void addLineColumn(Map<String, String> columnsMap){
+         for (Map.Entry entry: columnsMap.entrySet()){
+             columns.get(entry.getKey()).addDataValue(rowsId, (String)entry.getValue());
+         }
+         rowsId++;
+     }
+
+     /**
+      * Add the line in the Index
+      * @param columnsMap
+      */
+     public void addLineIndex(Map<String, String> columnsMap){
          for (Map.Entry entry: columnsMap.entrySet()){
              if(index.get(entry.getKey())!=null){
                  try {
@@ -155,25 +168,25 @@
      public void createIndex(String[] columnsName) throws NoSuchAlgorithmException {
          for (int j = 0 ; j< columnsName.length ; j++){
              BTree btree = new BTree(2, columnsName[j]);
-             for (int i = 0 ; i<rowsId ; i++){
-                btree.insert(columns.get(columnsName[j]).getById(i),i);
-            }
+//             for (int i = 0 ; i<rowsId ; i++){
+//                btree.insert(columns.get(columnsName[j]).getById(i),i);
+//            }
              index.put(columnsName[j], btree);
         }
-         if(columnsName.length>1){
-             for (int i = 0 ; i < rowsId ; i++){
-                 for(int j = 0; j < columnsName.length-1 ; j++){
-                     String firstData = columns.get(columnsName[j]).getById(i);
-                     BTree firstIndex = index.get(columnsName[j]);
-                     Entry firstEntry = firstIndex.search(firstData);
-
-                     String secondData = columns.get(columnsName[j+1]).getById(i);
-                     BTree secondIndex = index.get(columnsName[j+1]);
-                     Entry secondEntry = secondIndex.search(secondData);
-                     firstEntry.getAfters().put(i,secondEntry);
-                 }
-             }
-         }
+//         if(columnsName.length>1){
+//             for (int i = 0 ; i < rowsId ; i++){
+//                 for(int j = 0; j < columnsName.length-1 ; j++){
+//                     String firstData = columns.get(columnsName[j]).getById(i);
+//                     BTree firstIndex = index.get(columnsName[j]);
+//                     Entry firstEntry = firstIndex.search(firstData);
+//
+//                     String secondData = columns.get(columnsName[j+1]).getById(i);
+//                     BTree secondIndex = index.get(columnsName[j+1]);
+//                     Entry secondEntry = secondIndex.search(secondData);
+//                     firstEntry.getAfters().put(i,secondEntry);
+//                 }
+//             }
+//         }
      }
 
      /**

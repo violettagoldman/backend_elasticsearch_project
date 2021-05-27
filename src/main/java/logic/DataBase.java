@@ -71,7 +71,7 @@ public class DataBase {
      * @param columnsMap
      */
     public void newLine(String name, Map<String, String> columnsMap){
-        tables.get(name).addLine(columnsMap);
+        tables.get(name).addLineColumn(columnsMap);
     }
 
     /**

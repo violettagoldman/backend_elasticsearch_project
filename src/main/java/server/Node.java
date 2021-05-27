@@ -87,16 +87,16 @@ public class Node extends AbstractVerticle {
         String file_path = request.getString("file_name");
         System.out.println("/uploadcsv with table_name=" + table_name + " and file_path=" + file_path + ".");
 
-        NewDataBase ndb = new NewDataBase();
-        try {
-            ndb.inIndex(new File(file_path));
-        } catch (IOException e) {
-            JsonObject response = new JsonObject();
-            response.put("error", "Cannot read the given CSV file.");
-            sendReponse(ctx, 500, response);
-            e.printStackTrace();
-            return;
-        }
+//        NewDataBase ndb = new NewDataBase();
+//        try {
+//            ndb.inIndex(new File(file_path));
+//        } catch (IOException e) {
+//            JsonObject response = new JsonObject();
+//            response.put("error", "Cannot read the given CSV file.");
+//            sendReponse(ctx, 500, response);
+//            e.printStackTrace();
+//            return;
+//        }
 
         System.out.println(DataBase.getInstance().getTables().get("Table_Name").toString());
 
