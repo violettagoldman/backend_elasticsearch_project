@@ -12,7 +12,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import logic.DataBase;
-import parser.NewDataBase;
 
 import static logic.json.jsonGet.JsonGet.json;
 import static logic.json.jsonIndex.JsonIndex.jsonIndex;

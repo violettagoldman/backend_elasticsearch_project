@@ -181,15 +181,4 @@
          return  str;
      }
 
-     public void uploadCSV(File file) throws IOException {
-         DatasOnDisk dod = new DatasOnDisk();
-         CSVParser csvp = new CSVParser();
-         List<String> csvContent = csvp.readFileLocal(file);
-
-         for (String line : csvContent) {
-             String[] lineSplited = line.split(",");
-
-         }
-     }
-
  }
