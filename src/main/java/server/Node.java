@@ -95,10 +95,9 @@ public class Node extends AbstractVerticle {
             response.put("error", "Cannot read the given CSV file.");
             sendReponse(ctx, 500, response);
             e.printStackTrace();
-            return;
         }
-        System.out.println(DataBase.getInstance().getTables().get("Table_Name").toString());
-
+        DataBase.getInstance().getTables().get("Table_Name").getIndex().get("Age").traverse();
+        System.out.println("test");
     }
 
     void get(RoutingContext ctx, JsonObject request) throws NoSuchAlgorithmException{

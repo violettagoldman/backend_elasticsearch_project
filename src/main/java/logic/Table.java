@@ -27,6 +27,7 @@
          columns = new TreeMap<String, Column>();
          rowsId = 0;
          index = new HashMap<String, BTree>();
+         columnsList = new ArrayList<>();
          for (Map.Entry entry: columnsMap.entrySet()){
              Column column = new Column((String) entry.getKey(), (String) entry.getValue());
              columns.put((String) entry.getKey(), column );

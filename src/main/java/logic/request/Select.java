@@ -45,6 +45,13 @@ public class Select {
             for(int i = 0; i<data.length; i++) {
                 dataList.put(columnsNamesList.get(i), data[i]);
             }
+
+            //TEST
+            for(Map.Entry entry : dataList.entrySet()) {
+                System.out.println(entry.getKey());
+                System.out.println("/" + entry.getValue());
+            }
+
             // add the line in the table
             result.addLineColumn(dataList);
         }

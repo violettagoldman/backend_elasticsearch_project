@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import logic.request.wTree.ArgWhere;
 import logic.request.wTree.Operator;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,7 @@ public class JsonGet {
             column = a.getColumn();
             value = a.getValue();
             operator = a.getOperator();
-
-
+            
             if(operator == "("){
                 args.add(ArgWhere.newStart());
             }
@@ -63,7 +63,12 @@ public class JsonGet {
         }
 
         //Appel de fonction
-        logic.request.Request r = new logic.request.Request(table, columnsNames.toArray(new String[columnsNames.size()]) ,args );
+        logic.request.Request r = null;
+        try {
+            r = new logic.request.Request(table, columnsNames.toArray(new String[columnsNames.size()]) ,args );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         str = r.getResult().toString();
 

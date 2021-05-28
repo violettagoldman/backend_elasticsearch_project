@@ -51,11 +51,12 @@ public class MasterNode extends AbstractVerticle {
     void createTable(RoutingContext ctx, JsonObject request) {
         String table_name = request.getString("table_name");
         String table_headers = request.getString("table_headers");
+        /*
         if (table_name == null || table_headers == null) {
             JsonObject response = new JsonObject();
             response.put("error", "Needed params in body: table_name, table_headers.");
             sendReponse(ctx, 422, response);
-        }
+        }*/
 
         for (int server = 1; server < 4; ++server) {
             nodeRequest("/createtable", String.valueOf(server), request);
