@@ -1,6 +1,7 @@
 package logic;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,8 +62,8 @@ public class DataBase {
      * @param name
      * @param columnsMap
      */
-    public void newTable(String name, Map<String, String> columnsMap){
-        tables.put(name, new Table(name, columnsMap));
+    public void newTable(String name, ArrayList columnsNames, ArrayList columnsType){
+        tables.put(name, new Table(name, columnsNames, columnsType));
     }
 
     /**

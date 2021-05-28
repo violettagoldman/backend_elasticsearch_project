@@ -20,17 +20,17 @@
      /**
       * Initialise a new table from a name and a map <column name , column type>.
       * @param name
-      * @param columnsMap
+      * @param columnsNames, columnsType
       */
-     public Table(String name, Map<String, String> columnsMap){
+     public Table(String name, ArrayList columnsNames, ArrayList columnsType){
          this.name = name;
-         columns = new TreeMap<String, Column>();
+         columns = new HashMap<String, Column>();
          rowsId = 0;
          index = new HashMap<String, BTree>();
          columnsList = new ArrayList<>();
-         for (Map.Entry entry: columnsMap.entrySet()){
-             Column column = new Column((String) entry.getKey(), (String) entry.getValue());
-             columns.put((String) entry.getKey(), column );
+         for(int i = 0; i< columnsNames.size() ; i++){
+             Column column = new Column((String) columnsNames.get(i), (String) columnsType.get(i));
+             columns.put((String) columnsNames.get(i), column );
              columnsList.add(column);
          }
      }
@@ -122,12 +122,12 @@
          result.rowsId = 0;
          result.columnsList = columnsList;
          if(columnsNames.length>0){
-             for (String name : columnsNames ){
-                 result.columns.put(name, new Column(name, columns.get(name).getType()));
+             for (String columnName : columnsNames ){
+                 result.columns.put(columnName, new Column(columnName, columns.get(columnName).getType()));
              }
          } else {
-             for (Map.Entry entry : columns.entrySet()) {
-                 result.columns.put(name, new Column(name, columns.get(name).getType()));
+             for (Map.Entry column : columns.entrySet()) {
+                 result.columns.put((String) column.getKey(), new Column((String) column.getKey(), columns.get(column.getKey()).getType()));
              }
          }
          return result;

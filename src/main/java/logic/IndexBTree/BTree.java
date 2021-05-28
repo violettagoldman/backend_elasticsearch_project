@@ -110,7 +110,11 @@ public class BTree{
                 s.children[i].insertNotFull(entry);
                 root = s;
                 list.put(id, entry);
-            } else root.insertNotFull(entry);
+            } else {
+                root.insertNotFull(entry);
+                list.put(id, entry);
+            }
+
         }
     }
 

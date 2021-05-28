@@ -1,9 +1,15 @@
 package dataBase;
 
+import io.vertx.core.json.JsonObject;
 import logic.DataBase;
 import logic.Table;
 import org.junit.Test;
+import parser.CSVParser;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,39 +22,31 @@ public class DataBaseTest {
 
     @Test
     public void initDataBase(){
-        Map<String, String> columnsMap = new HashMap<>();
-        columnsMap.put("Ville Départ", "String");
-        columnsMap.put("Ville arrivée", "String");
-        columnsMap.put("Prix", "Int");
-        Table table = new Table("Voyages", columnsMap);
 
-        Map<String, String> bordeauxParis = new HashMap<>();
-        bordeauxParis.put("Ville Départ", "Paris");
-        bordeauxParis.put("Ville arrivée", "Bordeaux");
-        bordeauxParis.put("Prix", "75");
-        table.addLineColumn(bordeauxParis);
-
-        Map<String, String> bordeauxParis2 = new HashMap<>();
-        bordeauxParis2.put("Ville Départ", "Paris");
-        bordeauxParis2.put("Ville arrivée", "Lavandia");
-        bordeauxParis2.put("Prix", "75");
-        table.addLineColumn(bordeauxParis2);
-
-        Map<String, String> parisStDenis = new HashMap<>();
-        parisStDenis.put("Ville Départ", "Azuria");
-        parisStDenis.put("Ville arrivée", "StDenis");
-        parisStDenis.put("Prix", "3000");
-        table.addLineColumn(parisStDenis);
-
-        Map<String, String> a = new HashMap<>();
-        a.put("Ville Départ", "Paris");
-        a.put("Ville arrivée", "Test");
-        a.put("Prix", "45");
-        table.addLineColumn(a);
-
-        DataBase db = setName("Voyage");
-        db.getTables().put("voyage", table);
-
+        ArrayList<String> cn = new ArrayList<>();
+        ArrayList<String> ct = new ArrayList<>();
+        cn.add("Id");
+        cn.add("Prénom");
+        cn.add("Couleur");
+        cn.add("Age");
+        ct.add("Int");
+        ct.add("String");
+        ct.add("String");
+        ct.add("Int");
+        DataBase.getInstance().newTable("dogs", cn , ct);
+        try {
+            DataBase.getInstance().getTables().get("dogs").createIndex(new String []{"Couleur", "Age"});
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        CSVParser csvp = new CSVParser();
+        File file = new File("src/resources/dogs.csv");
+        try {
+            csvp.readFileLocal(file, DataBase.getInstance().getTables().get("dogs"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DataBase.getInstance().getTables().get("dogs").getIndex().get("Couleur").traverse();
 
     }
 

@@ -56,7 +56,7 @@ public class Node extends AbstractVerticle {
             e.printStackTrace();
         }
 
-        DataBase.getInstance().newTable(table_name, result);
+       // DataBase.getInstance().newTable(table_name, result);
 
     }
 

@@ -26,12 +26,17 @@ public class Select {
         Table table = from.table;
         result = table.clone(columnsName);
         DatasOnDisk dod = new DatasOnDisk();
+        System.out.println(rows.size());
         for (Object row: rows) {
             HashMap<String, String > dataList = new HashMap<>();
-            List<String> columnsNamesList = Arrays.asList(columnsName);
+            ArrayList<String> columnsNamesList = new ArrayList<>();
+            for (String i : columnsName) {
+                columnsNamesList.add(i);
+            }
             for (String name: columnsName) {
                 // take data if they are index
                 if(result.getIndex().get(name)!=null){
+                    System.out.println(name);
                     dataList.put(name, result.getIndex().get(name).getData((int)row) );
                     columnsNamesList.remove(name);
                 }
@@ -41,9 +46,9 @@ public class Select {
             for (String name : columnsNamesList) {
                 listColumn.add(result.getColumns().get(name));
             }
-            String [] data = (String[]) dod.readLine((int)row, result.getColumnsList(), listColumn);
+            Object [] data =  dod.readLine((int)row, result.getColumnsList(), listColumn);
             for(int i = 0; i<data.length; i++) {
-                dataList.put(columnsNamesList.get(i), data[i]);
+                dataList.put(columnsNamesList.get(i), (String) data[i]);
             }
 
             //TEST
