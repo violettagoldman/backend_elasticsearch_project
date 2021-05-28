@@ -43,7 +43,7 @@ public class WhereTest {
 //        args.add(ArgWhere.newEnd());
 
         args.add(ArgWhere.newCondition("Couleur", "Blanc"));
-        args.add(ArgWhere.newOperator(Operator.Type.AND));
+        args.add(ArgWhere.newOperator(Operator.Type.OR));
         args.add(ArgWhere.newCondition("Age", "3"));
 
         Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"},args );

@@ -36,7 +36,6 @@ public class Select {
             for (String name: columnsName) {
                 // take data if they are index
                 if(result.getIndex().get(name)!=null){
-                    System.out.println(name);
                     dataList.put(name, result.getIndex().get(name).getData((int)row) );
                     columnsNamesList.remove(name);
                 }
@@ -46,17 +45,11 @@ public class Select {
             for (String name : columnsNamesList) {
                 listColumn.add(result.getColumns().get(name));
             }
+            System.out.println(row);
             Object [] data =  dod.readLine((int)row, result.getColumnsList(), listColumn);
             for(int i = 0; i<data.length; i++) {
                 dataList.put(columnsNamesList.get(i), (String) data[i]);
             }
-
-            //TEST
-            for(Map.Entry entry : dataList.entrySet()) {
-                System.out.println(entry.getKey());
-                System.out.println("/" + entry.getValue());
-            }
-
             // add the line in the table
             result.addLineColumn(dataList);
         }

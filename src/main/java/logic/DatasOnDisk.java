@@ -86,7 +86,6 @@ public class DatasOnDisk {
         for (int i = 0; i < selectedCols.size(); i++) {
             lineTrimed[i] = line[cols.indexOf(selectedCols.get(i))];
         }
-
         return lineTrimed;
     }
 
