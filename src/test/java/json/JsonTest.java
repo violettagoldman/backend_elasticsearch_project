@@ -6,6 +6,7 @@ import logic.json.jsonTable.JsonTable;
 import org.junit.Test;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,7 +102,7 @@ public class JsonTest {
                 "    ]\n" +
                 "}";
 
-        Map<String, String> str = JsonTable.jsonTable(data);
+        ArrayList str = (ArrayList) JsonTable.jsonTable(data, true);
         System.out.println(str);
 
         Map<String, String> str2 = new HashMap<String, String>();

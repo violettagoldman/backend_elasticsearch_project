@@ -3,6 +3,7 @@ package server;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import io.vertx.core.AbstractVerticle;
@@ -49,14 +50,15 @@ public class Node extends AbstractVerticle {
 
         // Actual behaviour
         String data = request.toString();
-
+        ArrayList columnsNames;
+        ArrayList columnsTypes;
         try {
-            result = jsonTable(data);
+            columnsNames = (ArrayList) jsonTable(data, true);
+            columnsTypes = (ArrayList) jsonTable(data, false);
+            DataBase.getInstance().newTable(table_name, columnsNames, columnsTypes);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-
-       // DataBase.getInstance().newTable(table_name, result);
 
     }
 
