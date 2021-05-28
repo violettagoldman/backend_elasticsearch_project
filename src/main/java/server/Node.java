@@ -12,6 +12,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import logic.DataBase;
+import parser.CSVParser;
 
 import static logic.json.jsonGet.JsonGet.json;
 import static logic.json.jsonIndex.JsonIndex.jsonIndex;
@@ -86,18 +87,16 @@ public class Node extends AbstractVerticle {
         String table_name = request.getString("table_name");
         String file_path = request.getString("file_name");
         System.out.println("/uploadcsv with table_name=" + table_name + " and file_path=" + file_path + ".");
-
-//        NewDataBase ndb = new NewDataBase();
-//        try {
-//            ndb.inIndex(new File(file_path));
-//        } catch (IOException e) {
-//            JsonObject response = new JsonObject();
-//            response.put("error", "Cannot read the given CSV file.");
-//            sendReponse(ctx, 500, response);
-//            e.printStackTrace();
-//            return;
-//        }
-
+        CSVParser csvp = new CSVParser();
+        try {
+            csvp.readFileLocal(new File(file_path), DataBase.getInstance().getTables().get(table_name));
+        } catch (IOException e) {
+            JsonObject response = new JsonObject();
+            response.put("error", "Cannot read the given CSV file.");
+            sendReponse(ctx, 500, response);
+            e.printStackTrace();
+            return;
+        }
         System.out.println(DataBase.getInstance().getTables().get("Table_Name").toString());
 
     }
