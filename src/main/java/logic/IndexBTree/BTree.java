@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public class BTree{
     public final String name;
+    public final String type;
     private BTreeNode root;
     private int MinDeg;
     private Map<Integer, Entry> list;
@@ -20,7 +21,8 @@ public class BTree{
      * @param deg
      * @param name
      */
-    public BTree(int deg, String name){
+    public BTree(int deg, String name, String type){
+        this.type = type;
         this.name = name;
         this.root = null;
         this.MinDeg = deg;

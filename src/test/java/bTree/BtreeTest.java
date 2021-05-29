@@ -11,7 +11,7 @@ public class BtreeTest {
     @Test
     public void create_btree() throws NoSuchAlgorithmException {
 
-        BTree t = new BTree(2, "name"); // A B-Tree with minium degree 2
+        BTree t = new BTree(2, "name", "String"); // A B-Tree with minium degree 2
         t.insert("jeanne", 1);
         t.insert("jeanne", 3);
         t.insert("jeanne", 2);
@@ -31,7 +31,7 @@ public class BtreeTest {
     @Test
     public void search_btree() throws NoSuchAlgorithmException {
 
-        BTree t = new BTree(2, "name"); // A B-Tree with minium degree 2
+        BTree t = new BTree(2, "name", "String"); // A B-Tree with minium degree 2
         t.insert("jeanne", 1);
         t.insert("jeanne", 3);
         t.insert("jeanne", 2);

@@ -1,8 +1,6 @@
-package where;
+package request;
 
 import dataBase.DataBaseTest;
-import logic.DataBase;
-import logic.Table;
 import logic.request.Request;
 import logic.request.wTree.ArgWhere;
 import logic.request.wTree.Operator;
@@ -11,14 +9,11 @@ import org.junit.Test;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static logic.DataBase.setName;
 import static org.junit.Assert.assertEquals;
 
-public class WhereTest {
+public class RequestTest {
     @Test
     public void request_test() throws NoSuchAlgorithmException, IOException {
 

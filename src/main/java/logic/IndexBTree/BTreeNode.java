@@ -34,7 +34,7 @@ class BTreeNode{
         int i = num -1; // Initialize i as the rightmost index
 
         if (isLeaf){ // When it is a leaf node
-            // Find the location where the new key should be inserted
+            // Find the location request the new key should be inserted
             while (i >= 0 && keys[i].getKey() > key){
                 keys[i+1] = keys[i]; // keys backward shift
                 i--;

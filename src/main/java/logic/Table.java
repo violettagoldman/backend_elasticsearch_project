@@ -168,7 +168,7 @@
       */
      public void createIndex(String[] columnsName) throws NoSuchAlgorithmException {
          for (int j = 0 ; j< columnsName.length ; j++){
-             BTree btree = new BTree(2, columnsName[j]);
+             BTree btree = new BTree(2, columnsName[j], columns.get(columnsName[j]).getType());
 //             for (int i = 0 ; i<rowsId ; i++){
 //                btree.insert(columns.get(columnsName[j]).getById(i),i);
 //            }
