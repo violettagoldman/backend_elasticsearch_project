@@ -65,7 +65,7 @@ public class JsonGet {
         //Appel de fonction
         logic.request.Request r = null;
         try {
-            r = new logic.request.Request(table, columnsNames.toArray(new String[columnsNames.size()]) ,args );
+            r = new logic.request.Request(table, columnsNames.toArray(new String[columnsNames.size()]) ,args, null, null, null );
         } catch (IOException e) {
             e.printStackTrace();
         }

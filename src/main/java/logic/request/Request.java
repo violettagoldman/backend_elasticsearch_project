@@ -33,7 +33,7 @@ public class Request {
         } else {
             ArrayList rows = new ArrayList();
             for (int i = 0 ; i< from.table.getRowsId() ; i++) rows.add(i);
-            select = new Select(where.getResult(), columnsNames, from);
+            select = new Select(rows, columnsNames, from);
         }
         resultTable = select.getResult();
         if(aggregate != null){
@@ -42,8 +42,9 @@ public class Request {
         } else if (option != null){
             Option op = new Option(resultTable, agrOption, option);
             result = op.getResult();
-        }    else {
-        } result = resultTable.toString();
+        } else {
+            result = resultTable.toString();
+        }
     }
 
     public String getResult() {
