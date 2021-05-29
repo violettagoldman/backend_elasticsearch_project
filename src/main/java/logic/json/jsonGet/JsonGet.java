@@ -5,6 +5,7 @@ import logic.request.Aggregate;
 import logic.request.Option;
 import logic.request.wTree.ArgWhere;
 import logic.request.wTree.Operator;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -29,9 +30,9 @@ public class JsonGet {
     private static String optionArg;
     private static Option.Type optionType;
 
-    public static String str;
+    public static JSONObject str;
 
-    public static String json(String request) throws NoSuchAlgorithmException {
+    public static JSONObject json(String request) throws NoSuchAlgorithmException {
 
         Gson gson = new Gson();
         Request result = gson.fromJson(request, logic.json.jsonGet.Request.class);
@@ -136,7 +137,7 @@ public class JsonGet {
             e.printStackTrace();
         }
 
-        str = r.getResultTable().toString();
+        str = r.getJson();
 
         return str;
     }

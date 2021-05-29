@@ -2,6 +2,7 @@ package logic.request;
 
 import logic.Table;
 import logic.request.wTree.ArgWhere;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -16,7 +17,7 @@ public class Request {
     private From from;
     private Where where;
     private Table resultTable;
-    private String result;
+    private JSONObject result;
 
     /**
      * constructor
@@ -38,16 +39,20 @@ public class Request {
         resultTable = select.getResult();
         if(aggregate != null){
             Aggregate ag = new Aggregate(resultTable, agrOption, aggregate);
-            result = ag.getResult();
+            //result = ag.getResult();
         } else if (option != null){
             Option op = new Option(resultTable, agrOption, option);
-            result = op.getResult();
+            //result = op.getResult();
         } else {
-            result = resultTable.toJson().toString();
+            result = resultTable.toJson();
         }
     }
 
     public String getResult() {
+        return result.toString();
+    }
+
+    public JSONObject getJson(){
         return result;
     }
 

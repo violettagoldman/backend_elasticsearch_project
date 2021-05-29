@@ -44,8 +44,8 @@ public class JsonTest {
                 "    ]\n" +
                 "}";
 
-        String str = json(data);
-        System.out.println(str);
+       // String str = json(data);
+      //  System.out.println(str);
 
         String str2 =
                 "Nom de la table : result\n" +

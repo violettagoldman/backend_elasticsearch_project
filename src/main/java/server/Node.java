@@ -13,6 +13,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import logic.DataBase;
+import org.json.JSONObject;
 import parser.CSVParser;
 
 import static logic.json.jsonGet.JsonGet.json;
@@ -103,7 +104,6 @@ public class Node extends AbstractVerticle {
     }
 
     void get(RoutingContext ctx, JsonObject request) throws NoSuchAlgorithmException{
-        String result = "";
         String table = request.getString("table");
         String method = request.getString("method");
         String args = request.getString("args");
@@ -117,7 +117,7 @@ public class Node extends AbstractVerticle {
         JsonObject response = new JsonObject();
 
         String data = request.toString();
-        result = json(data);
+        JSONObject result = json(data);
 
         response.put("data", result);
         sendReponse(ctx, 200, response);
