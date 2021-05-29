@@ -195,13 +195,14 @@
       * @return
       */
      public String toString(){
-         String str = "Nom de la table : "+name+"\n";
-         str = str + "id |";
+         String str = "{ \"NomTable\" : "+"\""+name+"\",\n";
+         str = str + "\"columns\" : \" id |";
          for (Map.Entry entry : columns.entrySet()) {
              str = str + " " +entry.getKey() + " |";
          }
-         str = str + "\n";
+         str = str + "\",\n";
          for (int i = 0 ; i < rowsId ; i++){
+             str = str + "\"line"+(i)+"\" : \"";
              Boolean id = true;
              int [] ids = new int[0];
              for (Map.Entry entry : columns.entrySet()) {
@@ -211,8 +212,11 @@
                  str = str + " " +(id ? ids[i] +" | " : "" ) + ((Column) entry.getValue()).dataByID(ids[i])+ " |";
                  id = false;
              }
-             str = str + "\n";
+             str = str + "\",\n";
          }
+         str = str.substring(0,str.length()-2);
+         str = str + "}";
+
          return  str;
      }
 
