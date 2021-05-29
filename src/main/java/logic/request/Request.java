@@ -43,7 +43,7 @@ public class Request {
             Option op = new Option(resultTable, agrOption, option);
             result = op.getResult();
         } else {
-            result = resultTable.toString();
+            result = resultTable.toJson().toString();
         }
     }
 

@@ -1,12 +1,9 @@
  package logic;
 
  import logic.IndexBTree.BTree;
- import logic.IndexBTree.Entry;
- import parser.CSVParser;
+ import org.json.JSONArray;
+ import org.json.JSONObject;
 
- import java.io.File;
- import java.io.FileNotFoundException;
- import java.io.IOException;
  import java.security.NoSuchAlgorithmException;
  import java.util.*;
 
@@ -195,12 +192,12 @@
       * @return
       */
      public String toString(){
-         String str = "{ \"NomTable\" : "+"\""+name+"\",\n";
-         str = str + "\"columns\" : \" id |";
-         for (Map.Entry entry : columns.entrySet()) {
-             str = str + " " +entry.getKey() + " |";
-         }
-         str = str + "\",\n";
+         String str = "[{ \"NomTable\" : "+"\""+name+"\",";
+//         str = str + "\"columns\" : \" id |";
+//         for (Map.Entry entry : columns.entrySet()) {
+//             str = str + " " +entry.getKey() + " |";
+//         }
+         str = str + "\"Lines\": [";
          for (int i = 0 ; i < rowsId ; i++){
              str = str + "\"line\" : \"";
              Boolean id = true;
@@ -212,10 +209,10 @@
                  str = str + " " +(id ? ids[i] +" | " : "" ) + ((Column) entry.getValue()).dataByID(ids[i])+ " |";
                  id = false;
              }
-             str = str + "\",\n";
+             str = str + "\",";
          }
          str = str.substring(0,str.length()-2);
-         str = str + "}";
+         str = str + "}}]";
 
          return  str;
      }
@@ -264,6 +261,23 @@
              str = str + "\n";
          }
          return  str;
+     }
+
+     public JSONObject toJson(){
+         JSONArray ja = new JSONArray();
+         for (int i = 0 ; i < rowsId ; i++){
+             JSONObject jo = new JSONObject();
+             Boolean id = true;
+             for (Map.Entry entry : columns.entrySet()) {
+                 if(id) jo.put("id", i);
+                 jo.put((String) entry.getKey(), ((Column) entry.getValue()).dataByID(i));
+                 id = false;
+             }
+             ja.put(jo);
+         }
+         JSONObject mainObj = new JSONObject();
+         mainObj.put("lines", ja);
+         return mainObj;
      }
 
 
