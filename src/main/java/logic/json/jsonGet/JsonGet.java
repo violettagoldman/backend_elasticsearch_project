@@ -70,7 +70,7 @@ public class JsonGet {
             e.printStackTrace();
         }
 
-        str = r.getResult().toString();
+        str = r.getResultTable().toString();
 
         return str;
     }

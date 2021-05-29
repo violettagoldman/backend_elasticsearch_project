@@ -151,4 +151,64 @@
          return file.readUTF();
      }
 
+     
+     // ___Functions for aggregates___
+     
+     public String sum() {
+         if(type != "float" && type != "int" && type != "double") return "bad type column";
+         float result = 0;
+         for (Map.Entry nb: data.entrySet()) {
+             result = result + (float) nb.getValue();
+         }
+         return "SUM = "+ result;
+     }
+
+     public String average() {
+         if(type != "float" && type != "int" && type != "double") return "bad type column";
+         float result = 0;
+         for (Map.Entry nb: data.entrySet()) {
+             result = result + (float) nb.getValue();
+         }
+         return "Average = "+ result / data.size();
+     }
+
+     public String min() {
+         if(type != "float" && type != "int" && type != "double") return "bad type column";
+         float result = 0;
+         for (Map.Entry nb: data.entrySet()) {
+             if(result > (float) nb.getValue()) result = (float) nb.getValue();
+         }
+         return "min = "+ result;
+     }
+
+     public String max() {
+         if(type != "float" && type != "int" && type != "double") return "bad type column";
+         float result = 0;
+         for (Map.Entry nb: data.entrySet()) {
+             if(result < (float) nb.getValue()) result = (float) nb.getValue();
+         }
+         return "max = "+ result;
+     }
+
+     public String count() {
+         return "count  = "+data.size();
+     }
+
+     public String countDistinct() {
+         HashSet<String> result = new HashSet();
+         for (Map.Entry nb: data.entrySet()) {
+             result.add((String) nb.getValue());
+         }
+         return "count distinct = "+ result.size();
+     }
+
+     // function for option
+     public ArrayList<Integer> orderBy(){
+         TreeMap<String, Integer> orderMap = new TreeMap<>();
+         for (Map.Entry entry: data.entrySet()) {
+            orderMap.put((String)entry.getValue(), (Integer)entry.getKey());
+         }
+         ArrayList<Integer> order = new ArrayList<>(orderMap.values());
+         return order;
+     }
  }

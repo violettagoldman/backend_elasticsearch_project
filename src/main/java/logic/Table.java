@@ -216,4 +216,50 @@
          return  str;
      }
 
+
+     // function for option
+     public String toStringByOrder(ArrayList<Integer> order){
+         String str = "Nom de la table : "+name+"\n";
+         str = str + "id |";
+         for (Map.Entry entry : columns.entrySet()) {
+             str = str + " " +entry.getKey() + " |";
+         }
+         str = str + "\n";
+         for (int i: order) {
+             Boolean id = true;
+             int [] ids = new int[0];
+             for (Map.Entry entry : columns.entrySet()) {
+                 if(id){
+                     ids = ((Column)entry.getValue()).listId();
+                 }
+                 str = str + " " +(id ? ids[i] +" | " : "" ) + ((Column) entry.getValue()).dataByID(ids[i])+ " |";
+                 id = false;
+             }
+             str = str + "\n";
+         }
+         return  str;
+     }
+
+     public String toStringLimit(int limit){
+         String str = "Nom de la table : "+name+"\n";
+         str = str + "id |";
+         for (Map.Entry entry : columns.entrySet()) {
+             str = str + " " +entry.getKey() + " |";
+         }
+         str = str + "\n";
+         for (int i = 0 ; i < rowsId && i < limit; i++){
+             Boolean id = true;
+             int [] ids = new int[0];
+             for (Map.Entry entry : columns.entrySet()) {
+                 if(id){
+                     ids = ((Column)entry.getValue()).listId();
+                 }
+                 str = str + " " +(id ? ids[i] +" | " : "" ) + ((Column) entry.getValue()).dataByID(ids[i])+ " |";
+                 id = false;
+             }
+             str = str + "\n";
+         }
+         return  str;
+     }
+
  }

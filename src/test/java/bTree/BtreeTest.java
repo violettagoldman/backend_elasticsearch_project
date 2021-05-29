@@ -37,21 +37,10 @@ public class BtreeTest {
         t.insert("jeanne", 2);
         t.insert("cecile", 3);
         t.insert("olivier", 4);
-        t.insert("test", 7);
-        t.insert("te", 7);
-        t.insert("frznfez", 7);
-        t.insert("nfezi", 7);
-        t.insert("nfeiz", 7);
 
         System.out.println(t.search("jeanne"));
         System.out.println(t.search("cecile"));
         System.out.println(t.search("olivier"));
-        System.out.println(t.search("test"));
-        System.out.println(t.search("te"));
-        System.out.println(t.search("frznfez"));
-        System.out.println(t.search("nfezi"));
-        System.out.println(t.search("nfeiz"));
-        System.out.println(t.search("jeanne"));
     }
 
     @Test
@@ -59,7 +48,7 @@ public class BtreeTest {
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
 
-        DataBase.getInstance().getTables().get("voyage").createIndex(new String [] {"Ville arrivée"});
-        DataBase.getInstance().getTables().get("voyage").getIndex().get("Ville arrivée").traverse();
+        DataBase.getInstance().getTables().get("dogs").createIndex(new String [] {"Prénom"});
+        DataBase.getInstance().getTables().get("dogs").getIndex().get("Prénom").traverse();
     }
 }
