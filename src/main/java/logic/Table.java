@@ -263,7 +263,7 @@
          return  str;
      }
 
-     public JSONObject toJson(){
+     public String toJson(){
          JSONArray ja = new JSONArray();
          for (int i = 0 ; i < rowsId ; i++){
              JSONObject jo = new JSONObject();
@@ -277,7 +277,7 @@
          }
          JSONObject mainObj = new JSONObject();
          mainObj.put("lines", ja);
-         return mainObj;
+         return mainObj.toString();
      }
 
 

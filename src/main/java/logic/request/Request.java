@@ -2,7 +2,6 @@ package logic.request;
 
 import logic.Table;
 import logic.request.wTree.ArgWhere;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -17,7 +16,7 @@ public class Request {
     private From from;
     private Where where;
     private Table resultTable;
-    private JSONObject result;
+    private String result;
 
     /**
      * constructor
@@ -52,7 +51,7 @@ public class Request {
         return result.toString();
     }
 
-    public JSONObject getJson(){
+    public String getJson(){
         return result;
     }
 
