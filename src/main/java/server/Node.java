@@ -118,9 +118,9 @@ public class Node extends AbstractVerticle {
 
         String data = request.toString();
         String result = json(data);
-
+        JsonObject response2 = new JsonObject(result);
         response.put("data", result);
-        sendReponse(ctx, 200, response);
+        sendReponse(ctx, 200, response2);
     }
 
     // Get the JSON body from a request
