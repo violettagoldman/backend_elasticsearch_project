@@ -11,15 +11,21 @@ public class Request {
     private String table;
     @SerializedName("args")
     private List<Arg> args = null;
+    @SerializedName("aggregate")
+    private Aggregate aggregate;
+    @SerializedName("option")
+    private Option option;
 
-    public Request(String voyage, String[] strings, List args) {
+    public Request() {
     }
 
-    public Request(String method, String table, List<Arg> args) {
+    public Request(String method, String table, List<Arg> args, Aggregate aggregate, Option option) {
         super();
         this.method = method;
         this.table = table;
         this.args = args;
+        this.aggregate = aggregate;
+        this.option = option;
     }
 
     public String getMethod() {
@@ -44,6 +50,22 @@ public class Request {
 
     public void setArgs(List<Arg> args) {
         this.args = args;
+    }
+
+    public Aggregate getAggregate() {
+        return aggregate;
+    }
+
+    public void setAggregate(Aggregate aggregate) {
+        this.aggregate = aggregate;
+    }
+
+    public Option getOption() {
+        return option;
+    }
+
+    public void setOption(Option option) {
+        this.option = option;
     }
 
 }
