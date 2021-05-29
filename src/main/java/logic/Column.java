@@ -158,7 +158,7 @@
          if(type != "float" && type != "int" && type != "double") return "bad type column";
          float result = 0;
          for (Map.Entry nb: data.entrySet()) {
-             result = result + (float) nb.getValue();
+             result = result + Float.parseFloat((String) nb.getValue());
          }
          return "SUM = "+ result;
      }
@@ -167,16 +167,16 @@
          if(type != "float" && type != "int" && type != "double") return "bad type column";
          float result = 0;
          for (Map.Entry nb: data.entrySet()) {
-             result = result + (float) nb.getValue();
+             result = result + Float.parseFloat((String) nb.getValue());
          }
          return "Average = "+ result / data.size();
      }
 
      public String min() {
          if(type != "float" && type != "int" && type != "double") return "bad type column";
-         float result = 0;
+         float result = Float.MAX_VALUE;
          for (Map.Entry nb: data.entrySet()) {
-             if(result > (float) nb.getValue()) result = (float) nb.getValue();
+             if(result > Float.parseFloat((String) nb.getValue())) result = Float.parseFloat((String) nb.getValue());
          }
          return "min = "+ result;
      }
@@ -185,7 +185,7 @@
          if(type != "float" && type != "int" && type != "double") return "bad type column";
          float result = 0;
          for (Map.Entry nb: data.entrySet()) {
-             if(result < (float) nb.getValue()) result = (float) nb.getValue();
+             if(result < Float.parseFloat((String) nb.getValue())) result = Float.parseFloat((String) nb.getValue());
          }
          return "max = "+ result;
      }
@@ -197,7 +197,7 @@
      public String countDistinct() {
          HashSet<String> result = new HashSet();
          for (Map.Entry nb: data.entrySet()) {
-             result.add((String) nb.getValue());
+             result.add(String.valueOf(nb.getValue()));
          }
          return "count distinct = "+ result.size();
      }

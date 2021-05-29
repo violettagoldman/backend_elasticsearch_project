@@ -28,10 +28,10 @@ public class DataBaseTest {
         cn.add("Prénom");
         cn.add("Couleur");
         cn.add("Age");
-        ct.add("Int");
+        ct.add("int");
         ct.add("String");
         ct.add("String");
-        ct.add("Int");
+        ct.add("int");
         DataBase.getInstance().newTable("dogs", cn , ct);
         try {
             DataBase.getInstance().getTables().get("dogs").createIndex(new String []{"Couleur", "Age"});
@@ -45,8 +45,8 @@ public class DataBaseTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        DataBase.getInstance().getTables().get("dogs").getIndex().get("Couleur").traverse();
-        DataBase.getInstance().getTables().get("dogs").getIndex().get("Age").traverse();
+        //DataBase.getInstance().getTables().get("dogs").getIndex().get("Couleur").traverse();
+        //DataBase.getInstance().getTables().get("dogs").getIndex().get("Age").traverse();
     }
 
     @Test

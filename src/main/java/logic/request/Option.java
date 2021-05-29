@@ -28,6 +28,7 @@ public class Option {
                 } catch (NumberFormatException e) {
                     result = "Limit not number";
                 }
+                break;
             default: result = "error options";
         }
     }

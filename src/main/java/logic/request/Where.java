@@ -24,7 +24,7 @@ public class Where {
         result = new ArrayList();
         tree = new WTree(DataBase.getInstance().getTables().get(tableName));
         tree.insert(args);
-        tree.draw();
+        //tree.draw();
         result = tree.calculator();
     }
 

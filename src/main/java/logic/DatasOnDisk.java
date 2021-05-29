@@ -8,6 +8,7 @@ import java.io.RandomAccessFile;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class DatasOnDisk {
 
@@ -71,6 +72,7 @@ public class DatasOnDisk {
      * Read a line from its number and columns
      * @param noLine
      * @param cols
+     * @param selectedCols
      * @return a line split by its components
      * @throws IOException
      */

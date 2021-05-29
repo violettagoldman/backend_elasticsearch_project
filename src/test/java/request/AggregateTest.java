@@ -24,7 +24,7 @@ public class AggregateTest {
 
         args.add(ArgWhere.newCondition("Couleur", "Blanc"));
 
-        Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"},args, Aggregate.Type.COUNT, null, null);
+        Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"},args, Aggregate.Type.COUNT, null, "Couleur");
 
         String str = r.getResult();
         System.out.println(str);
@@ -49,10 +49,10 @@ public class AggregateTest {
         List args = new ArrayList<>();
 
         args.add(ArgWhere.newCondition("Couleur", "Noir"));
-        args.add(ArgWhere.newOperator(Operator.Type.AND));
+        args.add(ArgWhere.newOperator(Operator.Type.OR));
         args.add(ArgWhere.newCondition("Couleur", "Blanc"));
 
-        Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"},args, Aggregate.Type.COUNT_DISTINCT, null, null);
+        Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"},args, Aggregate.Type.COUNT_DISTINCT, null, "Couleur");
 
         String str = r.getResult();
         System.out.println(str);
@@ -74,7 +74,7 @@ public class AggregateTest {
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
 
-        Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.SUM, null, null);
+        Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.SUM, null, "Age");
 
         String str = r.getResult();
         System.out.println(str);
@@ -96,7 +96,7 @@ public class AggregateTest {
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
 
-        Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.AVERAGE, null, null);
+        Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.AVERAGE, null, "Age");
 
         String str = r.getResult();
         System.out.println(str);
@@ -118,7 +118,7 @@ public class AggregateTest {
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
 
-        Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.MIN, null, null);
+        Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.MIN, null, "Age");
 
         String str = r.getResult();
         System.out.println(str);
@@ -140,7 +140,7 @@ public class AggregateTest {
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
 
-        Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.MAX, null, null);
+        Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.MAX, null, "Age");
 
         String str = r.getResult();
         System.out.println(str);

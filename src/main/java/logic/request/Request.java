@@ -37,7 +37,7 @@ public class Request {
         }
         resultTable = select.getResult();
         if(aggregate != null){
-            Aggregate ag = new Aggregate(resultTable, columnsNames[0], aggregate);
+            Aggregate ag = new Aggregate(resultTable, agrOption, aggregate);
             result = ag.getResult();
         } else if (option != null){
             Option op = new Option(resultTable, agrOption, option);

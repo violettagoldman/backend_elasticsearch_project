@@ -31,4 +31,26 @@ public class OptionTest {
 //
 //        assertEquals(str, str2);
     }
+
+    @Test
+    public void request_Limit() throws NoSuchAlgorithmException, IOException {
+
+        DataBaseTest test = new DataBaseTest();
+        test.initDataBase();
+
+        Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"}, null, null, Option.Type.LIMIT, "3");
+        String str = r.getResult();
+        System.out.println(str);
+
+//        String str2 =
+//        "Nom de la table : result\n"+
+//        "id | Prix | Ville Départ | Ville arrivée |\n"+
+//               " 0 | 75 | Paris | Bordeaux |\n"+
+//               " 1 | 75 | Paris | Lavandia |\n"+
+//               " 2 | 3000 | Azuria | StDenis |\n"+
+//               " 3 | 45 | Paris | Test |\n";
+//
+//        assertEquals(str, str2);
+    }
+
 }

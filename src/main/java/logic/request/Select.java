@@ -26,9 +26,12 @@ public class Select {
         Table table = from.table;
         result = table.clone(columnsName);
         DatasOnDisk dod = new DatasOnDisk();
-        
+
+        // columnnames => arraylist
         ArrayList<String> columnsNamesList = new ArrayList<>();
         Collections.addAll(columnsNamesList, columnsName);
+
+        // remove columns in index
         for (String name: columnsName) if(result.getIndex().get(name)!=null)columnsNamesList.remove(name);
 
         for (Object row: rows) {
@@ -40,11 +43,15 @@ public class Select {
                 }
             }
             // take the rest of data in disk
-            ArrayList<Column> listColumn = new ArrayList<>();
-            for (String name : columnsNamesList) {
-                listColumn.add(result.getColumns().get(name));
-            }
-            Object [] data =  dod.readLine((int)row, result.getColumnsList(), listColumn);
+            ArrayList<Column> listColumnSeclected = new ArrayList<>();
+            for (String name : columnsNamesList) listColumnSeclected.add(from.table.getColumns().get(name));
+
+            //list columns mises à jour
+            ArrayList<Column> listColumnTotal = new ArrayList<>();
+            for (Object c : result.getColumnsList()) listColumnTotal.add(from.table.getColumns().get(((Column)c).getName()));
+
+
+            Object [] data =  dod.readLine((int)row, listColumnTotal, listColumnSeclected);
             for(int i = 0; i<data.length; i++) {
                 dataList.put(columnsNamesList.get(i), (String) data[i]);
             }
