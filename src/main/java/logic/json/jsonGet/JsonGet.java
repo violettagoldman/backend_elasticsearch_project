@@ -65,7 +65,7 @@ public class JsonGet {
             }
 
             else if(column != null && value != null){
-                columnsNames.add(column);
+                columnsNames.add(column); // AJOUTER DANS LE BODY UNE LIST DES COLUMNS POUR LE RENVOYE
                 args.add(ArgWhere.newCondition(column, value));
             }
 
@@ -131,7 +131,7 @@ public class JsonGet {
         //Appel de fonction
         logic.request.Request r = null;
         try {
-            r = new logic.request.Request(table, columnsNames.toArray(new String[columnsNames.size()]) ,args, agrType, optionType, agrOption);
+            r = new logic.request.Request(table, new String[0] ,args, agrType, optionType, agrOption);
         } catch (IOException e) {
             e.printStackTrace();
         }
