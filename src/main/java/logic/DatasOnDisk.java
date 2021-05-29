@@ -8,7 +8,6 @@ import java.io.RandomAccessFile;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class DatasOnDisk {
 
@@ -23,7 +22,7 @@ public class DatasOnDisk {
     }
 
     /**
-     * Write the line in the file 'datas'
+     * Write the line in the file 'datas' according to the columns contained in the table
      * @param line
      * @param table
      * @throws IOException
@@ -73,7 +72,7 @@ public class DatasOnDisk {
      * @param noLine
      * @param cols
      * @param selectedCols
-     * @return a line split by its components
+     * @return a line split by its components - only the data corresponding to the selected columns
      * @throws IOException
      */
     public Object[] readLine(int noLine, ArrayList<Column> cols, ArrayList<Column> selectedCols) throws IOException {
