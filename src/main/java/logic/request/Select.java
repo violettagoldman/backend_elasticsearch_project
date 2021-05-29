@@ -27,12 +27,25 @@ public class Select {
         result = table.clone(columnsName);
         DatasOnDisk dod = new DatasOnDisk();
 
+        // if select * we take all of columns
+
+
         // columnnames => arraylist
         ArrayList<String> columnsNamesList = new ArrayList<>();
-        Collections.addAll(columnsNamesList, columnsName);
+        if(columnsName.length==0)for (Object c : result.getColumnsList()) columnsNamesList.add(((Column)c).getName());
+        else Collections.addAll(columnsNamesList, columnsName);
 
         // remove columns in index
         for (String name: columnsName) if(result.getIndex().get(name)!=null)columnsNamesList.remove(name);
+
+        //list of selectionned columns
+        ArrayList<Column> listColumnSeclected = new ArrayList<>();
+        for (String name : columnsNamesList) listColumnSeclected.add(from.table.getColumns().get(name));
+
+        //list of all columns
+        ArrayList<Column> listColumnTotal = new ArrayList<>();
+        for (Object c : result.getColumnsList()) listColumnTotal.add(from.table.getColumns().get(((Column)c).getName()));
+
 
         for (Object row: rows) {
             HashMap<String, String > dataList = new HashMap<>();
@@ -43,14 +56,6 @@ public class Select {
                 }
             }
             // take the rest of data in disk
-            ArrayList<Column> listColumnSeclected = new ArrayList<>();
-            for (String name : columnsNamesList) listColumnSeclected.add(from.table.getColumns().get(name));
-
-            //list columns mises à jour
-            ArrayList<Column> listColumnTotal = new ArrayList<>();
-            for (Object c : result.getColumnsList()) listColumnTotal.add(from.table.getColumns().get(((Column)c).getName()));
-
-
             Object [] data =  dod.readLine((int)row, listColumnTotal, listColumnSeclected);
             for(int i = 0; i<data.length; i++) {
                 dataList.put(columnsNamesList.get(i), (String) data[i]);
