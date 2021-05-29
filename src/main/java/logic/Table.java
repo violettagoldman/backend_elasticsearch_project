@@ -202,7 +202,7 @@
          }
          str = str + "\",\n";
          for (int i = 0 ; i < rowsId ; i++){
-             str = str + "\"line"+(i)+"\" : \"";
+             str = str + "\"line\" : \"";
              Boolean id = true;
              int [] ids = new int[0];
              for (Map.Entry entry : columns.entrySet()) {
@@ -265,5 +265,6 @@
          }
          return  str;
      }
+
 
  }
