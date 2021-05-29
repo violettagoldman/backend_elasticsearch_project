@@ -38,7 +38,7 @@ public class OptionTest {
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
 
-        Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"}, null, null, Option.Type.LIMIT, "3");
+        Request r = new Request("dogs", new String[]{}, null, null, Option.Type.LIMIT, "3");
         String str = r.getResult();
         System.out.println(str);
 
