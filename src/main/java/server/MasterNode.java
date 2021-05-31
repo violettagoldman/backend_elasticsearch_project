@@ -55,6 +55,7 @@ public class MasterNode extends AbstractVerticle {
             JsonObject response = new JsonObject();
             response.put("error", "Needed params in body: table_name, table_headers.");
             sendReponse(ctx, 422, response);
+            return;
         }
 
         for (int server = 1; server < 4; ++server) {
@@ -78,6 +79,7 @@ public class MasterNode extends AbstractVerticle {
             JsonObject response = new JsonObject();
             response.put("error", "Needed params in body: table_name, columns.");
             sendReponse(ctx, 422, response);
+            return;
         }
 
         for (int server = 1; server < 4; ++server) {
@@ -101,6 +103,7 @@ public class MasterNode extends AbstractVerticle {
             JsonObject response = new JsonObject();
             response.put("error", "Needed params in body: table_name and a file.");
             sendReponse(ctx, 422, response);
+            return;
         }
 
         String path = "";
@@ -134,6 +137,7 @@ public class MasterNode extends AbstractVerticle {
             JsonObject response = new JsonObject();
             response.put("error", "Needed params in body: table_name, query.");
             sendReponse(ctx, 422, response);
+            return;
         }
 
         // We choose a random server to get the data
@@ -160,6 +164,7 @@ public class MasterNode extends AbstractVerticle {
             JsonObject response = new JsonObject();
             response.put("error", "Missing param in body: node (1, 2, or 3).");
             sendReponse(ctx, 422, response);
+            return;
         }
         nodeRequest("ping", node, new JsonObject()).onSuccess(result -> {
             System.out.println(result.bodyAsJsonObject());
@@ -167,11 +172,13 @@ public class MasterNode extends AbstractVerticle {
             response.put("message", "The node is up!");
             response.put("up", true);
             sendReponse(ctx, 200, response);
+            return;
         }).onFailure(error -> {
             JsonObject response = new JsonObject();
             response.put("message", "The node is down.");
             response.put("up", false);
             sendReponse(ctx, 200, response);
+            return;
         });
     }
 
