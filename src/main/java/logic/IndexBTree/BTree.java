@@ -12,14 +12,14 @@ public class BTree{
     public final String name;
     public final String type;
     private BTreeNode root;
-    private int MinDeg;
-    private Map<Integer, Entry> list;
+    private final int MinDeg;
+    private final Map<Integer, Entry> list;
 
 
     /**
      * Constructor
-     * @param deg
-     * @param name
+     * @param deg max degrees of tree
+     * @param name name of the column
      */
     public BTree(int deg, String name, String type){
         this.type = type;
@@ -41,8 +41,8 @@ public class BTree{
 
     /**
      * returns the node containing the data
-     * @param data
-     * @return
+     * @param data the data to search
+     * @return the node of the data
      * @throws NoSuchAlgorithmException
      */
     public BTreeNode searchNode(String data) throws NoSuchAlgorithmException{
@@ -51,8 +51,8 @@ public class BTree{
 
     /**
      * return the data by the id
-     * @param id
-     * @return
+     * @param id the id of the line
+     * @return return the data
      */
     public String getData(int id){
         return list.get(id).getData();
@@ -60,9 +60,9 @@ public class BTree{
 
     /**
      * returns the entry containing the data
-     * @param data
-     * @return
-     * @throws NoSuchAlgorithmException
+     * @param data the data to search
+     * @return the entry contains the data
+     * @throws NoSuchAlgorithmException exception
      */
     public Entry search(String data) throws NoSuchAlgorithmException{
         return root == null ? null : root.search(data);
@@ -70,19 +70,19 @@ public class BTree{
 
     /**
      * returns the list of occurrences
-     * @param data
-     * @return
-     * @throws NoSuchAlgorithmException
+     * @param data the data to search
+     * @return return the occurrences
+     * @throws NoSuchAlgorithmException exception
      */
-    public ArrayList occurrences(String data) throws NoSuchAlgorithmException {
+    public ArrayList<Integer> occurrences(String data) throws NoSuchAlgorithmException {
         return search(data) != null ? search(data).getOccurrencesList() : new ArrayList<>();
     }
 
     /**
      * inserts a new data or adds the new occurrence to the existing entry
-     * @param data
-     * @param id
-     * @throws NoSuchAlgorithmException
+     * @param data the data to insert
+     * @param id the id of the data
+     * @throws NoSuchAlgorithmException exception
      */
     public void insert(String data, int id) throws NoSuchAlgorithmException {
         Entry entry = new Entry(data,id);
@@ -120,23 +120,4 @@ public class BTree{
         }
     }
 
-    /**
-     * removes an occurrence from a data
-     * @param key
-     */
-    public void remove(int key){
-        if (root == null){
-            System.out.println("The tree is empty");
-            return;
-        }
-        root.remove(key);
-        if (root.num == 0){ // If the root node has 0 keys
-            // If it has a child, its first child is taken as the new root,
-            // Otherwise, set the root node to null
-            if (root.isLeaf)
-                root = null;
-            else
-                root = root.children[0];
-        }
-    }
 }

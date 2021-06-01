@@ -27,7 +27,7 @@ public class Request {
      */
     public Request(String tableName, String [] columnsNames, List<ArgWhere> args, Aggregate.Type aggregate, Option.Type option, String agrOption) throws NoSuchAlgorithmException, IOException {
         from = new From(tableName);
-        if(args != null){
+        if(args != null && !args.isEmpty()){
             where = new Where(args, tableName);
             select = new Select(where.getResult(), columnsNames, from);
         } else {

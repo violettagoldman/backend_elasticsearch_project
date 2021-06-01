@@ -46,17 +46,9 @@ public class OptionTest {
 
         Request r = new Request("dogs", new String[]{}, null, null, Option.Type.LIMIT, "3");
         String str = r.getResult();
-        System.out.println(str);
 
-//        String str2 =
-//        "Nom de la table : result\n"+
-//        "id | Prix | Ville Départ | Ville arrivée |\n"+
-//               " 0 | 75 | Paris | Bordeaux |\n"+
-//               " 1 | 75 | Paris | Lavandia |\n"+
-//               " 2 | 3000 | Azuria | StDenis |\n"+
-//               " 3 | 45 | Paris | Test |\n";
-//
-//        assertEquals(str, str2);
+        String str2 = "{\"lines\":[{\"Prénom\":\"Titi\",\"Couleur\":\"Jaune\",\"Id\":\"1\",\"Age\":\"5\"},{\"Prénom\":\"Médor\",\"Couleur\":\"Noir\",\"Id\":\"2\",\"Age\":\"10\"},{\"Prénom\":\"Pitié\",\"Couleur\":\"Noir\",\"Id\":\"3\",\"Age\":\"5\"}]}";
+        assertEquals(str, str2);
     }
 
 }

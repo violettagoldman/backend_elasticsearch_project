@@ -10,17 +10,22 @@ import java.util.*;
  */
 public class Entry {
     private int key;
-    private String data;
-    private Map<Integer, Entry> afters;
+    private final String data;
+    private final Map<Integer, Entry> afters;
 
     /**
      * constructor that transforms the data into int to create the key
-     * @param data
-     * @param id
-     * @throws NoSuchAlgorithmException
+     * @param data the data
+     * @param id the id of the data
+     * @throws NoSuchAlgorithmException exception
      */
-    public Entry(String data, int id) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
+    public Entry(String data, int id) {
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         md.update(data.getBytes());
         byte byteData[] = md.digest();
         key = ByteBuffer.wrap(byteData).getInt();
@@ -31,7 +36,7 @@ public class Entry {
 
     /**
      * return the map of after for concatenated indexes
-     * @return
+     * @return the data in the column after
      */
     public Map<Integer, Entry> getAfters() {
         return afters;
@@ -39,35 +44,25 @@ public class Entry {
 
     /**
      * return the key
-     * @return
+     * @return the key
      */
     public int getKey() { return key; }
 
     /**
      * return the data
-     * @return
+     * @return the data
      */
     public String getData() {
         return data;
     }
 
     /**
-     * chnage the key
-     * @param newKey
-     */
-    public void setKey(int newKey) {
-        key = newKey;
-    }
-
-    /**
      * returns the list of occurrences
      * @return
      */
-    public ArrayList getOccurrencesList(){
-        ArrayList result = new ArrayList<>();
-        for (Map.Entry entry: afters.entrySet()) {
-            result.add(entry.getKey());
-        }
+    public ArrayList<Integer> getOccurrencesList(){
+        ArrayList<Integer> result = new ArrayList<>();
+        afters.forEach((key1, value) -> result.add(key1));
         return result;
     }
 

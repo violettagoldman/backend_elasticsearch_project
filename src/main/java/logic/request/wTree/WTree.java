@@ -29,6 +29,7 @@ public class WTree {
      * @throws NoSuchAlgorithmException
      */
     public void insert(List<ArgWhere> args) throws NoSuchAlgorithmException {
+        if(args.isEmpty())return;
         ArgWhere arg = args.remove(0);
         WNode node;
         int start = 0;

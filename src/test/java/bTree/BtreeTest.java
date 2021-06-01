@@ -42,4 +42,19 @@ public class BtreeTest {
         assertEquals(str, str2);
     }
 
+    @Test
+    public void btree_get_occurrences() throws NoSuchAlgorithmException {
+
+        BTree t = new BTree(2, "name", "String"); // A B-Tree with minium degree 2
+        t.insert("jeanne", 1);
+        t.insert("jeanne", 3);
+        t.insert("jeanne", 2);
+        t.insert("cecile", 5);
+        t.insert("olivier", 4);
+
+        String str =t.search("jeanne").getOccurrencesList().toString();
+        String str2 = "[1, 2, 3]";
+        assertEquals(str, str2);
+    }
+
 }
