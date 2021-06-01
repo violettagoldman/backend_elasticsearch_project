@@ -17,7 +17,6 @@ public class Entry {
      * constructor that transforms the data into int to create the key
      * @param data the data
      * @param id the id of the data
-     * @throws NoSuchAlgorithmException exception
      */
     public Entry(String data, int id) {
         MessageDigest md = null;

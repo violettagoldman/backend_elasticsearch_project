@@ -13,11 +13,11 @@ import java.util.Stack;
  */
 public class WTree {
     private WNode root = null;
-    private Table table;
+    private final Table table;
 
     /**
      * constructor
-     * @param table
+     * @param table table
      */
     public WTree(Table table){
         this.table = table;

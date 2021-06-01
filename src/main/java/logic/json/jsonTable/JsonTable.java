@@ -18,7 +18,7 @@ public class JsonTable {
      * @param request JsonObject got by the API
      * @param name name
      * @return the response of the request
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException e
      */
     public static ArrayList jsonTable(String request, boolean name) throws NoSuchAlgorithmException {
 

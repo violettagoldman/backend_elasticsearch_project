@@ -5,6 +5,7 @@
  import java.io.IOException;
  import java.io.RandomAccessFile;
  import java.util.*;
+ import java.util.Map.Entry;
 
  /**
   * Class that implements the columns.
@@ -29,7 +30,7 @@
      /**
       * gives a data corresponding to the id (object)
       * @param i the id of the data
-      * @return
+      * @return return the data
       */
      public String getById(Object i) {
          return data.get(i);
@@ -37,7 +38,7 @@
 
      /**
       * return the type
-      * @return
+      * @return the type of the column
       */
      public String getType() {
          return type;
@@ -45,7 +46,7 @@
 
      /**
       * return the name
-      * @return
+      * @return the name of the column
       */
      public String getName() {
          return name;
@@ -54,8 +55,8 @@
 
      /**
       * gives a data corresponding to the id (int)
-      * @param i
-      * @return
+      * @param i id of the data
+      * @return the data
       */
      public String dataByID(int i){
          return data.get(i);
@@ -64,11 +65,11 @@
      /**
       * returns the occurrences of a data
       * @param value
-      * @return
+      * @return the occurrences of the data
       */
-     public List<Integer> getOccurences(String value) {
+     public List<Integer> getOccurrences(String value) {
          List <Integer> list = new ArrayList<>();
-         for (Map.Entry entry : data.entrySet()){
+         for (Entry entry : data.entrySet()){
              if(entry.getValue() == value)list.add((Integer) entry.getKey());
          }
          return list;
@@ -76,8 +77,8 @@
 
      /**
       * adds a data to the column
-      * @param id
-      * @param value
+      * @param id id of the data
+      * @param value the data to add
       */
      public void addDataValue(int id, String value) {
             data.put(id, value);
@@ -87,12 +88,12 @@
       * returns the column with the given rows only,
       * if the row list is empty, returns the whole column
       * @param rows
-      * @return
+      * @return a new column with the rows
       */
      public Column filterByRows(ArrayList rows){
          Column column = new Column(this.name, this.type);
          if(rows.size()==0){
-             for (Map.Entry entry: data.entrySet()) {
+             for (Entry entry: data.entrySet()) {
                  column.addDataValue((int)entry.getKey(), (String)entry.getValue());
              }
          }else{
@@ -105,12 +106,12 @@
 
      /**
       * returns the list of data ids of the column
-      * @return
+      * @return the list of id
       */
      public int [] listId(){
          int [] id = new int[data.size()];
          int i = 0;
-         for (Map.Entry entry: data.entrySet()) {
+         for (Entry entry: data.entrySet()) {
              id[i]= (int) entry.getKey();
              i++;
          }
@@ -119,17 +120,22 @@
 
      /**
       * returns a string describing the column
-      * @return
+      * @return a string
       */
      public String toString(){
          String str = " Type : "+type+"\n";
-         for (Map.Entry entry :
+         for (Entry entry :
                  data.entrySet()) {
              str = str + "id : "+entry.getKey()+" value : "+entry.getValue()+"\n";
          }
          return str;
      }
 
+     /**
+      * evalue equals
+      * @param o object
+      * @return boolean
+      */
      @Override
      public boolean equals(Object o) {
          if (this == o) return true;
@@ -138,6 +144,10 @@
          return Objects.equals(name, column.name) && Objects.equals(type, column.type) && Objects.equals(data, column.data);
      }
 
+     /**
+      * hash an object
+      * @return the hash
+      */
      @Override
      public int hashCode() {
          return Objects.hash(name, type, data);
@@ -149,17 +159,27 @@
          return (int) (file.length() - lengthBefore);
      }
 
+     /**
+      * read from the file
+      * @param file the file to read
+      * @return return object read
+      * @throws IOException exception
+      */
      public Object readFromFile(RandomAccessFile file) throws IOException {
          return file.readUTF();
      }
 
      
      // ___Functions for aggregates___
-     
+
+     /**
+      * return the sum Json
+      * @return string (JSon)
+      */
      public String sum() {
          if(type != "float" && type != "int" && type != "double") return "bad type column";
          float result = 0;
-         for (Map.Entry nb: data.entrySet()) {
+         for (Entry nb: data.entrySet()) {
              result = result + Float.parseFloat((String) nb.getValue());
          }
          JSONObject jo = new JSONObject();
@@ -167,10 +187,14 @@
          return jo.toString();
      }
 
+     /**
+      * return the average Json
+      * @return string (JSon)
+      */
      public String average() {
          if(type != "float" && type != "int" && type != "double") return "bad type column";
          float result = 0;
-         for (Map.Entry nb: data.entrySet()) {
+         for (Entry nb: data.entrySet()) {
              result = result + Float.parseFloat((String) nb.getValue());
          }
          JSONObject jo = new JSONObject();
@@ -178,10 +202,14 @@
          return jo.toString();
      }
 
+     /**
+      * return the min Json
+      * @return string (JSon)
+      */
      public String min() {
-         if(type != "float" && type != "int" && type != "double") return "bad type column";
+         if(!type.equals("float") && !type.equals("int") && !type.equals("double")) return "bad type column";
          float result = Float.MAX_VALUE;
-         for (Map.Entry nb: data.entrySet()) {
+         for (Entry nb: data.entrySet()) {
              if(result > Float.parseFloat((String) nb.getValue())) result = Float.parseFloat((String) nb.getValue());
          }
          JSONObject jo = new JSONObject();
@@ -189,10 +217,14 @@
          return jo.toString();
      }
 
+     /**
+      * return the max Json
+      * @return string (JSon)
+      */
      public String max() {
-         if(type != "float" && type != "int" && type != "double") return "bad type column";
+         if(!type.equals("float") && !type.equals("int") && !type.equals("double")) return "bad type column";
          float result = 0;
-         for (Map.Entry nb: data.entrySet()) {
+         for (Entry nb: data.entrySet()) {
              if(result < Float.parseFloat((String) nb.getValue())) result = Float.parseFloat((String) nb.getValue());
          }
          JSONObject jo = new JSONObject();
@@ -200,15 +232,23 @@
          return jo.toString();
      }
 
+     /**
+      * return the rows of the column
+      * @return string (JSon)
+      */
      public String count() {
          JSONObject jo = new JSONObject();
          jo.put("count", data.size());
          return jo.toString();
      }
 
+     /**
+      * return the count of the distinct value in the column
+      * @return string (JSon)
+      */
      public String countDistinct() {
          HashSet<String> result = new HashSet();
-         for (Map.Entry nb: data.entrySet()) {
+         for (Entry nb: data.entrySet()) {
              result.add(String.valueOf(nb.getValue()));
          }
          JSONObject jo = new JSONObject();
@@ -217,9 +257,14 @@
      }
 
      // function for option
+
+     /**
+      * order by the data
+      * @return the new order of rows
+      */
      public ArrayList<Integer> orderBy(){
          TreeMap<String, Integer> orderMap = new TreeMap<>();
-         for (Map.Entry entry: data.entrySet()) {
+         for (Entry entry: data.entrySet()) {
             orderMap.put((String)entry.getValue(), (Integer)entry.getKey());
          }
          ArrayList<Integer> order = new ArrayList<>(orderMap.values());

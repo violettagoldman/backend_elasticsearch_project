@@ -22,7 +22,7 @@ public class Select {
      * @param columnsName list of columns to return
      * @param from table of the request
      */
-    public Select(ArrayList rows, String [] columnsName, From from) throws IOException {
+    public Select(ArrayList<Integer> rows, String [] columnsName, From from) throws IOException {
         Table table = from.table;
         result = table.clone(columnsName);
         DatasOnDisk dod = new DatasOnDisk();

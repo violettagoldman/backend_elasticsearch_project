@@ -20,7 +20,7 @@ public class Where {
      * @throws NoSuchAlgorithmException exception
      */
     public Where(List<ArgWhere> args, String tableName) throws NoSuchAlgorithmException {
-        result = new ArrayList();
+        result = new ArrayList<Integer>();
         WTree tree = new WTree(DataBase.getInstance().getTables().get(tableName));
         tree.insert(args);
         result = tree.calculator();

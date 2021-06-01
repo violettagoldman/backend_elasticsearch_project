@@ -17,6 +17,10 @@ public class Server extends AbstractVerticle {
   //   "2", 8890,
   //   "3", 8891
 
+  /**
+   * start server
+   * @throws Exception ex
+   */
   @Override
   public void start() throws Exception {
     ports.put("master", 8888);

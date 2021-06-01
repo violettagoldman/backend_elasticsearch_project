@@ -14,7 +14,7 @@ public class JsonIndex {
      *
      * @param request JsonObject got by the API
      * @return the response of the request
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException e
      */
     public static String[] jsonIndex(String request) throws NoSuchAlgorithmException {
 

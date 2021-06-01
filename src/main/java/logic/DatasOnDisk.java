@@ -23,9 +23,9 @@ public class DatasOnDisk {
 
     /**
      * Write the line in the file 'datas' according to the columns contained in the table
-     * @param line
-     * @param table
-     * @throws IOException
+     * @param line line
+     * @param table table
+     * @throws IOException e
      */
     public void writeLine(String[] line, Table table) throws IOException {
         long startPos = datas.length();
@@ -51,8 +51,8 @@ public class DatasOnDisk {
 
     /**
      * Write the position of a line in the file 'positions'
-     * @param positions
-     * @throws IOException
+     * @param positions positions
+     * @throws IOException e
      */
     private void writePositions(long[] positions) throws IOException {
         long startPosition = sizeByte * countLines;
@@ -69,11 +69,11 @@ public class DatasOnDisk {
 
     /**
      * Read a line from its number and columns
-     * @param noLine
-     * @param cols
-     * @param selectedCols
+     * @param noLine noLine
+     * @param cols cols
+     * @param selectedCols selectedCols
      * @return a line split by its components - only the data corresponding to the selected columns
-     * @throws IOException
+     * @throws IOException ex
      */
     public Object[] readLine(int noLine, ArrayList<Column> cols, ArrayList<Column> selectedCols) throws IOException {
         long[] linePos = readPositions(noLine);
@@ -92,9 +92,9 @@ public class DatasOnDisk {
 
     /**
      * Read the position of a line based on its number
-     * @param noLine
+     * @param noLine noLine
      * @return the position of the line and its size
-     * @throws IOException
+     * @throws IOException e
      */
     private long[] readPositions(int noLine) throws IOException {
         long startPosition = (long) sizeByte * noLine;

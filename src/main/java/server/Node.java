@@ -103,7 +103,7 @@ public class Node extends AbstractVerticle {
             e.printStackTrace();
         }
         try {
-            DataBase.getInstance().getTables().get(table_name).createIndex(result);
+            DataBase.getInstance().createIndex(table_name, result);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

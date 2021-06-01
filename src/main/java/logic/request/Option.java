@@ -29,7 +29,7 @@ public class Option {
         switch (type){
             case ORDER_BY :
                 ArrayList<Integer> order = table.getColumns().get(option).orderBy();
-                result = table.toStringByOrder(order);
+                result = table.toJsonByOrder(order);
                 break;
             case LIMIT :
                 try {

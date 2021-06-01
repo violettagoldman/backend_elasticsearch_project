@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Class that represents the database.
@@ -25,8 +26,8 @@ public class DataBase {
 
     /**
      * Changes the name of the database and returns the database
-     * @param name
-     * @return
+     * @param name the name
+     * @return the database
      */
     public static DataBase setName(String name){
         instance.name = name;
@@ -35,7 +36,7 @@ public class DataBase {
 
     /**
      * Initialise the database tables
-     * @param tables
+     * @param tables new table
      */
     public void setTables(Map<String, Table> tables) {
         this.tables = tables;
@@ -43,7 +44,7 @@ public class DataBase {
 
     /**
      * Returns the instance of the database
-     * @return
+     * @return the instance of database
      */
     public static DataBase getInstance(){
         return instance;
@@ -51,7 +52,7 @@ public class DataBase {
 
     /**
      * Returns the map of the tables
-     * @return
+     * @return the map of tables
      */
     public Map<String, Table> getTables() {
         return tables;
@@ -59,26 +60,19 @@ public class DataBase {
 
     /**
      * adds a table to the database
-     * @param name
-     * @param columnsMap
+     * @param name name of the table
+     * @param columnsNames list of names of columns
+     * @param columnsType list of types of columns
      */
-    public void newTable(String name, ArrayList columnsNames, ArrayList columnsType){
+    public void newTable(String name, ArrayList<String> columnsNames, ArrayList<String> columnsType){
         tables.put(name, new Table(name, columnsNames, columnsType));
     }
 
-    /**
-     * adds a row to the database
-     * @param name
-     * @param columnsMap
-     */
-    public void newLine(String name, Map<String, String> columnsMap){
-        tables.get(name).addLineColumn(columnsMap);
-    }
 
     /**
      * create an index in the requested table for the desired columns
-     * @param table
-     * @param columns
+     * @param table the table of request
+     * @param columns the columns to index
      * @throws NoSuchAlgorithmException
      */
     public void createIndex(String table, String [] columns) throws NoSuchAlgorithmException {
@@ -87,11 +81,11 @@ public class DataBase {
 
     /**
      * returns a string describing the database
-     * @return
+     * @return a string
      */
     public String toString(){
         String str = "DataBase :"+ name +"\n";
-        for (Map.Entry entry:
+        for (Entry entry:
              tables.entrySet()) {
             str = entry.toString();
         }

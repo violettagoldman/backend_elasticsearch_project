@@ -11,8 +11,8 @@ public class CSVParser {
 
 	/**
 	 * Get the content of a local CSV and write it on the disk
-	 * @param file
-	 * @param table
+	 * @param file file
+	 * @param table table
 	 * @throws IOException
 	 */
 	public void readFileLocal(File file, Table table) throws IOException {
@@ -33,9 +33,9 @@ public class CSVParser {
 
 	/**
 	 * Get the content of a online CSV and write it on the disk
-	 * @param url
-	 * @param table
-	 * @throws IOException
+	 * @param url url
+	 * @param table table
+	 * @throws IOException e
 	 */
 	public void readFileURL(URL url, Table table) throws IOException {
 

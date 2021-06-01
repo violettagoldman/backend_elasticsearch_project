@@ -27,7 +27,7 @@ public class Request {
             Where where = new Where(args, tableName);
             select = new Select(where.getResult(), columnsNames, from);
         } else {
-            ArrayList rows = new ArrayList();
+            ArrayList<Integer> rows = new ArrayList<Integer>();
             for (int i = 0; i< from.table.getRowsId() ; i++) rows.add(i);
             select = new Select(rows, columnsNames, from);
         }

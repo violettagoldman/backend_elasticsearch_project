@@ -37,7 +37,7 @@ public class JsonGet {
      *
      * @param request JsonObject got by the API
      * @return the response of the request in Json format
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException e
      */
     public static JsonObject json(JsonObject request) throws NoSuchAlgorithmException {
 
