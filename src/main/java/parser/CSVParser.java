@@ -1,70 +1,56 @@
 package parser;
 
+import logic.DatasOnDisk;
+import logic.Table;
+
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CSVParser {
 
 	/**
-	 * Get the absolute path of the file (used for readFileLocal)
-	 * @param fileName
-	 * @return the file we need
-	 */
-	public File getResource(String fileName) {
-		final File initFile = new File("");
-		final String pathFileName = initFile.getAbsolutePath() + File.separator + fileName; // File.separator = '\'
-
-		File file = new File(pathFileName);
-		return file;
-	}
-
-	/**
-	 * Get the content of the file when it is in local
+	 * Get the content of a local CSV and write it on the disk
 	 * @param file
-	 * @return the list (String) of each line
+	 * @param table
 	 * @throws IOException
 	 */
-	public List<String> readFileLocal(File file) throws IOException {
-
-		List<String> result = new ArrayList<>();
+	public void readFileLocal(File file, Table table) throws IOException {
 
 		FileReader fileReader = new FileReader(file);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
 
+		DatasOnDisk dod = new DatasOnDisk();
+
 		for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
-			result.add(line);
+			String[] lineSplited = line.split(",");
+			dod.writeLine(lineSplited, table);
 		}
 
 		bufferedReader.close();
 		fileReader.close();
-
-		return result;
 	}
 
 	/**
-	 * Get the content of the file when it is online
+	 * Get the content of a online CSV and write it on the disk
 	 * @param url
-	 * @return the list (String) of each line
+	 * @param table
 	 * @throws IOException
 	 */
-	public List<String> readFileURL(URL url) throws IOException {
-
-		List<String> result = new ArrayList<>();
+	public void readFileURL(URL url, Table table) throws IOException {
 
 		URLConnection connection = url.openConnection();
 		InputStreamReader input = new InputStreamReader(connection.getInputStream());
 		BufferedReader bufferedReader = new BufferedReader(input);
 
+		DatasOnDisk dod = new DatasOnDisk();
+
 		for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
-			result.add(line);
+			String[] lineSplited = line.split(",");
+			dod.writeLine(lineSplited, table);
 		}
 
 		bufferedReader.close();
-
-		return result;
 	}
 
 }

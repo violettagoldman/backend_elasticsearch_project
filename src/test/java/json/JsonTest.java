@@ -1,108 +1,116 @@
 package json;
 
+import dataBase.DataBaseTest;
 import logic.DataBase;
 import logic.Table;
+<<<<<<< HEAD
 import logic.json.Json;
 import org.junit.Test;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+=======
+import logic.json.jsonTable.JsonTable;
+import org.junit.Test;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+>>>>>>> main
 import java.util.HashMap;
 import java.util.Map;
 
-import static logic.json.Json.json;
+import static logic.json.jsonGet.JsonGet.json;
+
+import static logic.json.jsonIndex.JsonIndex.jsonIndex;
+import static org.junit.Assert.assertEquals;
 
 public class JsonTest {
 
-    @Test
-    public void select() throws IOException {
 
+    @Test
+    public void jsonGet() throws IOException, NoSuchAlgorithmException {
+
+        DataBaseTest db = new DataBaseTest();
+        db.initDataBase();
+        Table table = DataBase.getInstance().getTables().get("dogs");
         final String data = "{\n" +
-                "  \"request\":\n" +
-                "  {\n" +
-                "    \"method\" :\"select\"\n" +
-                "  },\n" +
-                "  \"args\":\n" +
-                "  [\n" +
-                "    {\n" +
-                "      \"table_name\": \"test_table_name\",\n" +
-                "      \"column\": \"test_column\",\n" +
-                "      \"value\": \"test_value\"\n" +
-                "    }\n" +
-                "  ]\n" +
+                "    \"method\": \"select\",\n" +
+                "    \"table\": \"dogs\",\n" +
+                "  \t\"args\":\n" +
+                "    [\n" +
+                "      {\n" +
+                "        \"column\": \"Couleur\",\n" +
+                "        \"value\": \"Noir\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"operator\": \"OR\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"column\": \"Age\",\n" +
+                "        \"value\": \"10\"\n" +
+                "      }\n" +
+                "    ]\n" +
                 "}";
 
-        json(data);
+       // String str = json(data);
+      //  System.out.println(str);
+
+        String str2 =
+                "Nom de la table : result\n" +
+                "id | Ville Départ | Ville arrivée |\n" +
+                " 0 | Paris | Bordeaux |\n" +
+                " 1 | Paris | Lavandia |\n" +
+                " 3 | Paris | Test |\n";
+
+        //assertEquals(str,str2);
     }
 
     @Test
-    public void no_method() throws IOException {
+    public void jsonIndex() throws IOException, NoSuchAlgorithmException {
 
         final String data = "{\n" +
-                "  \"request\":\n" +
-                "  {\n" +
-                "    \"method\" :\"test\"\n" +
-                "  },\n" +
-                "  \"args\":\n" +
-                "  [\n" +
-                "    {\n" +
-                "      \"table_name\": \"test_table_name\",\n" +
-                "      \"column\": \"test_column\",\n" +
-                "      \"value\": \"test_value\"\n" +
-                "    }\n" +
-                "  ]\n" +
+                "    \"table_name\": \"Table_Name\",\n" +
+                "  \t\"columns\":\n" +
+                "    [\n" +
+                "      {\n" +
+                "      \"column\": \"Couleur\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "      \"column\": \"Age\"\n" +
+                "      }\n" +
+                "    ]\n" +
                 "}";
 
-        json(data);
+        String[] str = logic.json.jsonIndex.JsonIndex.jsonIndex(data);
+        System.out.println(str);
     }
 
     @Test
-    public void select_with_function() throws IOException, NoSuchAlgorithmException {
-
-        Map<String, String> columnsMap = new HashMap<>();
-        columnsMap.put("Ville Départ", "String");
-        columnsMap.put("Ville arrivée", "String");
-        columnsMap.put("Prix", "Int");
-        Table table = new Table("Voyages", columnsMap);
-
-        Map<String, String> bordeauxParis = new HashMap<>();
-        bordeauxParis.put("Ville Départ", "Paris");
-        bordeauxParis.put("Ville arrivée", "Bordeaux");
-        bordeauxParis.put("Prix", "75");
-        table.addLine(bordeauxParis);
-
-        Map<String, String> bordeauxParis2 = new HashMap<>();
-        bordeauxParis2.put("Ville Départ", "Paris");
-        bordeauxParis2.put("Ville arrivée", "Bordeaux");
-        bordeauxParis2.put("Prix", "75");
-        table.addLine(bordeauxParis2);
-
-        Map<String, String> parisStDenis = new HashMap<>();
-        parisStDenis.put("Ville Départ", "Paris");
-        parisStDenis.put("Ville arrivée", "StDenis");
-        parisStDenis.put("Prix", "3000");
-        table.addLine(parisStDenis);
-
-        table.createIndex(new String [] {"Ville Départ", "Ville arrivée"});
-
-        DataBase db = DataBase.createInstance("Voyage");
-        db.getTables().put("voyage", table);
+    public void jsonTable() throws IOException, NoSuchAlgorithmException {
 
 
         Json.setDb(db);
         final String data = "{\n" +
-                "  \"request\":\n" +
-                "  {\n" +
-                "    \"method\" :\"select\"\n" +
-                "  },\n" +
-                "  \"args\":\n" +
-                "  [\n" +
-                "    {\n" +
-                "      \"table_name\": \"voyage\",\n" +
-                "      \"column\": \"Ville Départ\",\n" +
-                "      \"value\": \"Paris\"\n" +
-                "    }\n" +
-                "  ]\n" +
+                "    \"table_name\": \"Table_Name\",\n" +
+                "  \t\"columns\":\n" +
+                "    [\n" +
+                "      {\n" +
+                "      \"column\": \"Couleur\",\n" +
+                "      \"type\": \"String\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "      \"column\": \"Age\",\n" +
+                "      \"type\": \"Int\"\n" +
+                "      }\n" +
+                "    ]\n" +
                 "}";
-        json(data);
+
+        ArrayList str = (ArrayList) JsonTable.jsonTable(data, true);
+        System.out.println(str);
+
+        Map<String, String> str2 = new HashMap<String, String>();
+        str2.put("Couleur", "String");
+        str2.put("Age", "Int");
+
+        //assertEquals(str,str2);
     }
 }

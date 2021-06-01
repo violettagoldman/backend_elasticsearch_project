@@ -1,25 +1,38 @@
 package logic.request;
 
-import logic.json.Arg;
-
+import logic.DataBase;
+import logic.request.wTree.ArgWhere;
+import logic.request.wTree.WTree;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * class that implements the where of the request
+ */
 public class Where {
-    private int [] result;
-    private List<ArgWhere> args;
+    private ArrayList result;
+    private WTree tree;
 
-    public Where(List<ArgWhere> args){
-//        this.args = args;
-//        if(args.size() == 0)
-        result = new int[0];
-//        else{
-//            for (ArgWhere arg: args) {
-//
-//            }
-//        }
+    /**
+     * constructor
+     * @param args
+     * @param tableName
+     * @throws NoSuchAlgorithmException
+     */
+    public Where(List<ArgWhere> args, String tableName) throws NoSuchAlgorithmException {
+        result = new ArrayList();
+        tree = new WTree(DataBase.getInstance().getTables().get(tableName));
+        tree.insert(args);
+        //tree.draw();
+        result = tree.calculator();
     }
 
-    public int[] getResult() {
+    /**
+     * return the result
+     * @return
+     */
+    public ArrayList getResult() {
         return result;
     }
 }

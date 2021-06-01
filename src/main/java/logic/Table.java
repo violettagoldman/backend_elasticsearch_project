@@ -1,37 +1,41 @@
  package logic;
 
- import logic.bTree.BTree;
- import logic.bTree.Entry;
- import logic.bTree.Occurence;
+ import logic.IndexBTree.BTree;
+ import org.json.JSONArray;
+ import org.json.JSONObject;
 
  import java.security.NoSuchAlgorithmException;
  import java.util.*;
 
- public class Table
- {
+ public class Table {
      private String name;
      private Map<String, Column> columns;
      private int rowsId;
      private Map<String, BTree> index;
+     private ArrayList columnsList;
 
-     public Table(String name, Map<String, String> columnsMap){
+     /**
+      * Initialise a new table from a name and a map <column name , column type>.
+      * @param name
+      * @param columnsNames, columnsType
+      */
+     public Table(String name, ArrayList columnsNames, ArrayList columnsType){
          this.name = name;
-         columns = new TreeMap<String, Column>();
+         columns = new HashMap<String, Column>();
          rowsId = 0;
          index = new HashMap<String, BTree>();
-         for (Map.Entry entry: columnsMap.entrySet()){
-             columns.put((String) entry.getKey(), new Column((String) entry.getKey(), (String) entry.getValue()));
+         columnsList = new ArrayList<>();
+         for(int i = 0; i< columnsNames.size() ; i++){
+             Column column = new Column((String) columnsNames.get(i), (String) columnsType.get(i));
+             columns.put((String) columnsNames.get(i), column );
+             columnsList.add(column);
          }
      }
 
-     public Map<String, Column> getColumns() {
-         return columns;
-     }
-
-     public void setColumns(Map<String, Column> columns) {
-         this.columns = columns;
-     }
-
+     /**
+      * create a new empty table
+      * @param name
+      */
      public Table(String name){
          this.name = name;
          columns = null;
@@ -39,82 +43,263 @@
          index = null;
      }
 
+     /**
+      * changes the number of rows contained in the table
+      * @param rowsId
+      */
+     public void setRowsId(int rowsId) {
+         this.rowsId = rowsId;
+     }
+
+     /**
+      * returns the number of rows
+      * @return
+      */
+     public int getRowsId() {
+         return rowsId;
+     }
+
+     /**
+      * returns the columns of the table
+      * @return
+      */
+     public Map<String, Column> getColumns() {
+         return columns;
+     }
+
+     /**
+      * returns the list of columns of the table
+      * @return
+      */
+     public ArrayList getColumnsList() {
+         return columnsList;
+     }
+
+     /**
+      * changes the columns of the table
+      * @param columns
+      */
+     public void setColumns(Map<String, Column> columns) {
+         this.columns = columns;
+     }
+
+     /**
+      * returns the given index in perimeter or the column if the index does not exist
+      * @param columnName
+      * @return
+      */
+     public Object getIndexOrColumn(String columnName){
+         return index.get(columnName) == null ? columns.get(columnName) : index.get(columnName);
+     }
+
+     /**
+      * add a row
+      */
+     public void addRow(){
+         rowsId++;
+     }
+
+     /**
+      * return index
+      * @return
+      */
+     public Map<String, BTree> getIndex() {
+         return index;
+     }
+
+     /**
+      * clones the table, the new table contains only the columns given in parameter
+      * @param columnsNames
+      * @return
+      */
      public Table clone(String [] columnsNames){
          Table result = new Table("result");
-         result.columns = new TreeMap<String, Column>(); ;
-         result.rowsId = this.rowsId;
-         for (String name : columnsNames ){
-             result.columns.put(name, columns.get(name));
+         result.index = index;
+         result.columns = new TreeMap<>();
+         result.rowsId = 0;
+         result.columnsList = columnsList;
+         if(columnsNames.length>0){
+             for (String columnName : columnsNames ){
+                 result.columns.put(columnName, new Column(columnName, columns.get(columnName).getType()));
+             }
+         } else {
+             for (Map.Entry column : columns.entrySet()) {
+                 result.columns.put((String) column.getKey(), new Column((String) column.getKey(), columns.get(column.getKey()).getType()));
+             }
          }
          return result;
      }
 
-
-     public void addLine(Map<String, String> columnsMap){
+     /**
+      * adds a new row to the table, map: <column name, data>
+      * @param columnsMap
+      */
+     public void addLineColumn(Map<String, String> columnsMap){
          for (Map.Entry entry: columnsMap.entrySet()){
              columns.get(entry.getKey()).addDataValue(rowsId, (String)entry.getValue());
          }
          rowsId++;
      }
 
-     public Object getIndexOrColumn(String columnName){
-         return index.get(columnName) == null ? columns.get(columnName) : index.get(columnName);
+     /**
+      * Add the line in the Index
+      * @param columnsMap
+      */
+     public void addLineIndex(Map<String, String> columnsMap){
+         for (Map.Entry entry: columnsMap.entrySet()){
+             if(index.get(entry.getKey())!=null){
+                 try {
+                     index.get(entry.getKey()).insert((String)entry.getValue(), rowsId);
+                 } catch (NoSuchAlgorithmException e) {
+                     e.printStackTrace();
+                 }
+             }
+         }
+         rowsId++;
      }
 
+     /**
+      * create index for the columns given as parameters
+      * @param columnsName
+      * @throws NoSuchAlgorithmException
+      */
+     public void createIndex(String[] columnsName) throws NoSuchAlgorithmException {
+         for (int j = 0 ; j< columnsName.length ; j++){
+             BTree btree = new BTree(2, columnsName[j], columns.get(columnsName[j]).getType());
+//             for (int i = 0 ; i<rowsId ; i++){
+//                btree.insert(columns.get(columnsName[j]).getById(i),i);
+//            }
+             index.put(columnsName[j], btree);
+        }
+//         if(columnsName.length>1){
+//             for (int i = 0 ; i < rowsId ; i++){
+//                 for(int j = 0; j < columnsName.length-1 ; j++){
+//                     String firstData = columns.get(columnsName[j]).getById(i);
+//                     BTree firstIndex = index.get(columnsName[j]);
+//                     Entry firstEntry = firstIndex.search(firstData);
+//
+//                     String secondData = columns.get(columnsName[j+1]).getById(i);
+//                     BTree secondIndex = index.get(columnsName[j+1]);
+//                     Entry secondEntry = secondIndex.search(secondData);
+//                     firstEntry.getAfters().put(i,secondEntry);
+//                 }
+//             }
+//         }
+     }
+
+     /**
+      * returns a string containing the table name, columns and all rows
+      * @return
+      */
      public String toString(){
          String str = "Nom de la table : "+name+"\n";
-         for (Map.Entry entry :
-                 columns.entrySet()) {
-             str = str + "Nom de la colonne : "+entry.getKey()+ entry.getValue().toString()+"\n";
+         str = str + "id |";
+         for (Map.Entry entry : columns.entrySet()) {
+             str = str + " " +entry.getKey() + " |";
+         }
+         str = str + "\n";
+         for (int i = 0 ; i < rowsId ; i++){
+             Boolean id = true;
+             int [] ids = new int[0];
+             for (Map.Entry entry : columns.entrySet()) {
+                 if(id){
+                     ids = ((Column)entry.getValue()).listId();
+                 }
+                 str = str + " " +(id ? ids[i] +" | " : "" ) + ((Column) entry.getValue()).dataByID(ids[i])+ " |";
+                 id = false;
+             }
+             str = str + "\n";
          }
          return  str;
      }
 
-//     public String FromWhere(String column, String value){
-//         String str = "id \t";
-//         for (Map.Entry entry:
-//              columns.entrySet()) {
-//             str = str+entry.getKey()+"\t";
-//         }
-//         str = str+"\n";
-//         for (Object i: columns.get(column).where(value)) {
-//             str = str +i+"\t";
-//             for (Map.Entry entry:
-//                     columns.entrySet()) {
-//                str =  str + ((Column)entry.getValue()).getById(i)+"\t\t";
-//             }
-//             str = str + "\n";
-//         }
-//         return str;
-//     }
 
-
-     public void createIndex(String[] columnsName) throws NoSuchAlgorithmException {
-         for (int j = 0 ; j< columnsName.length ; j++){
-             BTree btree = new BTree(2);
-             for (int i = 0 ; i<rowsId ; i++){
-                btree.insert(columns.get(columnsName[j]).getById(i),i);
-            }
-             System.out.println(columnsName[j]);
-             btree.traverse();
-             index.put(columnsName[j], btree);
-        }
-         for (int i = 0 ; i < rowsId ; i++){
-             for(int j = 0; j < columnsName.length-1 ; j++){
-                 String firstData = columns.get(columnsName[j]).getById(i);
-                 BTree firstIndex = index.get(columnsName[j]);
-                 Entry firstEntry = firstIndex.search(firstData);
-                 Occurence firstOccurence = (Occurence) firstEntry.getOccurrences().get(i);
-
-                 String secondData = columns.get(columnsName[j+1]).getById(i);
-                 BTree secondIndex = index.get(columnsName[j+1]);
-                 Entry secondEntry = secondIndex.search(secondData);
-                 Occurence secondOccurence = (Occurence) secondEntry.getOccurrences().get(i);
-
-                 firstOccurence.setAfter(secondEntry);
-                 secondOccurence.setBefore(firstEntry);
-             }
+     // function for option
+     public String toStringByOrder(ArrayList<Integer> order){
+         String str = "Nom de la table : "+name+"\n";
+         str = str + "id |";
+         for (Map.Entry entry : columns.entrySet()) {
+             str = str + " " +entry.getKey() + " |";
          }
+         str = str + "\n";
+         for (int i: order) {
+             Boolean id = true;
+             int [] ids = new int[0];
+             for (Map.Entry entry : columns.entrySet()) {
+                 if(id){
+                     ids = ((Column)entry.getValue()).listId();
+                 }
+                 str = str + " " +(id ? ids[i] +" | " : "" ) + ((Column) entry.getValue()).dataByID(ids[i])+ " |";
+                 id = false;
+             }
+             str = str + "\n";
+         }
+         return  str;
      }
+
+     public String toStringLimit(int limit){
+         String str = "Nom de la table : "+name+"\n";
+         str = str + "id |";
+         for (Map.Entry entry : columns.entrySet()) {
+             str = str + " " +entry.getKey() + " |";
+         }
+         str = str + "\n";
+         for (int i = 0 ; i < rowsId && i < limit; i++){
+             Boolean id = true;
+             int [] ids = new int[0];
+             for (Map.Entry entry : columns.entrySet()) {
+                 if(id){
+                     ids = ((Column)entry.getValue()).listId();
+                 }
+                 str = str + " " +(id ? ids[i] +" | " : "" ) + ((Column) entry.getValue()).dataByID(ids[i])+ " |";
+                 id = false;
+             }
+             str = str + "\n";
+         }
+         return  str;
+     }
+
+     public String toJson(){
+         JSONArray ja = new JSONArray();
+         for (int i = 0 ; i < rowsId ; i++){
+             JSONObject jo = new JSONObject();
+             for (Map.Entry entry : columns.entrySet()) {
+                 jo.put((String) entry.getKey(), ((Column) entry.getValue()).dataByID(i));
+             }
+             ja.put(jo);
+         }
+         JSONObject mainObj = new JSONObject();
+         mainObj.put("lines", ja);
+         return mainObj.toString();
+     }
+
+     public String toJsonLimit(int limit){
+         JSONArray ja = new JSONArray();
+         for (int i = 0 ; i < rowsId && i<limit; i++){
+             JSONObject jo = new JSONObject();
+             for (Map.Entry entry : columns.entrySet()) {
+                 jo.put((String) entry.getKey(), ((Column) entry.getValue()).dataByID(i));
+             }
+             ja.put(jo);
+         }
+         JSONObject mainObj = new JSONObject();
+         mainObj.put("lines", ja);
+         return mainObj.toString();
+     }
+
+     public String toJsonByOrder(ArrayList<Integer> order){
+         JSONArray ja = new JSONArray();
+         for (int i : order){
+             JSONObject jo = new JSONObject();
+             for (Map.Entry entry : columns.entrySet()) {
+                 jo.put((String) entry.getKey(), ((Column) entry.getValue()).dataByID(i));
+             }
+             ja.put(jo);
+         }
+         JSONObject mainObj = new JSONObject();
+         mainObj.put("lines", ja);
+         return mainObj.toString();
+     }
+
 
  }

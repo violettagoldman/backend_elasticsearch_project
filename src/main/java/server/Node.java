@@ -2,16 +2,24 @@ package server;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Map;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import logic.DataBase;
-import parser.NewDataBase;
+import org.json.JSONObject;
+import parser.CSVParser;
+
+import static logic.json.jsonGet.JsonGet.json;
+import static logic.json.jsonIndex.JsonIndex.jsonIndex;
+import static logic.json.jsonTable.JsonTable.jsonTable;
+
 
 public class Node extends AbstractVerticle {
     
@@ -55,6 +63,17 @@ public class Node extends AbstractVerticle {
         String table_headers = request.getString("table_headers");
         System.out.println("/createtable with table_name=" + table_name + " and table_headers=" + table_headers);
         // Actual behaviour
+        String data = request.toString();
+        ArrayList columnsNames;
+        ArrayList columnsTypes;
+        try {
+            columnsNames = (ArrayList) jsonTable(data, true);
+            columnsTypes = (ArrayList) jsonTable(data, false);
+            DataBase.getInstance().newTable(table_name, columnsNames, columnsTypes);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
         JsonObject response = new JsonObject();
         response.put("message", "Successfully created a new table.");
         sendReponse(ctx, 200, response);
@@ -70,6 +89,21 @@ public class Node extends AbstractVerticle {
         String columns = request.getString("columns");
         System.out.println("/createindex with table_name=" + table_name + " and columns=" + columns);
         // Actual behaviour
+        String data = request.toString();
+        try {
+            result = jsonIndex(data);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        try {
+            DataBase.getInstance().getTables().get(table_name).createIndex(result);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        DataBase.getInstance().getTables().get("Table_Name").getIndex().get(columns).traverse();
+        System.out.println(DataBase.getInstance().getTables().get("Table_Name").toString());
+
         JsonObject response = new JsonObject();
         response.put("message", "Successfully updated indices.");
         sendReponse(ctx, 200, response);
@@ -84,10 +118,9 @@ public class Node extends AbstractVerticle {
         String table_name = request.getString("table_name");
         String file_path = request.getString("file_name");
         System.out.println("/uploadcsv with table_name=" + table_name + " and file_path=" + file_path + ".");
-
-        NewDataBase ndb = new NewDataBase();
+        CSVParser csvp = new CSVParser();
         try {
-            ndb.inIndex(new File(file_path));
+            csvp.readFileLocal(new File(file_path), DataBase.getInstance().getTables().get(table_name));
         } catch (IOException e) {
             JsonObject response = new JsonObject();
             response.put("error", "Cannot read the given CSV file.");
@@ -95,6 +128,7 @@ public class Node extends AbstractVerticle {
             e.printStackTrace();
             return;
         }
+        DataBase.getInstance().getTables().get("Table_Name").getIndex().get("Age").traverse();
         JsonObject response = new JsonObject();
         response.put("message", "Successfully uploaded data.");
         sendReponse(ctx, 200, response);
@@ -116,9 +150,11 @@ public class Node extends AbstractVerticle {
         }
         // Actual handling
         JsonObject response = new JsonObject();
-        response.put("message", "Test.");
-        response.put("data", DataBase.getInstance().toString());
-        sendReponse(ctx, 200, response);
+        String data = request.toString();
+        String result = json(data);
+        JsonObject response2 = new JsonObject(result);
+        response.put("data", result);
+        sendReponse(ctx, 200, response2);
     }
 
     /**
@@ -171,8 +207,13 @@ public class Node extends AbstractVerticle {
 
         router.route("/get").handler(ctx -> {
             JsonObject body = parseBody(ctx);
-            if (body != null)
-                get(ctx, body);
+            if (body != null) {
+                try {
+                    get(ctx, body);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
         // Default route
