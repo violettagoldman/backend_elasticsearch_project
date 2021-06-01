@@ -30,8 +30,7 @@ public class Server extends AbstractVerticle {
       System.out.println("- 1");
       System.out.println("- 2");
       System.out.println("- 3");
-      getVertx().close();
-      System.exit(1);
+      node_name = "master";
     }
 
     if (!node_name.equals("master") && !node_name.equals("1") && !node_name.equals("2") && !node_name.equals("3")) {

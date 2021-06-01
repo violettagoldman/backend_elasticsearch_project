@@ -22,7 +22,7 @@ public class AggregateTest {
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
 
-        List args = new ArrayList<>();
+        List<ArgWhere> args = new ArrayList<>();
 
         args.add(ArgWhere.newCondition("Couleur", "Blanc"));
 
@@ -39,7 +39,7 @@ public class AggregateTest {
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
 
-        List args = new ArrayList<>();
+        List<ArgWhere> args = new ArrayList<>();
 
         args.add(ArgWhere.newCondition("Couleur", "Noir"));
         args.add(ArgWhere.newOperator(Operator.Type.OR));

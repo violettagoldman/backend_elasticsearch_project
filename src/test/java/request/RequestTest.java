@@ -21,7 +21,7 @@ public class RequestTest {
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
 
-        List args = new ArrayList<>();
+        List<ArgWhere> args = new ArrayList<>();
 
         args.add(ArgWhere.newCondition("Couleur", "Blanc"));
         args.add(ArgWhere.newOperator(Operator.Type.OR));
@@ -41,7 +41,7 @@ public class RequestTest {
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
 
-        List args = new ArrayList<>();
+        List<ArgWhere> args = new ArrayList<>();
 
         args.add(ArgWhere.newCondition("Couleur", "Noir"));
         args.add(ArgWhere.newOperator(Operator.Type.AND));
@@ -61,7 +61,7 @@ public class RequestTest {
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
 
-        List args = new ArrayList<>();
+        List<ArgWhere> args = new ArrayList<>();
 
         args.add(ArgWhere.newStart());
         args.add(ArgWhere.newCondition("Couleur", "Blanc"));
@@ -84,7 +84,7 @@ public class RequestTest {
 
         DataBaseTest test = new DataBaseTest();
         test.initDataBase();
-        List args = new ArrayList<>();
+        List<ArgWhere> args = new ArrayList<>();
         Request r = new Request("dogs", new String[0],args, null, null, null);
 
         String str = r.getResult();

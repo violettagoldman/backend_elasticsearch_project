@@ -148,11 +148,7 @@
      public void addLineIndex(Map<String, String> columnsMap){
          for (Map.Entry entry: columnsMap.entrySet()){
              if(index.get(entry.getKey())!=null){
-                 try {
-                     index.get(entry.getKey()).insert((String)entry.getValue(), rowsId);
-                 } catch (NoSuchAlgorithmException e) {
-                     e.printStackTrace();
-                 }
+                 index.get(entry.getKey()).insert((String)entry.getValue(), rowsId);
              }
          }
          rowsId++;

@@ -1,7 +1,5 @@
 package logic.IndexBTree;
 
-import java.security.NoSuchAlgorithmException;
-
 /**
  * class that implements the btree nodes
  */
@@ -77,8 +75,7 @@ class BTreeNode{
         y.num = MinDeg-1;
 
         // Insert a new child into the child
-        for (int j = num; j >= i+1; j--)
-            children[j+1] = children[j];
+        for (int j = num; j >= i+1; j--) children[j+1] = children[j];
         children[i+1] = z;
 
         // Move a key in y to this node
@@ -97,7 +94,7 @@ class BTreeNode{
         for (i = 0; i< num; i++){
             if (!isLeaf)
                 children[i].traverse();
-            System.out.printf(keys[i].toString());
+            System.out.print(keys[i].toString());
         }
 
         if (!isLeaf){

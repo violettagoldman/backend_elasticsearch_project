@@ -22,14 +22,20 @@ import static logic.json.jsonTable.JsonTable.jsonTable;
 
 
 public class Node extends AbstractVerticle {
-    
+
     Vertx vertx;
 
     Node(Vertx vertx) {
         this.vertx = vertx;
     }
 
-    // Sends the HTTP response object with the given status code and JSON object
+    /**
+     * Sends the HTTP response object with the given status code and JSON object
+     *
+     * @param ctx        vertx context
+     * @param statusCode the satus code we want to send
+     * @param json       response
+     */
     void sendReponse(RoutingContext ctx, int statusCode, JsonObject json) {
         HttpServerResponse response = ctx.response();
         response.putHeader("content-type", "text/json");
@@ -37,12 +43,24 @@ public class Node extends AbstractVerticle {
         response.end(json.encodePrettily());
     }
 
+    /**
+     * Checks if the current node is running
+     *
+     * @param ctx     vertx context
+     * @param request json request
+     */
     void ping(RoutingContext ctx, JsonObject request) {
         JsonObject response = new JsonObject();
         response.put("message", "This node is up.");
         sendReponse(ctx, 200, response);
     }
 
+    /**
+     * Creates the table
+     *
+     * @param ctx     vertx context
+     * @param request json request
+     */
     void createTable(RoutingContext ctx, JsonObject request) {
         Map<String, String> result = null;
         String table_name = request.getString("table_name");
@@ -60,9 +78,17 @@ public class Node extends AbstractVerticle {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-
+        JsonObject response = new JsonObject();
+        response.put("message", "Successfully created a new table.");
+        sendReponse(ctx, 200, response);
     }
 
+    /**
+     * Creates the index
+     *
+     * @param ctx     vertx context
+     * @param request json request
+     */
     void createIndex(RoutingContext ctx, JsonObject request) {
         String[] result = null;
         String table_name = request.getString("table_name");
@@ -84,8 +110,17 @@ public class Node extends AbstractVerticle {
 
         DataBase.getInstance().getTables().get("Table_Name").getIndex().get(columns).traverse();
         System.out.println(DataBase.getInstance().getTables().get("Table_Name").toString());
+        JsonObject response = new JsonObject();
+        response.put("message", "Successfully updated indices.");
+        sendReponse(ctx, 200, response);
     }
 
+    /**
+     * Uploads CSV
+     *
+     * @param ctx     vertx context
+     * @param request json request
+     */
     void uploadCSV(RoutingContext ctx, JsonObject request) {
         String table_name = request.getString("table_name");
         String file_path = request.getString("file_name");
@@ -101,9 +136,20 @@ public class Node extends AbstractVerticle {
         }
         DataBase.getInstance().getTables().get("Table_Name").getIndex().get("Age").traverse();
         System.out.println("test");
+
+        DataBase.getInstance().getTables().get("Table_Name").getIndex().get("Age").traverse();
+        JsonObject response = new JsonObject();
+        response.put("message", "Successfully uploaded data.");
+        sendReponse(ctx, 200, response);
     }
 
-    void get(RoutingContext ctx, JsonObject request) throws NoSuchAlgorithmException{
+    /**
+     * Gets the given query
+     *
+     * @param ctx     vertx context
+     * @param request json request
+     */
+    void get(RoutingContext ctx, JsonObject request) throws NoSuchAlgorithmException {
         String table = request.getString("table");
         String method = request.getString("method");
         String args = request.getString("args");
@@ -123,7 +169,12 @@ public class Node extends AbstractVerticle {
         sendReponse(ctx, 200, response2);
     }
 
-    // Get the JSON body from a request
+    /**
+     * Gets the JSON body from a request
+     *
+     * @param ctx vertx context
+     * @return json body
+     */
     private JsonObject parseBody(RoutingContext ctx) {
         try {
             return ctx.getBodyAsJson();
@@ -135,6 +186,11 @@ public class Node extends AbstractVerticle {
         }
     }
 
+    /**
+     * setup routes
+     *
+     * @param router vetrtx router
+     */
     public void setupRoutes(Router router) {
 
         // Test route to see if the node is connected
@@ -180,5 +236,4 @@ public class Node extends AbstractVerticle {
             sendReponse(ctx, 404, response);
         });
     }
-
 }

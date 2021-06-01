@@ -43,9 +43,8 @@ public class BTree{
      * returns the node containing the data
      * @param data the data to search
      * @return the node of the data
-     * @throws NoSuchAlgorithmException
      */
-    public BTreeNode searchNode(String data) throws NoSuchAlgorithmException{
+    public BTreeNode searchNode(String data){
         return root == null ? null : root.searchNode(data);
     }
 
@@ -62,9 +61,8 @@ public class BTree{
      * returns the entry containing the data
      * @param data the data to search
      * @return the entry contains the data
-     * @throws NoSuchAlgorithmException exception
      */
-    public Entry search(String data) throws NoSuchAlgorithmException{
+    public Entry search(String data){
         return root == null ? null : root.search(data);
     }
 
@@ -72,9 +70,8 @@ public class BTree{
      * returns the list of occurrences
      * @param data the data to search
      * @return return the occurrences
-     * @throws NoSuchAlgorithmException exception
      */
-    public ArrayList<Integer> occurrences(String data) throws NoSuchAlgorithmException {
+    public ArrayList<Integer> occurrences(String data){
         return search(data) != null ? search(data).getOccurrencesList() : new ArrayList<>();
     }
 
@@ -82,9 +79,8 @@ public class BTree{
      * inserts a new data or adds the new occurrence to the existing entry
      * @param data the data to insert
      * @param id the id of the data
-     * @throws NoSuchAlgorithmException exception
      */
-    public void insert(String data, int id) throws NoSuchAlgorithmException {
+    public void insert(String data, int id){
         Entry entry = new Entry(data,id);
         entry.getAfters().put(id, null);
         int key = entry.getKey();

@@ -45,12 +45,7 @@ public class DataBaseTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String str = "";
-        try {
-            str = (DataBase.getInstance().getTables().get("dogs").getIndex().get("Couleur").search("Jaune").toString());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        String str = (DataBase.getInstance().getTables().get("dogs").getIndex().get("Couleur").search("Jaune").toString());
         String str2 = "key : 559286933 | data : Jaune | Occurrence [ 0  | 8  ]\n";
         assertEquals(str, str2);
     }
