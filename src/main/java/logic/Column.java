@@ -207,7 +207,7 @@
       * @return string (JSon)
       */
      public String min() {
-         if(!type.equals("float") && !type.equals("int") && !type.equals("double")) return "bad type column";
+         if(!type.equals("float") && !type.equals("int") && !type.equals("Double")) return "bad type column";
          float result = Float.MAX_VALUE;
          for (Entry nb: data.entrySet()) {
              if(result > Float.parseFloat((String) nb.getValue())) result = Float.parseFloat((String) nb.getValue());

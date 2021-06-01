@@ -88,7 +88,6 @@ public class RequestTest {
         Request r = new Request("dogs", new String[0],args, null, null, null);
 
         String str = r.getResult();
-        System.out.println(str);
         String str2 = "{\"lines\":[{\"Prénom\":\"Titi\",\"Couleur\":\"Jaune\",\"Id\":\"1\",\"Age\":\"5\"},{\"Prénom\":\"Médor\",\"Couleur\":\"Noir\",\"Id\":\"2\",\"Age\":\"10\"},{\"Prénom\":\"Pitié\",\"Couleur\":\"Noir\",\"Id\":\"3\",\"Age\":\"5\"},{\"Prénom\":\"Juju\",\"Couleur\":\"Gris\",\"Id\":\"4\",\"Age\":\"5\"},{\"Prénom\":\"Vanille\",\"Couleur\":\"Blanc\",\"Id\":\"5\",\"Age\":\"7\"},{\"Prénom\":\"Chocolat\",\"Couleur\":\"Marron\",\"Id\":\"6\",\"Age\":\"12\"},{\"Prénom\":\"Milou\",\"Couleur\":\"Blanc\",\"Id\":\"7\",\"Age\":\"3\"},{\"Prénom\":\"Idefix\",\"Couleur\":\"Blanc\",\"Id\":\"8\",\"Age\":\"14\"},{\"Prénom\":\"Pluto\",\"Couleur\":\"Jaune\",\"Id\":\"9\",\"Age\":\"17\"},{\"Prénom\":\"Dingo\",\"Couleur\":\"Roux\",\"Id\":\"10\",\"Age\":\"1\"}]}";
 
         assertEquals(str, str2);
