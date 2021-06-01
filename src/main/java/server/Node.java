@@ -64,8 +64,8 @@ public class Node extends AbstractVerticle {
     void createTable(RoutingContext ctx, JsonObject request) {
         Map<String, String> result = null;
         String table_name = request.getString("table_name");
-        String table_headers = request.getString("table_headers");
-        System.out.println("/createtable with table_name=" + table_name + " and table_headers=" + table_headers);
+        String columns = request.getString("columns");
+        System.out.println("/createtable with table_name=" + table_name + " and table_headers=" + columns);
 
         // Actual behaviour
         String data = request.toString();

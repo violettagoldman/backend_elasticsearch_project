@@ -64,10 +64,10 @@ public class MasterNode extends AbstractVerticle {
      */
     void createTable(RoutingContext ctx, JsonObject request) {
         String table_name = request.getString("table_name");
-        String table_headers = request.getString("table_headers");
-        if (table_name == null || table_headers == null) {
+        String columns = request.getString("columns");
+        if (table_name == null || columns == null) {
             JsonObject response = new JsonObject();
-            response.put("error", "Needed params in body: table_name, table_headers.");
+            response.put("error", "Needed params in body: table_name, columns.");
             sendReponse(ctx, 422, response);
             return;
         }
@@ -152,11 +152,11 @@ public class MasterNode extends AbstractVerticle {
      * @param  ctx  vertx context
      */
     void get(RoutingContext ctx, JsonObject request) {
-        String table_name = request.getString("table_name");
-        String query = request.getString("query");
-        if (table_name == null || query == null) {
+        String table = request.getString("table");
+        String args = request.getString("args");
+        if (table == null || args == null) {
             JsonObject response = new JsonObject();
-            response.put("error", "Needed params in body: table_name, query.");
+            response.put("error", "Needed params in body: table, args.");
             sendReponse(ctx, 422, response);
             return;
         }
