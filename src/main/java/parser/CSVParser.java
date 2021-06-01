@@ -21,10 +21,12 @@ public class CSVParser {
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
 
 		DatasOnDisk dod = new DatasOnDisk();
-
+		Boolean lineOne = true;
 		for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
-			String[] lineSplited = line.split(",");
-			dod.writeLine(lineSplited, table);
+			if(!lineOne){
+				String[] lineSplited = line.split(",");
+				dod.writeLine(lineSplited, table);
+			} else lineOne = false;
 		}
 
 		bufferedReader.close();
