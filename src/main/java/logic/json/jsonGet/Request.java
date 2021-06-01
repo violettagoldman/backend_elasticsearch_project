@@ -22,6 +22,15 @@ public class Request {
     public Request() {
     }
 
+    /**
+     *
+     * @param method method
+     * @param table table
+     * @param columns columns
+     * @param args args
+     * @param aggregate aggregate
+     * @param option option
+     */
     public Request(String method, String table, List<Column> columns, List<Arg> args, Aggregate aggregate, Option option) {
         super();
         this.method = method;

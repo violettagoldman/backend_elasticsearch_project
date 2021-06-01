@@ -12,6 +12,11 @@ public class Option {
     public Option() {
     }
 
+    /**
+     *
+     * @param optionName optionName
+     * @param arg arg
+     */
     public Option(String optionName, String arg) {
         super();
         this.optionName = optionName;

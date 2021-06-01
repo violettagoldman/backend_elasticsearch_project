@@ -12,6 +12,11 @@ public class Column {
     public Column() {
     }
 
+    /**
+     *
+     * @param column column
+     * @param type type
+     */
     public Column(String column, String type) {
         super();
         this.column = column;

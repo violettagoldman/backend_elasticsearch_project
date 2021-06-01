@@ -10,6 +10,12 @@ public class JsonIndex {
     private static String column;
     public static String[] str;
 
+    /**
+     *
+     * @param request JsonObject got by the API
+     * @return the response of the request
+     * @throws NoSuchAlgorithmException
+     */
     public static String[] jsonIndex(String request) throws NoSuchAlgorithmException {
 
         Gson gson = new Gson();

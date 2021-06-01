@@ -33,6 +33,12 @@ public class JsonGet {
 
     public static String str;
 
+    /**
+     *
+     * @param request JsonObject got by the API
+     * @return the response of the request in Json format
+     * @throws NoSuchAlgorithmException
+     */
     public static JsonObject json(JsonObject request) throws NoSuchAlgorithmException {
 
         Gson gson = new Gson();
@@ -136,7 +142,6 @@ public class JsonGet {
             }
         }
 
-        //Appel de fonction
         logic.request.Request r = null;
         try {
             r = new logic.request.Request(table, columnList ,args, agrType, optionType, agrOption);

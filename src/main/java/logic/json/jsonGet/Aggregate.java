@@ -12,6 +12,11 @@ public class Aggregate {
     public Aggregate() {
     }
 
+    /**
+     *
+     * @param aggregateName aggregateName
+     * @param column column
+     */
     public Aggregate(String aggregateName, String column) {
         super();
         this.aggregateName = aggregateName;

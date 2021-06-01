@@ -13,7 +13,14 @@ public class JsonTable {
     private static String type;
     public static ArrayList str;
 
-    public static ArrayList jsonTable(String request, boolean name ) throws NoSuchAlgorithmException {
+    /**
+     *
+     * @param request JsonObject got by the API
+     * @param name name
+     * @return the response of the request
+     * @throws NoSuchAlgorithmException
+     */
+    public static ArrayList jsonTable(String request, boolean name) throws NoSuchAlgorithmException {
 
         Gson gson = new Gson();
         Request result = gson.fromJson(request, Request.class);

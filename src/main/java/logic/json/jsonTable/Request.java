@@ -13,6 +13,11 @@ public class Request {
     public Request() {
     }
 
+    /**
+     *
+     * @param table table
+     * @param columns columns
+     */
     public Request(String table, List<Column> columns) {
         super();
         this.table = table;

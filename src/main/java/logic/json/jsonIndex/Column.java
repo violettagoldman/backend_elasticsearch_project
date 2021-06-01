@@ -10,6 +10,10 @@ public class Column {
     public Column() {
     }
 
+    /**
+     *
+     * @param column column
+     */
     public Column(String column) {
         super();
         this.column = column;

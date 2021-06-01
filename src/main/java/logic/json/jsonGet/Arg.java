@@ -14,6 +14,12 @@ public class Arg {
     public Arg() {
     }
 
+    /**
+     *
+     * @param column column
+     * @param value value
+     * @param operator operator
+     */
     public Arg(String column, String value, String operator) {
         super();
         this.column = column;
