@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import java.util.Base64;
 
 import io.vertx.core.AbstractVerticle;
@@ -23,6 +26,7 @@ import io.vertx.ext.web.client.WebClient;
 public class MasterNode extends AbstractVerticle {
 
     Vertx vertx;
+    List<String> upNodes;
 
     MasterNode(Vertx vertx) {
         this.vertx = vertx;
@@ -162,14 +166,15 @@ public class MasterNode extends AbstractVerticle {
         }
 
         // We choose a random server to get the data
-        int server = 1 + (int)(Math.random() * 3);
-        System.out.println("Forwarding get request to server " + server + ".");
-        nodeRequest("/get", String.valueOf(server), request).onComplete(resp -> {
+        int server = (int)(Math.random() * upNodes.size());
+        String server_name = upNodes.get(server);
+        System.out.println("Forwarding get request to server " + server_name + ".");
+        nodeRequest("/get", server_name, request).onComplete(resp -> {
             if (resp.succeeded()) {
                 sendReponse(ctx, 200, resp.result().bodyAsJsonObject());
             } else {
                 JsonObject response = new JsonObject();
-                response.put("error", "Cannot get a response from server " + server + ".");
+                response.put("error", "Cannot get a response from server " + server_name + ".");
                 sendReponse(ctx, 500, response);
             }
         });
@@ -277,6 +282,20 @@ public class MasterNode extends AbstractVerticle {
             if (failure != null) {
                 failure.printStackTrace();
             }
+        });
+
+        upNodes = new ArrayList<String>();
+        nodeRequest("/ping", "1", new JsonObject()).onSuccess(result -> {
+            System.out.println("Node 1 up");
+            upNodes.add("1");
+        });
+        nodeRequest("/ping", "2", new JsonObject()).onSuccess(result -> {
+            System.out.println("Node 2 up");
+            upNodes.add("2");
+        });
+        nodeRequest("/ping", "3", new JsonObject()).onSuccess(result -> {
+            System.out.println("Node 3 up");
+            upNodes.add("3");
         });
     }
 
