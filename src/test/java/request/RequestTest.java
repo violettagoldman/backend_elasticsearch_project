@@ -51,9 +51,9 @@ public class RequestTest {
 
         List args = new ArrayList<>();
 
-        args.add(ArgWhere.newCondition("Couleur", "Blanc"));
+        args.add(ArgWhere.newCondition("Couleur", "Noir"));
         args.add(ArgWhere.newOperator(Operator.Type.OR));
-        args.add(ArgWhere.newCondition("Age", "3"));
+        args.add(ArgWhere.newCondition("Age", "5"));
 
         Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"},args, null, null, null);
 
@@ -87,7 +87,7 @@ public class RequestTest {
         args.add(ArgWhere.newOperator(Operator.Type.OR));
         args.add(ArgWhere.newCondition("Couleur", "Roux"));
 
-        Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"},args, null, null, null);
+        Request r = new Request("dogs", new String[0],args, null, null, null);
 
         String str = r.getResult();
         System.out.println(str);

@@ -13,7 +13,7 @@
      private int rowsId;
      private Map<String, BTree> index;
      private ArrayList columnsList;
-    // ajouter liste columns
+
      /**
       * Initialise a new table from a name and a map <column name , column type>.
       * @param name
@@ -192,14 +192,13 @@
       * @return
       */
      public String toString(){
-         String str = "[{ \"NomTable\" : "+"\""+name+"\",";
-//         str = str + "\"columns\" : \" id |";
-//         for (Map.Entry entry : columns.entrySet()) {
-//             str = str + " " +entry.getKey() + " |";
-//         }
-         str = str + "\"Lines\": [";
+         String str = "Nom de la table : "+name+"\n";
+         str = str + "id |";
+         for (Map.Entry entry : columns.entrySet()) {
+             str = str + " " +entry.getKey() + " |";
+         }
+         str = str + "\n";
          for (int i = 0 ; i < rowsId ; i++){
-             str = str + "\"line\" : \"";
              Boolean id = true;
              int [] ids = new int[0];
              for (Map.Entry entry : columns.entrySet()) {
@@ -209,11 +208,8 @@
                  str = str + " " +(id ? ids[i] +" | " : "" ) + ((Column) entry.getValue()).dataByID(ids[i])+ " |";
                  id = false;
              }
-             str = str + "\",";
+             str = str + "\n";
          }
-         str = str.substring(0,str.length()-2);
-         str = str + "}}]";
-
          return  str;
      }
 
@@ -267,11 +263,36 @@
          JSONArray ja = new JSONArray();
          for (int i = 0 ; i < rowsId ; i++){
              JSONObject jo = new JSONObject();
-             Boolean id = true;
              for (Map.Entry entry : columns.entrySet()) {
-                 if(id) jo.put("id", i);
                  jo.put((String) entry.getKey(), ((Column) entry.getValue()).dataByID(i));
-                 id = false;
+             }
+             ja.put(jo);
+         }
+         JSONObject mainObj = new JSONObject();
+         mainObj.put("lines", ja);
+         return mainObj.toString();
+     }
+
+     public String toJsonLimit(int limit){
+         JSONArray ja = new JSONArray();
+         for (int i = 0 ; i < rowsId && i<limit; i++){
+             JSONObject jo = new JSONObject();
+             for (Map.Entry entry : columns.entrySet()) {
+                 jo.put((String) entry.getKey(), ((Column) entry.getValue()).dataByID(i));
+             }
+             ja.put(jo);
+         }
+         JSONObject mainObj = new JSONObject();
+         mainObj.put("lines", ja);
+         return mainObj.toString();
+     }
+
+     public String toJsonByOrder(ArrayList<Integer> order){
+         JSONArray ja = new JSONArray();
+         for (int i : order){
+             JSONObject jo = new JSONObject();
+             for (Map.Entry entry : columns.entrySet()) {
+                 jo.put((String) entry.getKey(), ((Column) entry.getValue()).dataByID(i));
              }
              ja.put(jo);
          }

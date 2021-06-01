@@ -38,29 +38,16 @@ public class Request {
         resultTable = select.getResult();
         if(aggregate != null){
             Aggregate ag = new Aggregate(resultTable, agrOption, aggregate);
-            //result = ag.getResult();
+            result = ag.getResult();
         } else if (option != null){
             Option op = new Option(resultTable, agrOption, option);
-            //result = op.getResult();
+            result = op.getResult();
         } else {
             result = resultTable.toJson();
         }
     }
 
     public String getResult() {
-        return result.toString();
-    }
-
-    public String getJson(){
         return result;
     }
-
-    /**
-     * return the result
-     * @return
-     */
-    public Table getResultTable() {
-        return resultTable;
-    }
-
 }

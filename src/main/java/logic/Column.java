@@ -1,5 +1,7 @@
  package logic;
 
+ import org.json.JSONObject;
+
  import java.io.IOException;
  import java.io.RandomAccessFile;
  import java.util.*;
@@ -160,7 +162,9 @@
          for (Map.Entry nb: data.entrySet()) {
              result = result + Float.parseFloat((String) nb.getValue());
          }
-         return "SUM = "+ result;
+         JSONObject jo = new JSONObject();
+         jo.put("sum", result);
+         return jo.toString();
      }
 
      public String average() {
@@ -169,7 +173,9 @@
          for (Map.Entry nb: data.entrySet()) {
              result = result + Float.parseFloat((String) nb.getValue());
          }
-         return "Average = "+ result / data.size();
+         JSONObject jo = new JSONObject();
+         jo.put("Average", result / data.size());
+         return jo.toString();
      }
 
      public String min() {
@@ -178,7 +184,9 @@
          for (Map.Entry nb: data.entrySet()) {
              if(result > Float.parseFloat((String) nb.getValue())) result = Float.parseFloat((String) nb.getValue());
          }
-         return "min = "+ result;
+         JSONObject jo = new JSONObject();
+         jo.put("min", result);
+         return jo.toString();
      }
 
      public String max() {
@@ -187,11 +195,15 @@
          for (Map.Entry nb: data.entrySet()) {
              if(result < Float.parseFloat((String) nb.getValue())) result = Float.parseFloat((String) nb.getValue());
          }
-         return "max = "+ result;
+         JSONObject jo = new JSONObject();
+         jo.put("max", result);
+         return jo.toString();
      }
 
      public String count() {
-         return "count  = "+data.size();
+         JSONObject jo = new JSONObject();
+         jo.put("count", data.size());
+         return jo.toString();
      }
 
      public String countDistinct() {
@@ -199,7 +211,9 @@
          for (Map.Entry nb: data.entrySet()) {
              result.add(String.valueOf(nb.getValue()));
          }
-         return "count distinct = "+ result.size();
+         JSONObject jo = new JSONObject();
+         jo.put("count distinct", result.size());
+         return jo.toString();
      }
 
      // function for option

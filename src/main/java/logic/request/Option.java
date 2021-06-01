@@ -24,7 +24,7 @@ public class Option {
             case LIMIT :
                 try {
                     int limit = Integer.parseInt(option);
-                    result = table.toStringLimit(limit);
+                    result = table.toJsonLimit(limit);
                 } catch (NumberFormatException e) {
                     result = "Limit not number";
                 }

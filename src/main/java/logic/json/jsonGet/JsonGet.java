@@ -136,7 +136,7 @@ public class JsonGet {
             e.printStackTrace();
         }
 
-        str = r.getJson();
+        str = r.getResult();
 
         return str;
     }
