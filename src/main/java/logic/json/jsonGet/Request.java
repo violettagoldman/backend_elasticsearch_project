@@ -2,6 +2,7 @@ package logic.json.jsonGet;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
+import logic.json.jsonIndex.Column;
 
 public class Request {
 
@@ -9,6 +10,8 @@ public class Request {
     private String method;
     @SerializedName("table")
     private String table;
+    @SerializedName("columns")
+    private List<Column> columns = null;
     @SerializedName("args")
     private List<Arg> args = null;
     @SerializedName("aggregate")
@@ -19,10 +22,11 @@ public class Request {
     public Request() {
     }
 
-    public Request(String method, String table, List<Arg> args, Aggregate aggregate, Option option) {
+    public Request(String method, String table, List<Column> columns, List<Arg> args, Aggregate aggregate, Option option) {
         super();
         this.method = method;
         this.table = table;
+        this.columns = columns;
         this.args = args;
         this.aggregate = aggregate;
         this.option = option;
@@ -42,6 +46,14 @@ public class Request {
 
     public void setTable(String table) {
         this.table = table;
+    }
+
+    public List<Column> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<Column> columns) {
+        this.columns = columns;
     }
 
     public List<Arg> getArgs() {

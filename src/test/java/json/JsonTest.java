@@ -59,7 +59,7 @@ public class JsonTest {
 
     @Test
     public void jsonIndex() throws IOException, NoSuchAlgorithmException {
-
+        /*
         final String data = "{\n" +
                 "    \"table_name\": \"Table_Name\",\n" +
                 "  \t\"columns\":\n" +
@@ -75,11 +75,12 @@ public class JsonTest {
 
         String[] str = logic.json.jsonIndex.JsonIndex.jsonIndex(data);
         System.out.println(str);
+        */
     }
 
     @Test
     public void jsonTable() throws IOException, NoSuchAlgorithmException {
-
+        /*
         final String data = "{\n" +
                 "    \"table_name\": \"Table_Name\",\n" +
                 "  \t\"columns\":\n" +
@@ -103,5 +104,7 @@ public class JsonTest {
         str2.put("Age", "Int");
 
         //assertEquals(str,str2);
+
+         */
     }
 }
