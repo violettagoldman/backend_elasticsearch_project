@@ -1,9 +1,6 @@
 package logic.request.wTree;
 
 import logic.IndexBTree.BTree;
-
-import java.security.NoSuchAlgorithmException;
-
 /**
  * class that implements the tree symbols
  */
@@ -18,9 +15,9 @@ public class Symbol {
 
     /**
      * constructor
-     * @param type
-     * @param condition
-     * @param operator
+     * @param type condition or operator
+     * @param condition column = value
+     * @param operator OR / AND
      */
     private Symbol(Symbol.Type type, Condition condition, Operator operator) {
         this.type = type ;
@@ -30,19 +27,18 @@ public class Symbol {
 
     /**
      * return a new condition
-     * @param data
-     * @param column
-     * @return
-     * @throws NoSuchAlgorithmException
+     * @param data the value of the condition
+     * @param column the column of the condition
+     * @return a new object condition
      */
-    static Symbol newCondition (String data, BTree column) throws NoSuchAlgorithmException {
+    static Symbol newCondition (String data, BTree column) {
         return new Symbol (Type.CONDITION, new Condition(data, column), null) ;
     }
 
     /**
      * return a new Operator
-     * @param operator
-     * @return
+     * @param operator OR / AND
+     * @return a new object operator
      */
     static Symbol newOperator (Operator.Type operator) {
         return new Symbol (Type.OPERATOR, null, new Operator(operator) );
@@ -50,7 +46,7 @@ public class Symbol {
 
     /**
      * return the Condition
-     * @return
+     * @return the condition
      */
     public Condition getCondition() {
         return condition;
@@ -58,7 +54,7 @@ public class Symbol {
 
     /**
      * returns a string that describes the symbol
-     * @return
+     * @return a string describe the symbol
      */
     public String toString () {
         if (type == Type.CONDITION) return condition == null ? " null " : " " + condition.getColumn() +" = "+condition.value ;

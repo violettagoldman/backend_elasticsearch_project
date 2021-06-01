@@ -18,9 +18,9 @@ public class Select {
 
     /**
      * constructor
-     * @param rows
-     * @param columnsName
-     * @param from
+     * @param rows the rows of the result
+     * @param columnsName list of columns to return
+     * @param from table of the request
      */
     public Select(ArrayList rows, String [] columnsName, From from) throws IOException {
         Table table = from.table;

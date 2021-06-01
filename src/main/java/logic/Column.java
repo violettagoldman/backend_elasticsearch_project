@@ -11,14 +11,14 @@
   * A column has a name, a type and a list of data referenced by their id.
   */
  public class Column {
-     private String name;
-     private String type;
-     private Map<Integer, String> data;
+     private final String name;
+     private final String type;
+     private final Map<Integer, String> data;
 
      /**
       * constructs a column with a name and type
-      * @param name
-      * @param type
+      * @param name the name of the column
+      * @param type the type of the data
       */
      public Column(String name, String type) {
          this.name = name;
@@ -28,7 +28,7 @@
 
      /**
       * gives a data corresponding to the id (object)
-      * @param i
+      * @param i the id of the data
       * @return
       */
      public String getById(Object i) {

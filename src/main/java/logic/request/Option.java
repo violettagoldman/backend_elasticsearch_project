@@ -11,10 +11,20 @@ public class Option {
         LIMIT,
     }
 
+    /**
+     * return the result
+     * @return
+     */
     public String getResult() {
         return result;
     }
 
+    /**
+     * switch the good option
+     * @param table the table of the request
+     * @param option the limit or the column to order by
+     * @param type the type of the option
+     */
     public Option(Table table, String option, Type type){
         switch (type){
             case ORDER_BY :

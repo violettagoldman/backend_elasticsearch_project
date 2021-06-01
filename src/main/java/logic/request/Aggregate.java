@@ -5,8 +5,11 @@ import logic.request.wTree.ArgWhere;
 
 import java.lang.invoke.SwitchPoint;
 
+/**
+ * class that implement aggregate
+ */
 public class Aggregate {
-    private String result;
+    private final String result;
     public enum Type {
         SUM,
         AVERAGE,
@@ -16,6 +19,12 @@ public class Aggregate {
         COUNT_DISTINCT,
     }
 
+    /**
+     * Switch andd execute the correct aggregate
+     * @param table the table
+     * @param column the column
+     * @param type the type of aggregate
+     */
     public Aggregate(Table table, String column, Type type){
         switch (type){
             case SUM :
@@ -40,6 +49,10 @@ public class Aggregate {
         }
     }
 
+    /**
+     * return the result
+     * @return
+     */
     public String getResult() {
         return result;
     }

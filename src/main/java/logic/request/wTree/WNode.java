@@ -16,7 +16,7 @@ public class WNode {
 
     /**
      * construtor
-     * @param symbol
+     * @param symbol symbol contains in the node
      */
     public WNode(Symbol symbol){
         left = null;
@@ -25,8 +25,8 @@ public class WNode {
     }
 
     /**
-     * return the symbole
-     * @return
+     * return the symbol
+     * @return the symbol of the node
      */
     public Symbol getSymbol() {
         return symbol;
@@ -34,8 +34,8 @@ public class WNode {
 
     /**
      * inserts the new node and returns the root of the tree
-     * @param node
-     * @return
+     * @param node the node to insert
+     * @return the old or the new root
      */
     public WNode insert(WNode node) {
         WNode current = this;
@@ -73,7 +73,7 @@ public class WNode {
 
     /**
      * checks that a left node exists
-     * @return
+     * @return boolean true if the node have a son left
      */
     public boolean existLeft() {
         return left != null;
@@ -81,7 +81,7 @@ public class WNode {
 
     /**
      * checks that a right node exists
-     * @return
+     * @return boolean true if the node have a son right
      */
     public boolean existRight() {
         return right != null;
@@ -89,8 +89,8 @@ public class WNode {
 
     /**
      * used to draw the tree
-     * @param treatment
-     * @param path
+     * @param treatment treatment
+     * @param path path
      */
     public void inOrder(Visitor treatment, Stack path) {
         path.push(this);
@@ -104,7 +104,7 @@ public class WNode {
 
     /**
      * return a string describing the node
-     * @return
+     * @return a string that describes the symbol
      */
     public String toString(){
         return symbol.toString();

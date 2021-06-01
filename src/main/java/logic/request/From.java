@@ -13,7 +13,7 @@ public class From {
 
     /**
      * constructeur
-     * @param tableName
+     * @param tableName the table ask in the request
      */
     public From(String tableName) {
         this.tableName = tableName;

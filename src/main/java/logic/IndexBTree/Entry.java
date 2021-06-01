@@ -58,7 +58,7 @@ public class Entry {
 
     /**
      * returns the list of occurrences
-     * @return
+     * @return the list of occurrences
      */
     public ArrayList<Integer> getOccurrencesList(){
         ArrayList<Integer> result = new ArrayList<>();
@@ -68,7 +68,7 @@ public class Entry {
 
     /**
      * returns a string that describes the entry
-     * @return
+     * @return the string that describes the entry
      */
     public String toString(){
         String str = "key : "+key+" | data : "+data+" | Occurrence [ ";

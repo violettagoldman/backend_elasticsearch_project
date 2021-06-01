@@ -12,30 +12,26 @@ import java.util.List;
  * class that implements a request
  */
 public class Request {
-    private Select select;
-    private From from;
-    private Where where;
-    private Table resultTable;
-    private String result;
+    private final String result;
 
     /**
      * constructor
-     * @param tableName
-     * @param columnsNames
-     * @param args
-     * @throws NoSuchAlgorithmException
+     * @param tableName the table of the request
+     * @param columnsNames the list of the columns to return
+     * @param args list of where arguments
      */
     public Request(String tableName, String [] columnsNames, List<ArgWhere> args, Aggregate.Type aggregate, Option.Type option, String agrOption) throws NoSuchAlgorithmException, IOException {
-        from = new From(tableName);
+        From from = new From(tableName);
+        Select select;
         if(args != null && !args.isEmpty()){
-            where = new Where(args, tableName);
+            Where where = new Where(args, tableName);
             select = new Select(where.getResult(), columnsNames, from);
         } else {
             ArrayList rows = new ArrayList();
-            for (int i = 0 ; i< from.table.getRowsId() ; i++) rows.add(i);
+            for (int i = 0; i< from.table.getRowsId() ; i++) rows.add(i);
             select = new Select(rows, columnsNames, from);
         }
-        resultTable = select.getResult();
+        Table resultTable = select.getResult();
         if(aggregate != null){
             Aggregate ag = new Aggregate(resultTable, agrOption, aggregate);
             result = ag.getResult();

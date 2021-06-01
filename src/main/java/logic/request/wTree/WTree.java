@@ -25,7 +25,7 @@ public class WTree {
 
     /**
      * recursive insertion of arguments to build the calculation tree
-     * @param args
+     * @param args list of arguments in the where request
      * @throws NoSuchAlgorithmException
      */
     public void insert(List<ArgWhere> args) throws NoSuchAlgorithmException {
@@ -79,9 +79,9 @@ public class WTree {
 
     /**
      * calculates the result of the calculation tree
-     * @return
+     * @return the rows
      */
-    public ArrayList calculator() {
+    public ArrayList<Integer> calculator() {
         while(root.getSymbol().type != Symbol.Type.CONDITION){
             root.calculatorCondition();
         }

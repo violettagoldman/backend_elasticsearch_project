@@ -11,28 +11,26 @@ import java.util.List;
  * class that implements the where of the request
  */
 public class Where {
-    private ArrayList result;
-    private WTree tree;
+    private ArrayList<Integer> result;
 
     /**
      * constructor
-     * @param args
-     * @param tableName
-     * @throws NoSuchAlgorithmException
+     * @param args list of arguments of where
+     * @param tableName the table of the request
+     * @throws NoSuchAlgorithmException exception
      */
     public Where(List<ArgWhere> args, String tableName) throws NoSuchAlgorithmException {
         result = new ArrayList();
-        tree = new WTree(DataBase.getInstance().getTables().get(tableName));
+        WTree tree = new WTree(DataBase.getInstance().getTables().get(tableName));
         tree.insert(args);
-        //tree.draw();
         result = tree.calculator();
     }
 
     /**
      * return the result
-     * @return
+     * @return the rows of result
      */
-    public ArrayList getResult() {
+    public ArrayList<Integer> getResult() {
         return result;
     }
 }

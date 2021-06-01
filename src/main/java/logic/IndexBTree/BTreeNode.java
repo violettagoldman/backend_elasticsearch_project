@@ -6,7 +6,7 @@ package logic.IndexBTree;
 class BTreeNode{
     Entry[] keys; // entry contained in the node
     int MinDeg; // Minimum degree of B-tree node
-    BTreeNode[] children; // Child node
+    public final BTreeNode[] children; // Child node
     int num; // Number of keys of node
     boolean isLeaf; // True when leaf node
 

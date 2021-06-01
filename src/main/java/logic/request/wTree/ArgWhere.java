@@ -11,17 +11,17 @@ public class ArgWhere {
         START,
         END
     }
-    private ArgWhere.Type type;
-    private Operator.Type operator;
+    private final ArgWhere.Type type;
+    private final Operator.Type operator;
     private String column;
-    private String value;
+    private final String value;
 
     /**
      * constructor
-     * @param type
-     * @param column
-     * @param value
-     * @param operator
+     * @param type the type
+     * @param column the column if condition
+     * @param value the value if conditin
+     * @param operator the opreator OR or AND
      */
     private ArgWhere(Type type, String column, String value, Operator.Type operator) {
         this.type = type;
@@ -32,9 +32,9 @@ public class ArgWhere {
 
     /**
      * return a new Condition (column = value)
-     * @param column
-     * @param value
-     * @return
+     * @param column column for the condition
+     * @param value value of the data for the condition
+     * @return argument for the tree
      */
     public static ArgWhere newCondition(String column, String value){
         return new ArgWhere(Type.CONDITION, column, value, null);
@@ -42,8 +42,8 @@ public class ArgWhere {
 
     /**
      * return a new operator (OR ; AND)
-     * @param operator
-     * @return
+     * @param operator OR or AND
+     * @return the operator for the tree
      */
     public static ArgWhere newOperator(Operator.Type operator){
         return new ArgWhere(Type.OPERATOR, null, null, operator);
@@ -51,15 +51,15 @@ public class ArgWhere {
 
     /**
      * return a new Start '('
-     * @return
+     * @return a start parenthesis
      */
     public static ArgWhere newStart(){
         return new ArgWhere(Type.START, null, null, null);
     }
 
     /**
-     * return a new Start ')'
-     * @return
+     * return a new End ')'
+     * @return  a end parenthesis
      */
     public static ArgWhere newEnd(){
         return new ArgWhere(Type.END, null, null, null);
@@ -67,19 +67,19 @@ public class ArgWhere {
 
     /**
      * return the type
-     * @return
+     * @return the type
      */
     public Type getType() { return type; }
 
     /**
      * return the operator
-     * @return
+     * @return return the type of operator
      */
     public Operator.Type getOperator() { return operator; }
 
     /**
      * return the column of the condition
-     * @return
+     * @return return the column
      */
     public String getColumn() {
         return column;
@@ -87,7 +87,7 @@ public class ArgWhere {
 
     /**
      * set the column
-     * @param column
+     * @param column the column to change
      */
     public void setColumn(String column) {
         this.column = column;
@@ -95,19 +95,12 @@ public class ArgWhere {
 
     /**
      * return the value of the Condition
-     * @return
+     * @return return the value of the data for the condition
      */
     public String getValue() {
         return value;
     }
 
-    /**
-     * set the value of the Condition
-     * @param value
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
 
 }
 

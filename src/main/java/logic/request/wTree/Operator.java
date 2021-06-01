@@ -12,7 +12,7 @@ public class Operator {
 
     /**
      * constructor
-     * @param type
+     * @param type the type of operator OR or AND
      */
     public Operator(Type type){ this.type = type; }
 }

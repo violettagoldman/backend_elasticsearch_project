@@ -15,11 +15,10 @@ public class Condition {
 
     /**
      * constructor
-     * @param value
-     * @param index
-     * @throws NoSuchAlgorithmException
+     * @param value the data
+     * @param index the column
      */
-    public Condition(String value, BTree index) throws NoSuchAlgorithmException {
+    public Condition(String value, BTree index){
         this.index = index;
         this.value = value;
         result = index.occurrences(value);
@@ -27,7 +26,7 @@ public class Condition {
 
     /**
      * calculates the result condition or condition
-     * @param c
+     * @param c the condition to add (OR)
      */
     public void or(Condition c){
         if(c == null)return;
@@ -39,7 +38,7 @@ public class Condition {
 
     /**
      * calculates the result condition and condition
-     * @param c
+     * @param c the condition to add (AND)
      */
     public void and(Condition c){
         result.retainAll(c.result);
@@ -48,7 +47,7 @@ public class Condition {
 
     /**
      * return the result
-     * @return
+     * @return the result (rows)
      */
     public ArrayList getResult() {
         return result;
@@ -56,7 +55,7 @@ public class Condition {
 
     /**
      * return the column
-     * @return
+     * @return return the column
      */
     public String getColumn() {
         return index.name;
