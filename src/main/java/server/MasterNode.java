@@ -28,7 +28,12 @@ public class MasterNode extends AbstractVerticle {
         this.vertx = vertx;
     }
 
-    // Sends the HTTP response object with the given status code and JSON object
+    /**
+    * Sends the HTTP response object with the given status code and JSON object
+    * @param  ctx  vertx context
+    * @param  statusCode the satus code we want to send
+    * @param  json response
+    */
     void sendReponse(RoutingContext ctx, int statusCode, JsonObject json) {
         HttpServerResponse response = ctx.response();
         response.putHeader("content-type", "text/json");
@@ -36,17 +41,26 @@ public class MasterNode extends AbstractVerticle {
         response.end(json.encodePrettily());
     }
 
-    // Send a request to a simple node
+    /**
+    * Sends a request to a simple node, not master
+    * @param  route an api route to call
+    * @param  node node index (1, 2, 3)
+    * @param  params args, the request
+    * @return the request future
+    */
     Future<HttpResponse<Buffer>> nodeRequest(String route, String node, JsonObject params) {
         WebClient client = WebClient.create(vertx);
         return client.post(Server.ports.get(node), "localhost", "/" + route)
         .sendJsonObject(params);
     }
 
-    /* Create a new table
-    Params:
-    - table_name: string, name of the table
-    - table_headers: strings separated with ';', name of the columns
+    /**
+    * Tell the node to create a new table
+    * Needed params:
+    * - table_name: string, name of the table
+    * - table_headers: strings separated with ';', name of the columns
+    * @param  ctx  vertx context
+    * @param  params args, the request
     */
     void createTable(RoutingContext ctx, JsonObject request) {
         String table_name = request.getString("table_name");
@@ -67,10 +81,13 @@ public class MasterNode extends AbstractVerticle {
         sendReponse(ctx, 200, response);
     }
 
-    /* Create a new index for a table
-    Params:
-    - table_name: string, name of the table to update
-    - columns: strings separated with ';', the column to make index
+    /**
+    * Create a new index for a table
+    * Needed params:
+    * - table_name: string, name of the table to update
+    * - table_headers: strings separated with ';', name of the columns
+    * @param  ctx  vertx context
+    * @param  params args, the request
     */
     void createIndex(RoutingContext ctx, JsonObject request) {
         String table_name = request.getString("table_name");
@@ -91,10 +108,12 @@ public class MasterNode extends AbstractVerticle {
         sendReponse(ctx, 200, response);
     }
 
-    /* Upload CSV data in the given table. SHOULD BE CALLED WITH FORM-DATA, not JSON.
-    Params:
-    - table_name: string, name of the table to update
-    - csv: string, CSV content to add in the table
+    /**
+    * Upload CSV data in the given table. SHOULD BE CALLED WITH FORM-DATA, not JSON.
+    * Params:
+    * - table_name: string, name of the table to update
+    * - csv: string, CSV content to add in the tablethe columns
+    * @param  ctx  vertx context
     */
     void uploadCSV(RoutingContext ctx) throws IOException {
         String table_name = ctx.request().getFormAttribute("table_name");
@@ -125,10 +144,13 @@ public class MasterNode extends AbstractVerticle {
         sendReponse(ctx, 200, response);
     }
 
-    /* Get data from the given table
-    Params:
-    - table_name: string, name of the table to update
-    - query: string, query to get the desired lines
+    /**
+    * Get data from the given table
+    * Params:
+    * - table_name: string, name of the table to update
+    * - query: string, query to get the desired lines
+    * @param  ctx  vertx context
+    * @param  params args, the request
     */
     void get(RoutingContext ctx, JsonObject request) {
         String table_name = request.getString("table_name");
@@ -154,9 +176,12 @@ public class MasterNode extends AbstractVerticle {
         });
     }
 
-    /* Check if thg given node is running.
-    Params:
-    - node: string, the number of the node to ping
+    /**
+    * Check if the given node is running
+    * Params:
+    * - node: string, the number of the node to ping
+    * @param  ctx  vertx context
+    * @param  params args, the request
     */
     void ping(RoutingContext ctx, JsonObject request) {
         String node = request.getString("node");
@@ -182,7 +207,11 @@ public class MasterNode extends AbstractVerticle {
         });
     }
 
-    // Get the JSON body from a request
+    /**
+    * Get the JSON body from a request
+    * @param  ctx  vertx context
+    * @return json request
+    */
     private JsonObject parseBody(RoutingContext ctx) {
         try {
             return ctx.getBodyAsJson();
@@ -194,7 +223,10 @@ public class MasterNode extends AbstractVerticle {
         }
     }
 
-    // We create routes
+    /**
+    * setup routes
+    * @param  router  vetrtx router
+    */
     public void setupRoutes(Router router) {
         // Route createtable to create a new table
         router.route("/createtable").handler(ctx -> {

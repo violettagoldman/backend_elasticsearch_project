@@ -21,7 +21,12 @@ public class Node extends AbstractVerticle {
         this.vertx = vertx;
     }
 
-    // Sends the HTTP response object with the given status code and JSON object
+    /**
+    * Sends the HTTP response object with the given status code and JSON object
+    * @param  ctx  vertx context
+    * @param  statusCode the satus code we want to send
+    * @param  json response
+    */
     void sendReponse(RoutingContext ctx, int statusCode, JsonObject json) {
         HttpServerResponse response = ctx.response();
         response.putHeader("content-type", "text/json");
@@ -29,12 +34,22 @@ public class Node extends AbstractVerticle {
         response.end(json.encodePrettily());
     }
 
+    /**
+    * Checks if the current node is running
+    * @param  ctx  vertx context
+    * @param  request json request
+    */
     void ping(RoutingContext ctx, JsonObject request) {
         JsonObject response = new JsonObject();
         response.put("message", "This node is up.");
         sendReponse(ctx, 200, response);
     }
 
+    /**
+    * Creates the table 
+    * @param  ctx  vertx context
+    * @param  request json request
+    */
     void createTable(RoutingContext ctx, JsonObject request) {
         String table_name = request.getString("table_name");
         String table_headers = request.getString("table_headers");
@@ -45,6 +60,11 @@ public class Node extends AbstractVerticle {
         sendReponse(ctx, 200, response);
     }
 
+    /**
+    * Creates the index 
+    * @param  ctx  vertx context
+    * @param  request json request
+    */
     void createIndex(RoutingContext ctx, JsonObject request) {
         String table_name = request.getString("table_name");
         String columns = request.getString("columns");
@@ -55,6 +75,11 @@ public class Node extends AbstractVerticle {
         sendReponse(ctx, 200, response);
     }
 
+    /**
+    * Uploads CSV
+    * @param  ctx  vertx context
+    * @param  request json request
+    */
     void uploadCSV(RoutingContext ctx, JsonObject request) {
         String table_name = request.getString("table_name");
         String file_path = request.getString("file_name");
@@ -75,6 +100,11 @@ public class Node extends AbstractVerticle {
         sendReponse(ctx, 200, response);
     }
 
+    /**
+    * Gets the given query
+    * @param  ctx  vertx context
+    * @param  request json request
+    */
     void get(RoutingContext ctx, JsonObject request) {
         String table_name = request.getString("table_name");
         String query = request.getString("query");
@@ -91,7 +121,12 @@ public class Node extends AbstractVerticle {
         sendReponse(ctx, 200, response);
     }
 
-    // Get the JSON body from a request
+    /**
+    * Gets the JSON body from a request
+    * @param  ctx  vertx context
+    * @param  request json request
+    * @return json body
+    */
     private JsonObject parseBody(RoutingContext ctx) {
         try {
             return ctx.getBodyAsJson();
@@ -103,6 +138,10 @@ public class Node extends AbstractVerticle {
         }
     }
 
+    /**
+    * setup routes
+    * @param  router  vetrtx router
+    */
     public void setupRoutes(Router router) {
 
         // Test route to see if the node is connected
