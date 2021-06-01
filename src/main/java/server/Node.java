@@ -152,21 +152,15 @@ public class Node extends AbstractVerticle {
     void get(RoutingContext ctx, JsonObject request) throws NoSuchAlgorithmException {
         String table = request.getString("table");
         String method = request.getString("method");
-        String args = request.getString("args");
-        System.out.println("/get with table_name=" + table + " and query=" + method + " and args=" + args);
+        System.out.println("/get with table_name=" + table + " and query=" + method);
         if (table == null || method == null) {
             JsonObject response = new JsonObject();
-            response.put("error", "Needed params in body: table_name, method, args.");
+            response.put("error", "Needed params in body: table_name, method.");
             sendReponse(ctx, 422, response);
         }
         // Actual handling
-        JsonObject response = new JsonObject();
-
-        String data = request.toString();
-        String result = json(data);
-        JsonObject response2 = new JsonObject(result);
-        response.put("data", result);
-        sendReponse(ctx, 200, response2);
+        JsonObject response = json(request);
+        sendReponse(ctx, 200, response);
     }
 
     /**

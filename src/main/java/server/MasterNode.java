@@ -157,10 +157,9 @@ public class MasterNode extends AbstractVerticle {
      */
     void get(RoutingContext ctx, JsonObject request) {
         String table = request.getString("table");
-        String args = request.getString("args");
-        if (table == null || args == null) {
+        if (table == null) {
             JsonObject response = new JsonObject();
-            response.put("error", "Needed params in body: table, args.");
+            response.put("error", "Needed params in body: table.");
             sendReponse(ctx, 422, response);
             return;
         }

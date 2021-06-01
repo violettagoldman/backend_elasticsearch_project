@@ -1,6 +1,8 @@
 package logic.json.jsonGet;
 
 import com.google.gson.Gson;
+import io.vertx.core.json.JsonObject;
+import logic.json.jsonIndex.Column;
 import logic.request.Aggregate;
 import logic.request.Option;
 import logic.request.wTree.ArgWhere;
@@ -31,13 +33,20 @@ public class JsonGet {
 
     public static String str;
 
-    public static String json(String request) throws NoSuchAlgorithmException {
+    public static JsonObject json(JsonObject request) throws NoSuchAlgorithmException {
 
         Gson gson = new Gson();
-        Request result = gson.fromJson(request, logic.json.jsonGet.Request.class);
+        Request result = gson.fromJson(String.valueOf(request), logic.json.jsonGet.Request.class);
 
         method = result.getMethod();
         table = result.getTable();
+
+        ArrayList<String> columnsListArray = new ArrayList<String>();
+        for (Column c : result.getColumns()) {
+            column = c.getColumn();
+            columnsListArray.add(column);
+        }
+        String[] columnList = columnsListArray.toArray(new String[columnsListArray.size()]);
 
         ArrayList<String> columnsNames = new ArrayList<String>();
         List args = new ArrayList<>();
@@ -65,7 +74,6 @@ public class JsonGet {
             }
 
             else if(column != null && value != null){
-                columnsNames.add(column); // AJOUTER DANS LE BODY UNE LIST DES COLUMNS POUR LE RENVOYE
                 args.add(ArgWhere.newCondition(column, value));
             }
 
@@ -131,14 +139,15 @@ public class JsonGet {
         //Appel de fonction
         logic.request.Request r = null;
         try {
-            r = new logic.request.Request(table, new String[0] ,args, agrType, optionType, agrOption);
+            r = new logic.request.Request(table, columnList ,args, agrType, optionType, agrOption);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         str = r.getResult();
+        JsonObject resultJson = new JsonObject(str);
 
-        return str;
+        return resultJson;
     }
 
 }
