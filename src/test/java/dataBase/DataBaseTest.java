@@ -45,22 +45,14 @@ public class DataBaseTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //DataBase.getInstance().getTables().get("dogs").getIndex().get("Couleur").traverse();
-        //DataBase.getInstance().getTables().get("dogs").getIndex().get("Age").traverse();
+        String str = "";
+        try {
+            str = (DataBase.getInstance().getTables().get("dogs").getIndex().get("Couleur").search("Jaune").toString());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        String str2 = "key : 559286933 | data : Jaune | Occurrence [ 0  | 8  ]\n";
+        assertEquals(str, str2);
     }
 
-    @Test
-    public void test(){
-        initDataBase();
-        Table table = DataBase.getInstance().getTables().get("voyage");
-        String str = table.toString();
-//        String str2 = "Nom de la table : Voyages\n"+
-//        "id | Prix | Ville Départ | Ville arrivée |\n"+
-//                " 0 | 75 | Paris | Bordeaux |\n"+
-//                " 1 | 75 | Paris | Lavandia |\n"+
-//                " 2 | 3000 | Azuria | StDenis |\n"+
-//                " 3 | 45 | Paris | Test |\n";
-//
-//        assertEquals(str, str2);
-    }
 }

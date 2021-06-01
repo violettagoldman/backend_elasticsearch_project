@@ -6,6 +6,8 @@ import logic.IndexBTree.BTree;
 import org.junit.Test;
 import java.security.NoSuchAlgorithmException;
 
+import static org.junit.Assert.assertEquals;
+
 public class BtreeTest {
 
     @Test
@@ -17,15 +19,10 @@ public class BtreeTest {
         t.insert("jeanne", 2);
         t.insert("cecile", 3);
         t.insert("olivier", 4);
-        t.insert("test", 7);
-        t.insert("te", 7);
-        t.insert("frznfez", 7);
-        t.insert("nfezi", 7);
-        t.insert("nfeiz", 7);
 
-        System.out.println("Traversal of tree constructed is");
-        t.traverse();
-        System.out.println(t.getData(1));
+        String str = t.getData(1);
+        String str2 = "jeanne";
+        assertEquals(str, str2);
     }
 
     @Test
@@ -35,20 +32,14 @@ public class BtreeTest {
         t.insert("jeanne", 1);
         t.insert("jeanne", 3);
         t.insert("jeanne", 2);
-        t.insert("cecile", 3);
+        t.insert("cecile", 5);
         t.insert("olivier", 4);
 
-        System.out.println(t.search("jeanne"));
-        System.out.println(t.search("cecile"));
-        System.out.println(t.search("olivier"));
+        String str =t.search("jeanne").toString()+t.search("cecile")+t.search("olivier");
+        String str2 = "key : 964362342 | data : jeanne | Occurrence [ 1  | 2  | 3  ]\n" +
+                "key : 1482823034 | data : cecile | Occurrence [ 5  ]\n" +
+                "key : 355452125 | data : olivier | Occurrence [ 4  ]\n";
+        assertEquals(str, str2);
     }
 
-    @Test
-    public void create_by_table() throws NoSuchAlgorithmException {
-        DataBaseTest test = new DataBaseTest();
-        test.initDataBase();
-
-        DataBase.getInstance().getTables().get("dogs").createIndex(new String [] {"Prénom"});
-        DataBase.getInstance().getTables().get("dogs").getIndex().get("Prénom").traverse();
-    }
 }

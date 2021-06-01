@@ -12,6 +12,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class AggregateTest {
 
     @Test
@@ -27,17 +29,8 @@ public class AggregateTest {
         Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"},args, Aggregate.Type.COUNT, null, "Couleur");
 
         String str = r.getResult();
-        System.out.println(str);
-
-//        String str2 =
-//        "Nom de la table : result\n"+
-//        "id | Prix | Ville Départ | Ville arrivée |\n"+
-//               " 0 | 75 | Paris | Bordeaux |\n"+
-//               " 1 | 75 | Paris | Lavandia |\n"+
-//               " 2 | 3000 | Azuria | StDenis |\n"+
-//               " 3 | 45 | Paris | Test |\n";
-//
-//        assertEquals(str, str2);
+        String str2 = "{\"count\":3}";
+        assertEquals(str, str2);
     }
 
     @Test
@@ -55,17 +48,9 @@ public class AggregateTest {
         Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"},args, Aggregate.Type.COUNT_DISTINCT, null, "Couleur");
 
         String str = r.getResult();
-        System.out.println(str);
 
-//        String str2 =
-//        "Nom de la table : result\n"+
-//        "id | Prix | Ville Départ | Ville arrivée |\n"+
-//               " 0 | 75 | Paris | Bordeaux |\n"+
-//               " 1 | 75 | Paris | Lavandia |\n"+
-//               " 2 | 3000 | Azuria | StDenis |\n"+
-//               " 3 | 45 | Paris | Test |\n";
-//
-//        assertEquals(str, str2);
+        String str2 ="{\"count distinct\":2}";
+        assertEquals(str, str2);
     }
 
     @Test
@@ -77,17 +62,9 @@ public class AggregateTest {
         Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.SUM, null, "Age");
 
         String str = r.getResult();
-        System.out.println(str);
 
-//        String str2 =
-//        "Nom de la table : result\n"+
-//        "id | Prix | Ville Départ | Ville arrivée |\n"+
-//               " 0 | 75 | Paris | Bordeaux |\n"+
-//               " 1 | 75 | Paris | Lavandia |\n"+
-//               " 2 | 3000 | Azuria | StDenis |\n"+
-//               " 3 | 45 | Paris | Test |\n";
-//
-//        assertEquals(str, str2);
+        String str2 ="{\"sum\":79}";
+        assertEquals(str, str2);
     }
 
     @Test
@@ -99,17 +76,8 @@ public class AggregateTest {
         Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.AVERAGE, null, "Age");
 
         String str = r.getResult();
-        System.out.println(str);
-
-//        String str2 =
-//        "Nom de la table : result\n"+
-//        "id | Prix | Ville Départ | Ville arrivée |\n"+
-//               " 0 | 75 | Paris | Bordeaux |\n"+
-//               " 1 | 75 | Paris | Lavandia |\n"+
-//               " 2 | 3000 | Azuria | StDenis |\n"+
-//               " 3 | 45 | Paris | Test |\n";
-//
-//        assertEquals(str, str2);
+        String str2 = "{\"Average\":7.9}";
+        assertEquals(str, str2);
     }
 
     @Test
@@ -121,17 +89,8 @@ public class AggregateTest {
         Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.MIN, null, "Age");
 
         String str = r.getResult();
-        System.out.println(str);
-
-//        String str2 =
-//        "Nom de la table : result\n"+
-//        "id | Prix | Ville Départ | Ville arrivée |\n"+
-//               " 0 | 75 | Paris | Bordeaux |\n"+
-//               " 1 | 75 | Paris | Lavandia |\n"+
-//               " 2 | 3000 | Azuria | StDenis |\n"+
-//               " 3 | 45 | Paris | Test |\n";
-//
-//        assertEquals(str, str2);
+        String str2 = "{\"min\":1}";
+        assertEquals(str, str2);
     }
 
     @Test
@@ -143,16 +102,7 @@ public class AggregateTest {
         Request r = new Request("dogs", new String[]{"Age"}, null , Aggregate.Type.MAX, null, "Age");
 
         String str = r.getResult();
-        System.out.println(str);
-
-//        String str2 =
-//        "Nom de la table : result\n"+
-//        "id | Prix | Ville Départ | Ville arrivée |\n"+
-//               " 0 | 75 | Paris | Bordeaux |\n"+
-//               " 1 | 75 | Paris | Lavandia |\n"+
-//               " 2 | 3000 | Azuria | StDenis |\n"+
-//               " 3 | 45 | Paris | Test |\n";
-//
-//        assertEquals(str, str2);
+        String str2 = "{\"max\":17}";
+        assertEquals(str, str2);
     }
 }
