@@ -1,7 +1,6 @@
 package request;
 
 import dataBase.DataBaseTest;
-import logic.request.Aggregate;
 import logic.request.Option;
 import logic.request.Request;
 import org.junit.Test;
@@ -21,19 +20,7 @@ public class OptionTest {
 
         Request r = new Request("dogs", new String[]{"Id", "Prénom", "Couleur", "Age"}, null, null, Option.Type.ORDER_BY, "Prénom");
         String str = r.getResult();
-
-       String str2 = "Nom de la table : result\n" +
-               "id | Age | Couleur | Id | Prénom |\n" +
-               " 5 | 12 | Marron | 6 | Chocolat |\n" +
-               " 9 | 1 | Roux | 10 | Dingo |\n" +
-               " 7 | 14 | Blanc | 8 | Idefix |\n" +
-               " 3 | 5 | Gris | 4 | Juju |\n" +
-               " 6 | 3 | Blanc | 7 | Milou |\n" +
-               " 1 | 10 | Noir | 2 | Médor |\n" +
-               " 2 | 5 | Noir | 3 | Pitié |\n" +
-               " 8 | 17 | Jaune | 9 | Pluto |\n" +
-               " 0 | 5 | Jaune | 1 | Titi |\n" +
-               " 4 | 7 | Blanc | 5 | Vanille |\n";
+        String str2 = "{\"lines\":[{\"Prénom\":\"Chocolat\",\"Couleur\":\"Marron\",\"Id\":\"6\",\"Age\":\"12\"},{\"Prénom\":\"Dingo\",\"Couleur\":\"Roux\",\"Id\":\"10\",\"Age\":\"1\"},{\"Prénom\":\"Idefix\",\"Couleur\":\"Blanc\",\"Id\":\"8\",\"Age\":\"14\"},{\"Prénom\":\"Juju\",\"Couleur\":\"Gris\",\"Id\":\"4\",\"Age\":\"5\"},{\"Prénom\":\"Milou\",\"Couleur\":\"Blanc\",\"Id\":\"7\",\"Age\":\"3\"},{\"Prénom\":\"Médor\",\"Couleur\":\"Noir\",\"Id\":\"2\",\"Age\":\"10\"},{\"Prénom\":\"Pitié\",\"Couleur\":\"Noir\",\"Id\":\"3\",\"Age\":\"5\"},{\"Prénom\":\"Pluto\",\"Couleur\":\"Jaune\",\"Id\":\"9\",\"Age\":\"17\"},{\"Prénom\":\"Titi\",\"Couleur\":\"Jaune\",\"Id\":\"1\",\"Age\":\"5\"},{\"Prénom\":\"Vanille\",\"Couleur\":\"Blanc\",\"Id\":\"5\",\"Age\":\"7\"}]}";
 
         assertEquals(str, str2);
     }

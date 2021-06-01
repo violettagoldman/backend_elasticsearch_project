@@ -16,7 +16,7 @@
      private ArrayList<Column> columnsList;
 
      /**
-      * Initialise a new table from a name and a map <column name , column type>.
+      * Initialise a new table from a name and a map column name , column type.
       * @param name name of tabme
       * @param columnsNames, columnsType
       */
@@ -132,7 +132,7 @@
      }
 
      /**
-      * adds a new row to the table, map: <column name, data>
+      * adds a new row to the table, map: column name, data
       * @param columnsMap data
       */
      public void addLineColumn(Map<String, String> columnsMap){
